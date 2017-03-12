@@ -1,15 +1,15 @@
 # FEZ
-FEZ 是面向 前端模块化工程 的构建工具。主要为解决 前端开发多人高效协作、提高开发质量、及项目功能扩展的快速迭代和可维护性等问题。核心包括功能模块化、结构规范化、及开发自动化。
+[FEZ](http://fez.hestudy.com) 是面向 前端模块化工程 的构建工具。主要为解决 前端开发多人高效协作、提高开发质量、及项目功能扩展的快速迭代和可维护性等问题。核心包括功能模块化、结构规范化、及开发自动化。
 
 ## 核心特性
 
 ### 功能模块化
 
-FEZ 支持使用最新的[ES6 Module](http://es6.ruanyifeng.com/#docs/module)来组织前端代码，并支持使用ES6标准特性开发项目，通过编译完美运行在各种浏览器中。可以整合如[Vue](https://cn.vuejs.org/)等MVVM框架实现[单文件组件](https://cn.vuejs.org/v2/guide/single-file-components.html)形式的高效开发体验。
+[FEZ](http://fez.hestudy.com) 支持使用最新的[ES6 Module](http://es6.ruanyifeng.com/#docs/module)来组织前端代码，并支持使用ES6标准特性开发项目，通过编译完美运行在各种浏览器中。可以整合如[Vue](https://cn.vuejs.org/)等MVVM框架实现[单文件组件](https://cn.vuejs.org/v2/guide/single-file-components.html)形式的高效开发体验。
 
 ### 结构规范化
 
-将复杂的系统划分为功能页面，将复杂的页面划分为若干个模块，将模块分为：获取数据、渲染显示、交互操作，并且都有统一的文件结构。
+[FEZ](http://fez.hestudy.com) 将复杂的系统划分为功能页面，将复杂的页面划分为若干个模块，将模块分为：获取数据、渲染显示、交互操作，并且都有统一的文件结构。
 
 #### 统一的文件系统结构
 
