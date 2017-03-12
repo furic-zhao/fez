@@ -5,11 +5,11 @@ FEZ 是面向 前端模块化工程 的构建工具。主要为解决 前端开�
 
 ### 功能模块化
 
-FEZ 支持使用最新的[ES6 Module](http://es6.ruanyifeng.com/#docs/module)来组织前端代码，并支持使用ES6语言标准特性开发项目，通过编译完美运行在各种浏览器中。可以整合如[Vue](https://cn.vuejs.org/)等MVVM框架实现[单文件组件](https://cn.vuejs.org/v2/guide/single-file-components.html)形式的高效开发体验。
+FEZ 支持使用最新的[ES6 Module](http://es6.ruanyifeng.com/#docs/module)来组织前端代码，并支持使用ES6标准特性开发项目，通过编译完美运行在各种浏览器中。可以整合如[Vue](https://cn.vuejs.org/)等MVVM框架实现[单文件组件](https://cn.vuejs.org/v2/guide/single-file-components.html)形式的高效开发体验。
 
 ### 结构规范化
 
-将复杂的系统划分为功能页面，将复杂的页面划分为若干个模块，模块包括获取数据、渲染显示、交互操作，并且都有统一的文件结构。
+将复杂的系统划分为功能页面，将复杂的页面划分为若干个模块，将模块分为：获取数据、渲染显示、交互操作，并且都有统一的文件结构。
 
 #### 统一的文件系统结构
 
@@ -72,7 +72,7 @@ static
 
 #### 统一的职责划分
 
-- Service.js 专职提供各种函数处理API数据
+- Service.js 专职提供各种方法处理API数据
 - .hbs 或 .jade 负责页面的html模板
 - index.js 或 index.vue 负责数据展现和交互操作
 
@@ -104,7 +104,7 @@ static
 #### 安装 Node 和 NPM
 
 - 详细过程参考官网 https://nodejs.org (中文网站 http://nodejs.cn/)
-- Node **版本要求** Node所有发行版本均支持。建议使用最新稳定版 6.x 。
+- 支持所有Node的发行版本，建议使用最新稳定版 6.x 。
 - Ubuntu 用户使用 `apt-get` 安装 node 后，安装的程序名叫 `nodejs`，需要软链成 `node`
 - Windows 用户安装完成后需要在 CMD 下确认是否能执行 node 和 npm
 
@@ -161,13 +161,13 @@ gulp
 gulp
 ````
 
-- 生产环境
+- 生产部署
 
 ````bash
 gulp dist
 ````
 
-- 生产部署
+- SSH上传
 
 ````bash
 gulp sftp
@@ -185,7 +185,7 @@ gulp zip
 gulp svg2icon
 ````
 
-
+## 待续...
 
 
 
