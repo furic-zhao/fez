@@ -1,0 +1,11 @@
+.marketing {
+    text-align: center;
+}
+
+.qrcode-img{
+	margin: 20px 0;
+}
+.qrcode-img canvas,
+.qrcode-img img {
+    margin: 0 auto;
+}
