@@ -1,6 +1,99 @@
 # FEZ
-FEZ 是 前端模块化工程的构建工具。主要是为 前端开发多人高效协作、提高开发质量、及项目功能扩展的快速迭代和可维护性。核心包括功能模块化、UI组件化、结构规范化、及开发自动化。
-## 快速开始
+FEZ 是面向 前端模块化工程 的构建工具。主要为解决 前端开发多人高效协作、提高开发质量、及项目功能扩展的快速迭代和可维护性等问题。核心包括功能模块化、结构规范化、及开发自动化。
+
+## 核心特性
+
+### 功能模块化
+
+FEZ 支持使用最新的[ES6 Module](http://es6.ruanyifeng.com/#docs/module)来组织前端代码，并支持使用ES6语言标准特性开发项目，通过编译完美运行在各种浏览器中。可以整合如[Vue](https://cn.vuejs.org/)等MVVM框架实现[单文件组件](https://cn.vuejs.org/v2/guide/single-file-components.html)形式的高效开发体验。
+
+### 结构规范化
+
+将复杂的系统划分为功能页面，将复杂的页面划分为若干个模块，模块包括获取数据、渲染显示、交互操作，并且都有统一的文件结构。
+
+#### 统一的文件系统结构
+
+- 页面模块结构
+
+````bash
+views
+└── page1
+    ├── index.html
+    ├── index.js
+    └── module
+        ├── module1
+        │   ├── index.js
+        │   ├── index.hbs
+        │   └── service.js
+        ├── module2
+        │   ├── index.vue
+        │   └── service.js
+        └── module3
+            ├── index.js
+            ├── module3-1
+            │   ├── index.js
+            │   ├── index.jade
+            │   └── service.js
+            └── module3-2
+                ├── index.vue
+                └── service.js
+````
+
+- 样式目录结构
+
+````bash
+static
+└── styles
+    ├── page1
+    │   ├── module1.less
+    │   ├── module2.less
+    │   └── module3.less
+    ├── page1.less
+    ├── page2
+    │   ├── module1.scss
+    │   ├── module2.scss
+    │   └── module3.scss
+    └── page2.scss
+````
+
+- 图片目录结构
+
+````bash
+static
+└── images
+    └── page1
+        ├── 1.jpg
+        ├── 2.jpg
+        └── folder
+            ├── 1.png
+            ├── 2.png
+            └── 3.png
+````
+
+#### 统一的职责划分
+
+- Service.js 专职提供各种函数处理API数据
+- .hbs 或 .jade 负责页面的html模板
+- index.js 或 index.vue 负责数据展现和交互操作
+
+### 开发自动化
+
+- 自动化搭建本地研发环境，快速响应文件更改并自动刷新浏览器。
+- 自动化编译ES6或CommonJS标准的JS代码，自动化生成source map便于浏览器端调试。
+- 自动化编译SASS/LESS => CSS文件，自动化添加CSS3的各种浏览器前缀。
+- 自动化处理第三方库样式、项目公共样式、页面样式并自动化注入到页面。
+- 自动化处理第三方库脚本、项目公共脚本、页面逻辑脚本并自动化注入到页面。
+- 自动化搜索、下载、更新、管理开源库资源，根据配置并做自动化的资源合并。
+- 自动化压缩JS、CSS、HTML、图片、字体等静态资源。
+- 自动化SVG转ICON图片、雪碧图合成、移动端@2x/@3X图片适配，并自动化生成对应样式。
+- 自动化转换所有CSS样式中的PX单位为REM单位。
+- 自动化转换所有图片为WebP格式并生成对应样式文件。
+- 自动化注入WebP浏览器支持检测脚本并替换所有的WebP文件。
+- 自动化生成所有静态资源的MD5版本号。
+- 自动化将所有静态资源添加CDN前缀。
+- 自动化通过SFTP部署上线、或部署静态资源。
+
+## 安装使用
 
 ### 安装
 
@@ -58,9 +151,39 @@ bower install
 gulp
 ```
 
-> FEZ 构建工具会自动打开默认浏览器进入研发环境
+> FEZ 会自动打开默认浏览器进入研发环境，项目任意文件的更改都会自动刷新浏览器，请尽情享用FEZ为你带来的愉悦开发体验！
 
-## 待续...
+## 命令说明
+
+- 研发环境
+
+````bash
+gulp
+````
+
+- 生产环境
+
+````bash
+gulp dist
+````
+
+- 生产部署
+
+````bash
+gulp sftp
+````
+
+- 打包压缩
+
+````bash
+gulp zip
+````
+
+- svg => icon 转换
+
+````bash
+gulp svg2icon
+````
 
 
 
