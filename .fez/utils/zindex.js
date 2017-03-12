@@ -177,6 +177,6 @@ export default (config, cb) => {
     out.end();
 
     // 复制目录
-    common.exists('../fez/utils/zindex', config.paths.dev.html + '/zindex', common.copy);
+    common.exists('../.fez/utils/zindex', config.paths.dev.html + '/zindex', common.copy);
     cb();
 }
