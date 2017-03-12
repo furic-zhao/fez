@@ -22,13 +22,9 @@ npm install gulpjs/gulp#4.0 -g
 ```
 
 - 详情请参考 Github 社区 [Gulp](https://github.com/gulpjs/gulp)
-- 目前Gulp发行版本是3.9.1，虽然4.0还未发布，依然阻止不了我们使用它构建我们的项目。
+- 目前Gulp发行版本是3.9.1，虽然4.0还未发布，依然阻止不了我们使用它高效的构建我们的项目。
 
-> 如果安装过全局的非4.0版本 gulp 请先卸载
-
-```bash
-npm uninstall gulp -g
-```
+> 如果安装过全局的非4.0版本 gulp 请先卸载 `npm uninstall gulp -g`
 
 #### 全局安装 Bower
 
