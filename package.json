@@ -99,7 +99,9 @@
     "q": "global:Q",
     "vue": "global:Vue",
     "pnotify": "global:PNotify",
-    "echarts": "global:echarts"
+    "echarts": "global:echarts",
+    "vuex": "global:Vuex",
+    "store": "global:store"
   },
   "browserify": {
     "transform": [
