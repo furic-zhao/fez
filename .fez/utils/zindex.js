@@ -1,5 +1,5 @@
 /* ==================================
- * @ 2017 FEZ 前端模块工程自动化构建工具
+ * @ 2017 FEZ 前端模块化工程开发框架
  * https://github.com/furic-zhao/fez
  * ================================== */
 
@@ -106,7 +106,18 @@ export default (config, cb) => {
     <meta name="format-detection" content="telephone=no">
     <title>${config.projectName} 项目页面列表</title>
     <link rel="stylesheet" href="./zindex/css/bootstrap.min.css">
-    <link rel="stylesheet" href="./zindex/css/style.css">
+    <style>
+    .marketing {
+        text-align: center;
+    }
+    .qrcode-img{
+        margin: 20px 0;
+    }
+    .qrcode-img canvas,
+    .qrcode-img img {
+        margin: 0 auto;
+    }
+    </style>
 </head>
 
 <body>
@@ -117,7 +128,7 @@ export default (config, cb) => {
                 点击按钮链接浏览项目页面，也可以扫描二维码在移动端同步开发和测试页面。
             </p>
             <p>
-                <a class="btn btn-primary btn-lg" href="https://github.com/furic-zhao/fez" target="_blank" role="button"><i class="glyphicon glyphicon-question-sign"></i> Github</a>
+                <a class="btn btn-primary btn-lg" href="https://github.com/furic-zhao/fez" target="_blank" role="button">FEZ Github项目</a>
             </p>
         </div>
     </div>
@@ -129,7 +140,7 @@ export default (config, cb) => {
         <!-- FOOTER -->
         <hr>
         <footer>
-            <p>© 2017 FEZ 前端自动化工程框架</p>
+            <p>© 2017 FEZ 前端模块化工程开发框架</p>
         </footer>
     </div>
 </body>
@@ -142,8 +153,8 @@ export default (config, cb) => {
     {{/each}}
 </script>
 <script src="./zindex/js/jquery-2.1.3.min.js"></script>
-<script src="./zindex/js/qrcode.js"></script>
-<script src="./zindex/js/handlebars-v4.0.5.js"></script>
+<script src="./zindex/js/qrcode.min.js"></script>
+<script src="./zindex/js/handlebars-v4.0.5.min.js"></script>
 <script>
 (function() {
     var sourceJson = ${JSON.stringify(htmlPages)};

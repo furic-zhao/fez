@@ -14,23 +14,6 @@
     },
 
     /**
-     * 研发环境 使用二维码在移动端扫描测试页面
-     * 研发环境输入http://xxxx/zindex.html访问
-     */
-    "useQrCodeHtml": true,
-
-    /**
-     * mock配置
-     * @if MOCK
-     * -------
-     * @endif
-     */
-    "useMock": {
-        "dev": false, //dev打包使用Mock数据
-        "dist": false //dist打包使用Mock数据
-    },
-
-    /**
      * 研发环境 Javascript 语法自动化测试
      * .jshintrc可做详细配置
      */
@@ -71,53 +54,6 @@
      * 生产环境 启用 图片 => webp 自动化转换
      */
     "useWebp": false,
-
-    /**
-     * 生产环境 启用自动化添加文件版本号(md5)
-     */
-    "useMd5": true,
-
-    /**
-     * 生产环境 启用增量编译
-     */
-    "compileChanged": false,
-
-    /**
-     * 生产环境 启用js压缩
-     */
-    "useJsMin": true,
-
-    /**
-     * 生产环境 css压缩配置
-     */
-    "useCssMin": {
-        "available": true,
-        "options": {
-            "safe": true,
-            "reduceTransforms": false,
-            "advanced": false, //类型：Boolean 默认：true [是否开启高级优化（合并选择器等）]
-            "compatibility": "ie7", //保留ie7及以下兼容写法(hack写法) 类型：String 默认：''or'*' [启用兼容模式； 'ie7'：IE7兼容模式，'ie8'：IE8兼容模式，'*'：IE9+兼容模式]
-            "keepSpecialComments": 0 //保留所有特殊前缀 当你用autoprefixer生成的浏览器前缀，如果不加这个参数，有可能将会删除你的部分前缀
-        }
-    },
-
-    /**
-     * 生产环境 html压缩配置
-     */
-    "useHtmlMin": {
-        "available": false,
-        //配置参考 https://github.com/kangax/html-minifier
-        "options": {
-            "removeComments": true, //清除HTML注释
-            "collapseWhitespace": true, //压缩HTML
-            "collapseBooleanAttributes": true, //省略布尔属性的值 <input checked="true"/> ==> <input checked />
-            "removeEmptyAttributes": true, //删除所有空格作属性值 <input id="" /> ==> <input />
-            "removeScriptTypeAttributes": true, //删除<script>的type="text/javascript"
-            "removeStyleLinkTypeAttributes": true, //删除<style>和<link>的type="text/css"
-            "minifyJS": true, //压缩页面JS
-            "minifyCSS": true //压缩页面CSS
-        }
-    },
 
     /**
      * 生产环境 上传sftp服务器配置信息
@@ -197,31 +133,5 @@
          * 【支持src目录中的样式及编译后的逻辑脚本自动化注入到对应的页面】
          */
         "views": true //启用 业务目录 文件自动化注入
-    },
-
-    /**
-     * bowserify配置
-     */
-    "browserify": {
-        "options": {
-            "extensions": [], // import require 引入文件时可以省略的扩展名
-            "paths": ["./src/views"] // import require 引入文件的根路径
-        }
-    },
-
-    /**
-     * svg转icon配置
-     * 执行`gulp svg2icon`自动生成icon字体及对应的样式文件
-     */
-    "svgIcons": {
-        "src": "./src/static/svgicons/", //存放svg图标的路径
-        "dist": "./src/static/fonts/", //输出字体路径
-        /**
-         * 配置参考
-         * https://github.com/backflip/gulp-iconfont-css
-         */
-        "fontName": "customFont", //生成的字体名称
-        "targetPath": "../styles/custom-icons.less", //生成的样式文件(扩展名可以是.less,.scss,.css)
-        "fontPath": "../fonts/" //生成的样式引用字体的路径
     }
 }
