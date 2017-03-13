@@ -375,9 +375,9 @@ let config = require('rc')('fez', {
 });
 
 export default () => {
-    gutil.log("-------------------------------------------");
-    gutil.log(gutil.colors.cyan("* 欢迎使用 FEZ 前端模块工程自动化构建工具 *"));
-    gutil.log("-------------------------------------------");
+    gutil.log("---------------------------------------");
+    gutil.log(gutil.colors.cyan("* 欢迎使用 FEZ 前端模块化工程开发框架 *"));
+    gutil.log("---------------------------------------");
     gulpDev(gulp, config);
     gulpDist(gulp, config);
     gulpDefault(gulp, config);

@@ -1,4 +1,4 @@
-let rtnData = "© 2017 FEZ 前端模块工程自动化构建工具 Created by Furic.zhao";
+let rtnData = "© 2017 FEZ 前端模块化工程开发框架 Created by Furic.zhao";
 
 import Q from 'q';
 
