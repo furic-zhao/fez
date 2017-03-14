@@ -587,9 +587,9 @@ export default (gulp, config) => {
             ))
             .pipe(flatten())
             .pipe(gulp.dest(config.paths.tmp.css))
-            .on("end", () => {
-                del.sync(['./tmp/bower']);
-            });
+            // .on("end", () => {
+            //     del.sync(['./tmp/bower']);
+            // });
     }
 
     /**
