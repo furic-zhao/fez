@@ -14,6 +14,43 @@
     },
 
     /**
+     * bowserify配置
+     */
+    "browserify": {
+        "options": {
+            "extensions": [], // import require 引入文件时可以省略的扩展名
+            "paths": ["./src/views"] // import require 引入文件的根路径
+        },
+        /**
+         * 抽取来自NPM中的公共文件不做打包
+         * import $ from 'jquery';
+         * let $ = require('jquery');
+         */
+        "shim": [{
+            "import": "$",
+            "from": "jquery"
+        }, {
+            "import": "Q",
+            "from": "q"
+        }, {
+            "import": "Vue",
+            "from": "vue"
+        }, {
+            "import": "PNotify",
+            "from": "pnotify"
+        }, {
+            "import": "echarts",
+            "from": "echarts"
+        }, {
+            "import": "Vuex",
+            "from": "vuex"
+        }, {
+            "import": "store",
+            "from": "store"
+        }]
+    },
+
+    /**
      * 研发环境 Javascript 语法自动化测试
      * .jshintrc可做详细配置
      */
