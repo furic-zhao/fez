@@ -5,7 +5,19 @@
 
 ### 功能模块化
 
-[FEZ](http://fez.hestudy.com) 支持使用最新的[ES6 Module](http://es6.ruanyifeng.com/#docs/module)来组织前端代码，并支持使用ES6标准特性开发项目，通过编译完美运行在各种浏览器中。可以整合如[Vue](https://cn.vuejs.org/)等MVVM框架实现[单文件组件](https://cn.vuejs.org/v2/guide/single-file-components.html)形式的高效开发体验。
+[FEZ](http://fez.hestudy.com) 支持使用[ES6 Module](http://es6.ruanyifeng.com/#docs/module)来组织前端代码，并支持使用ES6标准特性开发项目，通过编译完美运行在各种浏览器中。可以整合如[Vue](https://cn.vuejs.org/)等MVVM框架实现[单文件组件](https://cn.vuejs.org/v2/guide/single-file-components.html)形式的高效开发体验。
+
+#### Javascript 模块化历史
+- 上古时期  Module 设计模式
+- 石器时代  Script Loader  不仅需要封装，还需要加在
+- 蒸汽朋克  Module Loader  模块化架构的工业革命
+- 号角吹响  CommonJS  征服世界的第一步要跳出浏览器
+- 双塔奇兵  AMD/CMD  浏览器环境模块化方案
+- 精灵宝钻  Browserify/Webpack  大势所趋，去掉这层包裹！
+- 王者归来  ES6 Module  最后的战役
+
+> 有关模块化的更多知识请参考：[https://www.zhihu.com/question/37011441](https://www.zhihu.com/question/37011441)[https://github.com/fouber/blog](https://github.com/fouber/blog)
+
 
 ### 结构规范化
 
@@ -85,7 +97,7 @@ static
 - 自动化处理第三方库脚本、项目公共脚本、页面逻辑脚本并自动化注入到页面。
 - 自动化搜索、下载、更新、管理开源库资源，根据配置并做自动化的资源合并。
 - 自动化压缩JS、CSS、HTML、图片、字体等静态资源。
-- 自动化SVG转ICON图片、雪碧图合成、移动端@2x/@3X图片适配，并自动化生成对应样式。
+- 自动化SVG转ICON图标、雪碧图合成、移动端@2x/@3X图片适配，并自动化生成对应样式。
 - 自动化转换所有CSS样式中的PX单位为REM单位。
 - 自动化转换所有图片为WebP格式并生成对应样式文件。
 - 自动化注入WebP浏览器支持检测脚本并替换所有的WebP文件。

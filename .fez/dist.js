@@ -587,9 +587,9 @@ export default (gulp, config) => {
             ))
             .pipe(flatten())
             .pipe(gulp.dest(config.paths.tmp.css))
-            // .on("end", () => {
-            //     del.sync(['./tmp/bower']);
-            // });
+            .on("end", () => {
+                del.sync(['./tmp/bower']);
+            });
     }
 
     /**
@@ -900,11 +900,9 @@ export default (gulp, config) => {
                         bowerCustomJs, //合并自定义bower脚本文件
                         bowerVendorJs, //合并除却自定义以外的bower脚本文件
                     ),
-                    gulp.series(
-                        bowerCustomCss, //合并自定义bower样式文件
-                        bowerVendorCss //合并除却自定义以外的bower样式文件
-                    )
-                )
+                    bowerCustomCss, //合并自定义bower样式文件
+                ),
+                bowerVendorCss //合并除却自定义以外的bower样式文件
             ),
             gulp.series(
                 copyLibFiles, //复制lib公共脚本文件到缓存目录

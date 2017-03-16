@@ -1,8 +1,14 @@
 {
     /* ==================================
-     * @ 2017 FEZ 前端模块工程自动化构建工具
+     * @ 2017 FEZ 前端模块化工程开发框架
      * https://github.com/furic-zhao/fez
      * ================================== */
+
+    /*************************************************
+     * 本文件是FEZ工程目录中的默认配置文件
+     * 项目目录中的.fezrc文件中的配置会优先覆盖此文件中的配置
+     * 项目目录中没有配置的项会使用此文件中的默认配置
+     ************************************************/
 
     /**
      * 研发环境 browsersync配置信息
@@ -206,7 +212,35 @@
         "options": {
             "extensions": [], // import require 引入文件时可以省略的扩展名
             "paths": ["./src/views"] // import require 引入文件的根路径
-        }
+        },
+        /**
+         * 抽取来通过 import $ from 'jquery';或let $ = require('jquery');
+         * 引入的公共文件不和业务逻辑文件打包到一起
+         * 此处配置后需要通过script标签形式在页面引入
+         * 具体信息请参考：https://github.com/thlorenz/browserify-shim
+         */
+        "shim": [{
+            "import": "$",
+            "from": "jquery"
+        }, {
+            "import": "Q",
+            "from": "q"
+        }, {
+            "import": "Vue",
+            "from": "vue"
+        }, {
+            "import": "PNotify",
+            "from": "pnotify"
+        }, {
+            "import": "echarts",
+            "from": "echarts"
+        }, {
+            "import": "Vuex",
+            "from": "vuex"
+        }, {
+            "import": "store",
+            "from": "store"
+        }]
     },
 
     /**

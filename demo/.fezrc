@@ -22,9 +22,10 @@
             "paths": ["./src/views"] // import require 引入文件的根路径
         },
         /**
-         * 抽取来自NPM中的公共文件不做打包
-         * import $ from 'jquery';
-         * let $ = require('jquery');
+         * 抽取来通过 import $ from 'jquery';或let $ = require('jquery');
+         * 引入的公共文件不和业务逻辑文件打包到一起
+         * 此处配置后需要通过script标签形式在页面引入
+         * 具体信息请参考：https://github.com/thlorenz/browserify-shim
          */
         "shim": [{
             "import": "$",

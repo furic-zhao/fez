@@ -1,16 +1,18 @@
 {
     "name": "FEZ",
     "version": "3.1.0",
-    "description": "基于gulp的前端工作流",
+    "description": "FEZ是面向前端模块化工程的开发框架。主要为解决前端开发多人高效协作、提高开发质量、及项目功能扩展的快速迭代和可维护性等问题。核心包括功能模块化、结构规范化、及开发自动化。",
     "repository": {
         "type": "git",
         "url": "https://github.com/furic-zhao/fez"
     },
     "keywords": [
-        "前端工程",
-        "模块化",
-        "异步编程",
-        "ES6语法"
+        "FEZ",
+        "前端模块化",
+        "前端工程自动化",
+        "前端异步编程",
+        "前端自动化测试",
+        "前端自动化部署"
     ],
     "license": "MIT",
     "readmeFilename": "README.md",
