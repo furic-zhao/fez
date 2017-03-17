@@ -272,6 +272,7 @@ export default (gulp, config) => {
             .pipe(plumber({
                 errorHandler: notify.onError("Error: <%= error.message %>")
             }))
+            .pipe(sourcemaps.init())
             .pipe(gulpif(
                 sassCondition,
                 sass()
@@ -282,6 +283,7 @@ export default (gulp, config) => {
                     relativeUrls: true //将网址编译成相对网址
                 })
             ))
+            .pipe(sourcemaps.write())
             .on('error', (error) => {
                 gutil.log(error.message);
             })
@@ -391,7 +393,7 @@ export default (gulp, config) => {
                         .pipe(source(source_name + '.js'))
                         .pipe(buffer())
                         .pipe(sourcemaps.init({
-                            loadMaps: true
+                            loadMaps: true //加载源文件的现有映射
                         }))
                         // Add transformation tasks to the pipeline here.
                         // .on('error', function(err) {
