@@ -826,7 +826,9 @@ export default (gulp, config) => {
      * 生成md5后缀的文件名
      **/
     function reversion(cb) {
-        let revAllConfig = {
+        if (!config.useMd5.available) return cb();
+
+        let revAllConfig = Object.assign({}, {
             fileNameManifest: 'manifest.json',
             dontRenameFile: ['.html', '.php'],
             dontUpdateReference: ['.html'],
@@ -834,23 +836,19 @@ export default (gulp, config) => {
                 let filename = path.basename(file.path);
                 let ext = path.extname(file.path);
 
-                return `${path.basename(file.path, ext)}.${hash.substr(0, 5)}${ext}`;
+                return `${path.basename(file.path, ext)}.${hash.substr(0, config.useMd5.options.hashLength || 8)}${ext}`;
 
             }
-        };
+        }, config.useMd5.options);
 
-        if (config['useMd5']) {
-            return gulp.src([`${config.paths.tmp.dir}/**/*`])
-                .pipe(RevAll.revision(revAllConfig))
-                .pipe(gulp.dest(config.paths.tmp.dir))
-                .pipe(revDel({
-                    exclude: /(.html|.htm)$/
-                }))
-                .pipe(RevAll.manifestFile())
-                .pipe(gulp.dest(config.paths.tmp.dir));
-        } else {
-            cb();
-        }
+        return gulp.src([`${config.paths.tmp.dir}/**/*`])
+            .pipe(RevAll.revision(revAllConfig))
+            .pipe(gulp.dest(config.paths.tmp.dir))
+            .pipe(revDel({
+                exclude: /(.html|.htm)$/
+            }))
+            .pipe(RevAll.manifestFile())
+            .pipe(gulp.dest(config.paths.tmp.dir));
     }
 
     /**

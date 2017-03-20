@@ -149,8 +149,12 @@ let config = require('rc')('fez', {
 
     /**
      * 生产环境 启用自动化添加文件版本号(md5)
+     * 配置参考：https://github.com/smysnk/gulp-rev-all
      */
-    "useMd5": true,
+    "useMd5": {
+        "available": true,
+        "options": {}
+    },
 
     /**
      * 生产环境 启用增量编译
