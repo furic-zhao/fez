@@ -1,0 +1,48 @@
+// REM 适配 <html>
+// 375px (iPhone 6)
+// 此为基准值, 与视觉设计稿 `宽度/2` 保持一致
+html {
+    font-size: 16PX;
+}
+
+// 13.6533333 = 320*16/375 (iPhone 5)
+@media only screen and (min-width: 320px) {
+    html {
+        font-size: 13.6533333PX !important;
+    }
+}
+
+// base root size (iPhone 6)
+@media only screen and (min-width: 375px) {
+    html {
+        font-size: 16PX !important;
+    }
+}
+
+// 17.0666667 = 400*16/375 (Most Android)
+@media only screen and (min-width: 400px) {
+    html {
+        font-size: 17.0666667PX !important;
+    }
+}
+
+// 17.664 = 414*16/375 (iPhone 6 Plus)
+@media only screen and (min-width: 414px) {
+    html {
+        font-size: 17.664PX !important;
+    }
+}
+
+// 20.48 = 480*16/375 (iPad)
+@media only screen and (min-width: 480px) {
+    html {
+        font-size: 20.48PX !important;
+    }
+}
+
+// 桌面
+@media only screen and (min-width: 768px) {
+    html {
+        font-size: 16PX !important;
+    }
+}
