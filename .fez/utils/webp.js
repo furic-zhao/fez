@@ -8,16 +8,21 @@
  **********************************/
 // (function() {
 //     //重置页面中的样式为webp.css
-//     function setCssLink() {
+//     function setCssLink(sWebp) {
 //         var cssLink = document.getElementsByTagName("link");
 //         for (var i = 0, linkLen = cssLink.length; i < linkLen; i++) {
-//             cssLink[i].href = cssLink[i].getAttribute("href").replace(".css", ".webp.css");
+//             if (sWebp) {
+//                 cssLink[i].href = cssLink[i].getAttribute("data-href").replace(".css", ".webp.css");
+//             } else {
+//                 cssLink[i].href = cssLink[i].getAttribute("data-href");
+//             }
 //         }
 //     }
 //     //检测浏览器是否支持webp
 //     function detectionWebp(setCssLink) {
 //         var ls = window.localStorage;
 //         if (ls !== undefined && ls.supportWebp !== undefined && ls.supportWebp === false) {
+//             setCssLink(false);
 //             return false
 //         } else {
 //             if (ls !== undefined && ls.supportWebp !== undefined && ls.supportWebp === true) {
@@ -31,6 +36,7 @@
 //                     if (ls !== undefined) {
 //                         ls.supportWebp = false;
 //                     }
+//                     setCssLink(false);
 //                 };
 //                 webp.onload = function() {
 //                     //将浏览器支持情况缓存起来
@@ -92,7 +98,7 @@ import injectString from 'gulp-inject-string';
 
 export default (config, cb) => {
 
-    const webpScript = `<script>;(function(){function setCssLink(){var a=document.getElementsByTagName("link");for(var i=0,linkLen=a.length;i<linkLen;i++){a[i].href=a[i].getAttribute("href").replace(".css",".webp.css")}}function detectionWebp(a){var b=window.localStorage;if(b!==undefined&&b.supportWebp!==undefined&&b.supportWebp===false){return false}else{if(b!==undefined&&b.supportWebp!==undefined&&b.supportWebp===true){a(true);return true}else{var c=new Image();c.onerror=function(){if(b!==undefined){b.supportWebp=false}};c.onload=function(){if(b!==undefined){b.supportWebp=true}a(true)};c.src='data:image/webp;base64,UklGRjIAAABXRUJQVlA4ICYAAACyAgCdASoBAAEALmk0mk0iIiIiIgBoSygABc6zbAAA/v56QAAAAA=='}}}detectionWebp(setCssLink)})();</script>`;
+    const webpScript = `<script>;(function(){function setCssLink(a){var b=document.getElementsByTagName("link");for(var i=0,linkLen=b.length;i<linkLen;i++){if(a){b[i].href=b[i].getAttribute("data-href").replace(".css",".webp.css")}else{b[i].href=b[i].getAttribute("data-href")}}}function detectionWebp(a){var b=window.localStorage;if(b!==undefined&&b.supportWebp!==undefined&&b.supportWebp===false){a(false);return false}else{if(b!==undefined&&b.supportWebp!==undefined&&b.supportWebp===true){a(true);return true}else{var c=new Image();c.onerror=function(){if(b!==undefined){b.supportWebp=false}a(false)};c.onload=function(){if(b!==undefined){b.supportWebp=true}a(true)};c.src='data:image/webp;base64,UklGRjIAAABXRUJQVlA4ICYAAACyAgCdASoBAAEALmk0mk0iIiIiIgBoSygABc6zbAAA/v56QAAAAA=='}}}detectionWebp(setCssLink)})();</script>`;
 
     let webpMap = {}; //暂存webp格式的文件
     let imgArr = []; //比较大小之后的webp文件
@@ -176,6 +182,7 @@ export default (config, cb) => {
      */
     function injectWebpJs() {
         return gulp.src(`${config.paths.tmp.html}/**/*.html`)
+            .pipe(replace(/(link.*?)href/ig, '$1data-href'))
             .pipe(injectString.before('</head>', webpScript))
             .pipe(gulp.dest(config.paths.tmp.html));
     }
