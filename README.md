@@ -94,7 +94,7 @@ static
 
 - 【目录结构规范化】
 - 【代码规范化】FEZ可开启JSHint对JS代码做规范性的自动化检测
-- 【前后端接口规范化】FEZ 附带有[API文档编写平台](//doc.hestudy.com)
+- 【前后端接口规范化】FEZ 附带有[API文档编写平台](http://doc.hestudy.com)
 
 ### 开发自动化
 
