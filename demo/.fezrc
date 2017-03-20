@@ -90,8 +90,18 @@
 
     /**
      * 生产环境 启用 图片 => webp 自动化转换
+     * 配置参考：https://github.com/imagemin/imagemin-webp
      */
-    "useWebp": false,
+    "useWebp": {
+        "available": false,
+        "options": {
+            "quality": 75, //将质量因子设置为0到100。
+            "alphaQuality": 100, //将透明度 - 压缩质量设置为0到100。
+            "method": 4, //指定要使用的压缩方法，介于0（最快）和6（最慢）之间。此参数控制编码速度与压缩文件大小和质量之间的折衷。
+            "sns": 80, //设置空间噪声整形的幅度在0和100之间
+            "lossless": false //无损编码图像
+        }
+    },
 
     /**
      * 生产环境 上传sftp服务器配置信息

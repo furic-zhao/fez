@@ -145,8 +145,9 @@ export default (config, cb) => {
      * 将 编译过的 images 目录下的图片转换成 .webp 格式
      */
     function compileWebpImg() {
+        let webpConfig = Object.assign({}, config.useWebp.options);
         return gulp.src(`${config.paths.tmp.img}/**/*`)
-            .pipe(gulpWebp())
+            .pipe(gulpWebp(webpConfig))
             .pipe(gulp.dest(config.paths.tmp.img));
     }
     /**

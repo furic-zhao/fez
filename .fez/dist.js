@@ -812,15 +812,14 @@ export default (gulp, config) => {
      * webp 编译
      **/
     function compileWebp() {
-        let webpTask = webp(config);
-
-        if (config['useWebp']) {
-            return webpTask();
-        } else {
+        if (!config.useWebp.available) {
             return function notAvailableWebp(cb) {
                 cb();
             }
         }
+
+        let webpTask = webp(config);
+        return webpTask();
     }
 
     /**
