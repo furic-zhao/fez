@@ -22,7 +22,7 @@ let common = {
      * @param{ String } 需要复制的目录
      * @param{ String } 复制到指定的目录
      */
-    copy: (src, dist) => {
+    copy(src, dist) {
         // 读取目录中的所有文件/目录
         fs.readdir(src, (err, paths) => {
             if (err) {
@@ -60,7 +60,7 @@ let common = {
     /**
      * 在复制目录前需要判断该目录是否存在，不存在需要先创建目录
      */
-    exists: (src, dist, callback) => {
+    exists(src, dist, callback) {
         let distDir = fs.existsSync(dist);
 
         if (distDir) {
