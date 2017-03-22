@@ -15,6 +15,8 @@
         "前端自动化部署"
     ],
     "license": "MIT",
+    "author": "Furic zhao",
+    "homepage": "http://fez.hestudy.com/",
     "readmeFilename": "README.md",
     "devDependencies": {
         "autoprefixer": "^6.3.3",
