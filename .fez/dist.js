@@ -416,7 +416,7 @@ export default (gulp, config) => {
                      * 全局对象方法转码
                      * http://babeljs.cn/docs/usage/polyfill/
                      */
-                    .add(require.resolve('babel-polyfill'))
+                    // .add(require.resolve('babel-polyfill'))
                     // 转换 es6
                     .transform(babelify.configure({
                         "compact": false,
@@ -426,6 +426,7 @@ export default (gulp, config) => {
                             "react" //转换react的jsx
                         ],
                         "plugins": [
+                            "transform-runtime",
                             "transform-object-assign", //Object.assign转换
                             ["transform-es2015-classes", { //转换es6 class插件
                                 "loose": false

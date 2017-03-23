@@ -6,6 +6,7 @@
 		"react" //转换react的jsx
 	],
 	"plugins": [
+		"transform-runtime",
 		"transform-object-assign", //Object.assign转换
 		["transform-es2015-classes", { //转换es6 class插件
 			"loose": false
