@@ -1,6 +1,6 @@
 {
 	"compact": false,
 	"presets": [
-		"es2015","stage-2"
+		"es2015","stage-2","transform-object-assign"
 	]
 }

@@ -412,11 +412,19 @@ export default (gulp, config) => {
                             MOCK: config.useMock.dist //dist是否打包mock数据
                         }
                     })
+                    /**
+                     * 用于兼容IE9
+                     * http://babeljs.cn/docs/usage/polyfill/
+                     */
                     .add(require.resolve('babel-polyfill'))
                     // 转换 es6
                     .transform(babelify.configure({
                         compact: false,
-                        presets: ["es2015", "stage-2"]
+                        presets: [
+                            "es2015",
+                            "stage-2",
+                            "transform-object-assign" //用于低版本浏览器Object.assign转换
+                        ]
                     }))
                     // 编译 module 中的less
                     .transform(lessify)
