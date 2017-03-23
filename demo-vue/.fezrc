@@ -36,18 +36,6 @@
         }, {
             "import": "Vue",
             "from": "vue"
-        }, {
-            "import": "PNotify",
-            "from": "pnotify"
-        }, {
-            "import": "echarts",
-            "from": "echarts"
-        }, {
-            "import": "Vuex",
-            "from": "vuex"
-        }, {
-            "import": "store",
-            "from": "store"
         }]
     },
 
