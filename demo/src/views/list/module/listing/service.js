@@ -3,7 +3,7 @@ import ApiData from 'public/demo-data';
 import Q from 'q';
 
 export default {
-    renderData: () => {
+    renderData() {
         let rtnData = [];
         return Q.Promise((resolve, reject) => {
 

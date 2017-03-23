@@ -10,7 +10,7 @@ let rtnData = {
 import Q from 'q';
 
 export default {
-    renderData: () => {
+    renderData() {
         return Q.Promise((resolve, reject) => {
             resolve(rtnData);
         });

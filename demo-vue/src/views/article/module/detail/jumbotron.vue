@@ -28,7 +28,7 @@ export default {
         },
         props: {
             id: {
-                type: Number,
+                type: String,
                 default: 0
             }
         },
@@ -41,7 +41,6 @@ export default {
             jumbotron: function(id) {
                 let _vm = this;
                 Service.renderData(id).then((data) => {
-                    console.log(data);
                     _vm.jumbotronData = Object.assign({}, data);
                 });
             }

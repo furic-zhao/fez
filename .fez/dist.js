@@ -413,17 +413,26 @@ export default (gulp, config) => {
                         }
                     })
                     /**
-                     * 用于兼容IE9
+                     * 全局对象方法转码
                      * http://babeljs.cn/docs/usage/polyfill/
                      */
                     .add(require.resolve('babel-polyfill'))
                     // 转换 es6
                     .transform(babelify.configure({
-                        compact: false,
-                        presets: [
-                            "es2015",
-                            "stage-2",
-                            "transform-object-assign" //用于低版本浏览器Object.assign转换
+                        "compact": false,
+                        "presets": [
+                            "es2015", //转换es6
+                            "stage-2", //ES7第三阶段语法提案的转码规
+                            "react" //转换react的jsx
+                        ],
+                        "plugins": [
+                            "transform-object-assign", //Object.assign转换
+                            ["transform-es2015-classes", { //转换es6 class插件
+                                "loose": false
+                            }],
+                            ["transform-es2015-modules-commonjs", { //转换es6 module插件
+                                "loose": false
+                            }]
                         ]
                     }))
                     // 编译 module 中的less
