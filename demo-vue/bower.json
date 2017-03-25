@@ -16,10 +16,8 @@
         "tests"
     ],
     "dependencies": {
-        "jquery": "^1.12.4",
         "bootstrap": "^3.3.7",
         "font-awesome": "^4.7.0",
-        "animate.css": "animate-css#^3.5.2",
         "vue": "^2.2.4"
     },
     "overrides": {
