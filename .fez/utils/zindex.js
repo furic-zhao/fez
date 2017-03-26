@@ -22,7 +22,7 @@ import path from 'path';
  */
 import localIp from 'quick-local-ip';
 
-export default (config, cb) => {
+export default (config, cb = () => {}) => {
     let htmlPages = []; //所有html页面
 
     let devPathLen = config.paths.dev.html.length; //研发目录路径字符长度

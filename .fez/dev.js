@@ -601,7 +601,7 @@ export default (gulp, config) => {
             if (type === 'removed') {
                 let tmp = file.replace('src/', 'dev/');
                 del([tmp]).then(function() {
-                    qrcodeViewHtml();
+                    qrcodeViewHtml(config);
                 });
             } else {
                 compileHtml();
@@ -609,7 +609,7 @@ export default (gulp, config) => {
 
             if (type === 'add') {
                 setTimeout(function() {
-                    qrcodeViewHtml();
+                    qrcodeViewHtml(config);
                 }, 500);
             }
         } else if (target === "static") {
