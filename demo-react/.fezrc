@@ -134,11 +134,11 @@
         "bower": {
             "available": true, //启用 bower 文件自动化注入
             "js": [{
-                "target": "a-vendor-jquery.js",
-                "contain": ["**/jquery.js"]
+                "target": "a-vendor-react.js",
+                "contain": ["**/react.js"]
             }, {
-                "target": "b-vendor-bootstrap.js",
-                "contain": ["**/bootstrap.js"]
+                "target": "b-vendor-react-dom.js",
+                "contain": ["**/react-dom.js"]
             }],
             "css": [{
                 "target": "vendor-bootstrap.css",

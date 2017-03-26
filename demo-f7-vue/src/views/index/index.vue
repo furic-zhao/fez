@@ -3,30 +3,6 @@
     <div id="app">
         <!-- Statusbar -->
         <f7-statusbar></f7-statusbar>
-        <!-- Left Panel -->
-        <f7-panel left reveal layout="dark">
-            <f7-view id="left-panel-view" navbar-through :dynamic-navbar="true">
-                <f7-navbar v-if="$theme.ios" title="Left Panel" sliding></f7-navbar>
-                <f7-pages>
-                    <f7-page>
-                        <f7-navbar v-if="$theme.material" title="Left Panel" sliding></f7-navbar>
-                        <f7-block inner>
-                            <p>Left panel content goes here</p>
-                        </f7-block>
-                        <f7-block-title>Load page in panel</f7-block-title>
-                        <f7-list>
-                            <f7-list-item link="/about/" title="About"></f7-list-item>
-                            <f7-list-item link="/form/" title="Form"></f7-list-item>
-                        </f7-list>
-                        <f7-block-title>Load page in main view</f7-block-title>
-                        <f7-list>
-                            <f7-list-item link="/about/" title="About" link-view="#main-view" link-close-panel></f7-list-item>
-                            <f7-list-item link="/form/" title="Form" link-view="#main-view" link-close-panel></f7-list-item>
-                        </f7-list>
-                    </f7-page>
-                </f7-pages>
-            </f7-view>
-        </f7-panel>
         <!-- Right Panel -->
         <f7-panel right cover layout="dark">
             <f7-view id="right-panel-view" navbar-through :dynamic-navbar="true">
@@ -56,10 +32,7 @@
             <f7-view id="main-view" navbar-through :dynamic-navbar="true" main>
                 <!-- iOS Theme Navbar -->
                 <f7-navbar v-if="$theme.ios">
-                    <f7-nav-left>
-                        <f7-link icon="icon-bars" open-panel="left"></f7-link>
-                    </f7-nav-left>
-                    <f7-nav-center sliding>FEZ webApp 开发框架</f7-nav-center>
+                    <f7-nav-center sliding>FEZ Framework7 Demo</f7-nav-center>
                     <f7-nav-right>
                         <f7-link icon="icon-bars" open-panel="right"></f7-link>
                     </f7-nav-right>
@@ -77,9 +50,9 @@
                                 <f7-link icon="icon-bars" open-panel="right"></f7-link>
                             </f7-nav-right>
                         </f7-navbar>
-                        <f7-block-title>欢迎使用FEZ webApp开发框架</f7-block-title>
+                        <f7-block-title>Hello FEZ And Framework7</f7-block-title>
                         <f7-block inner>
-                            <p>本示例是 FEZ 整合了 Framework7 及Vue，可以快速构建高性能的混合移动应用（原生和HTML混合）或者开发 iOS 和 Android 风格的WEB APP。</p>
+                            <p> 这是一个使用 FEZ 搭建的用于开发混合移动应用或 iOS 和 Android 风格的WEB APP的示例。演示了基于 Framework7 结合 Vue 构建高性能单页面移动应用。</p>
                         </f7-block>
                         <f7-block-title>导航示例</f7-block-title>
                         <f7-list>
