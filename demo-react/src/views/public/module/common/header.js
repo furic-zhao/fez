@@ -1,5 +1,5 @@
-import Service from './common';
-import Q from 'q';
+import Service from './common'
+import Q from 'q'
 
 export default React.createClass({
     getInitialState() {
@@ -8,7 +8,7 @@ export default React.createClass({
                 siteName: "",
                 navList: []
             }
-        };
+        }
     },
     componentDidMount() {
         Q.all([
@@ -21,14 +21,14 @@ export default React.createClass({
             }
             this.setState({
                 rtnData: rtnData
-            });
-        });
+            })
+        })
     },
     render() {
-        let navList = [];
+        let navList = []
 
         for (let item of this.state.rtnData.navList) {
-            navList.push(<li key={item.name}><a href={item.href}>{item.name}</a></li>);
+            navList.push(<li key={item.name}><a href={item.href}>{item.name}</a></li>)
         }
 
         return (
@@ -50,7 +50,7 @@ export default React.createClass({
             </div>
         </div>
     </nav>
-        );
+        )
 
     }
-});
+})

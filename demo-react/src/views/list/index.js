@@ -1,10 +1,10 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react'
+import ReactDOM from 'react-dom'
 
-import Header from 'public/module/common/header';
-import Jumbotron from './module/jumbotron/index';
-import Listing from './module/listing/index';
-import Footer from 'public/module/common/footer';
+import Header from 'public/module/common/header'
+import Jumbotron from './module/jumbotron/index'
+import Listing from './module/listing/index'
+import Footer from 'public/module/common/footer'
 
 
 let Page = React.createClass({
@@ -16,11 +16,11 @@ let Page = React.createClass({
         <Listing />
         <Footer />
         </div>
-		);
+		)
 	}
-});
+})
 
 ReactDOM.render(
 	<Page />,
 	document.getElementById('app')
-);
+)

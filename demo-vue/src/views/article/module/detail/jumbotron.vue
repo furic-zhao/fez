@@ -11,8 +11,8 @@
     </div>
 </template>
 <script>
-import Service from './service';
-import urlParam from 'public/utils/url-param';
+import Service from './service'
+import urlParam from 'public/utils/url-param'
 export default {
     data() {
             return {
@@ -34,15 +34,15 @@ export default {
         },
         watch: {
             id: function(val, oldVal) {
-                this.jumbotron(val);
+                this.jumbotron(val)
             }
         },
         methods: {
             jumbotron: function(id) {
-                let _vm = this;
+                let _vm = this
                 Service.renderData(id).then((data) => {
-                    _vm.jumbotronData = Object.assign({}, data);
-                });
+                    _vm.jumbotronData = Object.assign({}, data)
+                })
             }
         }
 }

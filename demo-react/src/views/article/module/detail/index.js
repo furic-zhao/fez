@@ -1,17 +1,17 @@
-import Service from './service';
+import Service from './service'
 
 export default React.createClass({
     getInitialState() {
         return {
             content: ""
-        };
+        }
     },
     componentDidMount() {
         Service.renderData(this.props.id).then((data) => {
             this.setState({
                 content: data.content
-            });
-        });
+            })
+        })
     },
     render() {
         return (
@@ -28,7 +28,7 @@ export default React.createClass({
         </div>
         <hr />
     </div>
-        );
+        )
 
     }
-});
+})

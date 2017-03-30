@@ -1,4 +1,4 @@
-import Service from './service';
+import Service from './service'
 
 export default React.createClass({
     getInitialState() {
@@ -11,15 +11,15 @@ export default React.createClass({
                     href: ""
                 }
             }
-        };
+        }
     },
     componentDidMount() {
 
         Service.renderData().then((data) => {
             this.setState({
                 jumbotronData: Object.assign({}, data)
-            });
-        });
+            })
+        })
     },
     render() {
         return (
@@ -34,7 +34,7 @@ export default React.createClass({
             </p>
         </div>
     </div>
-        );
+        )
 
     }
-});
+})

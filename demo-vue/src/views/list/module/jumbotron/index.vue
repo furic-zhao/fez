@@ -10,7 +10,7 @@
     </div>
 </template>
 <script>
-import Service from './service';
+import Service from './service'
 
 export default {
     data() {
@@ -27,14 +27,14 @@ export default {
         },
         methods: {
             jumbotron: function() {
-                let _vm = this;
+                let _vm = this
                 Service.renderData().then((data) => {
-                    _vm.jumbotron = Object.assign(_vm.jumbotronData, data);
-                });
+                    _vm.jumbotron = Object.assign(_vm.jumbotronData, data)
+                })
             }
         },
         created() {
-            this.jumbotron();
+            this.jumbotron()
         }
 }
 </script>

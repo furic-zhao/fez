@@ -5,7 +5,11 @@ import Q from 'q'
 export default {
     renderData() {
         return Q.Promise((resolve, reject) => {
-            resolve(ApiData.index.jumbotron)
+
+            resolve({
+                "index": ApiData.index,
+                "common": ApiData.common
+            })
         })
     }
 }

@@ -11,7 +11,7 @@
     </div>
 </template>
 <script>
-import Service from './service';
+import Service from './service'
 
 export default {
     data() {
@@ -21,14 +21,14 @@ export default {
         },
         methods: {
             listingInit: function() {
-                let _vm = this;
+                let _vm = this
                 Service.renderData().then((data) => {
-                    _vm.listing = data;
-                });
+                    _vm.listing = data
+                })
             }
         },
         created() {
-            this.listingInit();
+            this.listingInit()
         }
 }
 </script>

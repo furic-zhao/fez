@@ -22,8 +22,8 @@
     </nav>
 </template>
 <script>
-import Service from './common';
-import Q from 'q';
+import Service from './common'
+import Q from 'q'
 export default {
     data() {
             return {
@@ -35,7 +35,7 @@ export default {
         },
         methods: {
             headerDataInit: function() {
-                let _vm = this;
+                let _vm = this
                 Q.all([
                     Service.siteName(),
                     Service.navList()
@@ -44,13 +44,13 @@ export default {
                         siteName: data[0],
                         navList: data[1]
                     }
-                    _vm.headerData = Object.assign({}, rtnData);
-                });
+                    _vm.headerData = Object.assign({}, rtnData)
+                })
 
             }
         },
         created() {
-            this.headerDataInit();
+            this.headerDataInit()
         }
 }
 </script>

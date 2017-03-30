@@ -10,7 +10,7 @@
     </div>
 </template>
 <script>
-import Service from './service';
+import Service from './service'
 export default {
     data() {
             return {
@@ -19,14 +19,14 @@ export default {
         },
         methods: {
             fezdescInit: function() {
-                let _vm = this;
+                let _vm = this
                 Service.renderData().then((data) => {
-                    _vm.fezdesc = data;
-                });
+                    _vm.fezdesc = data
+                })
             }
         },
         created() {
-            this.fezdescInit();
+            this.fezdescInit()
         }
 }
 </script>

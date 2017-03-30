@@ -1,22 +1,16 @@
-let navData = [{
-    name: "首页",
-    href: "index.html"
-}, {
-    name: "列表页",
-    href: "list.html"
-}];
+import Q from 'q'
 
-let siteName = "FEZ DEMO";
+import ApiData from 'public/demo-data'
 
 export default {
     navList() {
             return Q.Promise((resolve, reject) => {
-                resolve(navData);
-            });
+                resolve(ApiData.common.navData)
+            })
         },
         siteName() {
             return Q.Promise((resolve, reject) => {
-                resolve(siteName);
-            });
+                resolve(ApiData.common.siteName)
+            })
         }
 }

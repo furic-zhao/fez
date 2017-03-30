@@ -8,8 +8,8 @@
     </div>
 </template>
 <script>
-import fezHeader from 'public/module/common/header.vue';
-import fezFooter from 'public/module/common/footer.vue';
+import fezHeader from 'public/module/common/header.vue'
+import fezFooter from 'public/module/common/footer.vue'
 
 export default {
     components: {

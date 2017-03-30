@@ -1,18 +1,11 @@
-let rtnData = {
-    title: "FEZ Frame!",
-    desc: "这是一个列表展示页，请点击下面列表的 Detail 进入详情页浏览",
-    button: {
-        name: "更多DEMO",
-        href: "http://fez.hestudy.com"
-    }
-};
+import Q from 'q'
 
-import Q from 'q';
+import ApiData from 'public/demo-data'
 
 export default {
     renderData() {
         return Q.Promise((resolve, reject) => {
-            resolve(rtnData);
-        });
+            resolve(ApiData.list.jumbotron)
+        })
     }
 }

@@ -1,17 +1,17 @@
-import Service from './common';
+import Service from './common'
 
 export default React.createClass({
     getInitialState() {
         return {
             footerText: ""
-        };
+        }
     },
     componentDidMount() {
         Service.footerText().then((data) => {
             this.setState({
                 footerText: data
-            });
-        });
+            })
+        })
     },
     render() {
 
@@ -21,7 +21,7 @@ export default React.createClass({
         <i className="icon icon-weixin"></i>
         <i className="icon icon-weibo"></i>
     </span>
-    </footer>);
+    </footer>)
 
     }
-});
+})

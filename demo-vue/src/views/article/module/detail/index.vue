@@ -12,7 +12,8 @@
     </div>
 </template>
 <script>
-import Service from './service';
+import Service from './service'
+
 export default {
     data() {
             return {
@@ -27,14 +28,14 @@ export default {
         },
         watch: {
             id: function(val, oldVal) {
-                this.jumbotron(val);
+                this.jumbotron(val)
             }
         },
         methods: {
             jumbotron: function(id) {
-                let _vm = this;
+                let _vm = this
                 Service.renderData(id).then((data) => {
-                    _vm.content = data.content;
+                    _vm.content = data.content
                 });
             }
         }

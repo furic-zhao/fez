@@ -1,10 +1,10 @@
-import Service from './service';
+import Service from './service'
 
 export default React.createClass({
     getInitialState() {
         return {
             listing: []
-        };
+        }
     },
     componentDidMount() {
 
@@ -12,17 +12,17 @@ export default React.createClass({
             this.setState({
                 listing: data
             })
-        });
+        })
     },
     render() {
-        let listing = [];
+        let listing = []
 
         for (let item of this.state.listing) {
             listing.push(<div key={item.title} className="col-md-4">
                 <h2>{item.title}</h2>
                 <p>{item.desc}</p>
                 <p><a className="btn btn-default" href={'article.html?id=' + item.id} role="button">Detail</a></p>
-            </div>);
+            </div>)
         }
 
         return (
@@ -32,7 +32,7 @@ export default React.createClass({
         </div>
         <hr />
     </div>
-        );
+        )
 
     }
-});
+})

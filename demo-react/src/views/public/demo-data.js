@@ -1,4 +1,4 @@
-let rtnData = [{
+let frames = [{
     title: "Nodejs",
     desc: "FEZ 构建在 NodeJS 基于 Chrome V8 引擎的 JavaScript 运行环境，其事件驱动非阻塞的特性，极其快速的编译前端各种资源",
     content: `<div id="home-intro">
@@ -161,6 +161,48 @@ source libraries in the world.</p>
         text: "更多信息",
         href: "https://browsersync.io/"
     }
-}];
+}]
 
-export default rtnData;
+let index = {
+    fezdesc: "FEZ 前端模块化工程开发框架",
+    jumbotron: {
+        title: "Hello, FEZ And React!",
+        content: "这是一个使用 FEZ 构建的前端模块化开发示例，演示了基于React单文件组件的开发结构。",
+        button: {
+            name: `<i class="fa fa-github-alt"></i> GitHub`,
+            href: "https://github.com/furic-zhao/fez"
+        }
+    }
+}
+
+let list = {
+    jumbotron: {
+        title: "FEZ And React Frame!",
+        content: "这是一个FEZ整合React的列表展示页，请点击下面列表的 Detail 按钮进入详情页浏览",
+        button: {
+            name: "查看更多信息",
+            href: "http://fez.hestudy.com"
+        }
+    }
+}
+
+let common = {
+    siteName: "FEZ React DEMO",
+
+    navData: [{
+        name: "首页",
+        href: "index.html"
+    }, {
+        name: "FEZ基本架构",
+        href: "list.html"
+    }],
+
+    footerText: "© 2017 FEZ 前端模块化工程开发框架 Created by Furic.zhao"
+}
+
+export default {
+    "index": index,
+    "list": list,
+    "frames": frames,
+    "common": common
+}

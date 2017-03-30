@@ -1,9 +1,9 @@
-import temp from './index.hbs';
+import temp from './index.hbs'
 
-import Service from './service';
+import Service from './service'
 
 export default ($box = $("body")) => {
     Service.renderData().then((data) => {
-        $box.html(temp(data));
-    });
+        $box.html(temp(data))
+    })
 }

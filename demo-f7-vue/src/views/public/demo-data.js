@@ -166,8 +166,8 @@ source libraries in the world.</p>
 let index = {
     fezdesc: "FEZ 前端模块化工程开发框架",
     jumbotron: {
-        title: "Hello, FEZ!",
-        content: "这是一个使用 FEZ 构建的前端模块化开发示例，演示了基本的模块开发结构，使用 handlebars 模板渲染数据。",
+        title: "Hello FEZ And Framework7!",
+        content: "这是一个使用 FEZ 搭建的用于开发混合移动应用或 iOS 和 Android 风格的WEB APP的示例。演示了基于 Framework7 结合 Vue 构建高性能单页面移动应用。",
         button: {
             name: `<i class="fa fa-github-alt"></i> GitHub`,
             href: "https://github.com/furic-zhao/fez"
@@ -178,25 +178,31 @@ let index = {
 let list = {
     jumbotron: {
         title: "FEZ Frame!",
-        desc: "这是一个列表展示页，请点击下面列表的 Detail 进入详情页浏览",
+        content: "这是一个列表展示页，请点击下面列表项目进入详情页浏览",
         button: {
-            name: "更多DEMO",
+            name: "查看更多信息",
             href: "http://fez.hestudy.com"
         }
     }
 }
 
 let common = {
-    siteName: "FEZ DEMO",
+    siteName: "FEZ Framework7 Demo",
 
-    navData: [{
-        name: "首页",
-        href: "index.html"
-    }, {
+    nav: [{
         name: "FEZ基本架构",
-        href: "list.html"
+        href: "/listing/"
+    }, {
+        name: "表单示例",
+        href: "/form/"
+    }, {
+        name: "REST风格的动态路由",
+        href: "/dynamic-route/blog/45/post/125/?foo=bar#about"
+    }, {
+        name: "关于FEZ",
+        href: "/about/"
     }],
-
+    tips: "本示例为移动端集成了REM解决方案，可以试着横屏、或在更大的移动端屏幕浏览，页面中的所有元素在不同的屏幕中会等比缩放。",
     footerText: "© 2017 FEZ 前端模块化工程开发框架 Created by Furic.zhao"
 }
 

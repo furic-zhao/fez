@@ -8,7 +8,7 @@
     </footer>
 </template>
 <script>
-import Service from './common';
+import Service from './common'
 export default {
     data() {
             return {
@@ -18,12 +18,12 @@ export default {
         methods: {
             footer: function() {
                 Service.footerText().then((data) => {
-                	this.text = data;
-                });
+                	this.text = data
+                })
             }
         },
         created() {
-        	this.footer();
+        	this.footer()
         }
 }
 </script>

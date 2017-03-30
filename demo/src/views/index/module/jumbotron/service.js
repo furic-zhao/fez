@@ -1,18 +1,11 @@
-let rtnData = {
-    title: "Hello, FEZ!",
-    content: "这是一个使用 FEZ 构建的前端模块化开发示例，演示了基本的模块开发结构，使用 handlebars 模板渲染数据。",
-    button: {
-        name: `<i class="fa fa-github-alt"></i> GitHub`,
-        href: "https://github.com/furic-zhao/fez"
-    }
-};
+import Q from 'q'
 
-import Q from 'q';
+import ApiData from 'public/demo-data'
 
 export default {
     renderData() {
         return Q.Promise((resolve, reject) => {
-            resolve(rtnData);
-        });
+            resolve(ApiData.index.jumbotron)
+        })
     }
 }

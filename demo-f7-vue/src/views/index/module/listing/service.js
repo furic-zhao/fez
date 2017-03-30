@@ -17,7 +17,10 @@ export default {
                 rtnData.push(dataItem)
             }
 
-            resolve(rtnData)
+            resolve({
+                "listing": rtnData,
+                "jumbotron": ApiData.list.jumbotron
+            })
         })
     }
 }

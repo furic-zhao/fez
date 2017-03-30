@@ -1,24 +1,24 @@
-import ApiData from 'public/demo-data';
+import ApiData from 'public/demo-data'
 
-import Q from 'q';
+import Q from 'q'
 
 export default {
     renderData() {
-        let rtnData = [];
+        let rtnData = []
         return Q.Promise((resolve, reject) => {
 
-            for (let v of ApiData) {
-                let dataItem = {};
+            for (let v of ApiData.frames) {
+                let dataItem = {}
 
-                dataItem.title = v.title;
-                dataItem.desc = v.desc;
-                dataItem.id = v.title;
+                dataItem.title = v.title
+                dataItem.desc = v.desc
+                dataItem.id = v.title
 
-                rtnData.push(dataItem);
+                rtnData.push(dataItem)
             }
 
 
-            resolve(rtnData);
-        });
+            resolve(rtnData)
+        })
     }
 }

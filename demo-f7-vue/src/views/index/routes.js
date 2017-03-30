@@ -7,4 +7,10 @@ export default [{
 }, {
     path: '/dynamic-route/blog/:blogId/post/:postId/',
     component: require('./module/dynamic-route/index.vue')
+}, {
+    path: '/listing/',
+    component: require('./module/listing/index.vue')
+}, {
+    path: '/article/id/:id/',
+    component: require('./module/article/index.vue')
 }]
