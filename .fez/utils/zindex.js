@@ -114,8 +114,14 @@ export default (config, cb = () => {}) => {
         margin: 20px 0;
     }
     .qrcode-img canvas,
-    .qrcode-img img {
+    .qrcode-img img,
+    .qr-img canvas,
+    .qr-img img {
         margin: 0 auto;
+    }
+    .modal-backdrop {
+        filter: alpha(opacity=100)!important;
+        opacity: 1!important;
     }
     </style>
 </head>
@@ -143,6 +149,23 @@ export default (config, cb = () => {}) => {
             <p>© 2017 FEZ 前端模块化工程开发框架</p>
         </footer>
     </div>
+
+    <div id="qrModal" class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="exampleModalLabel"></h4>
+          </div>
+          <div class="modal-body">
+            <div class="qr-img"></div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
 </body>
 <script id="qrcode-template" type="text/x-handlebars-template">
     {{#each this}}
@@ -153,6 +176,7 @@ export default (config, cb = () => {}) => {
     {{/each}}
 </script>
 <script src="./zindex/js/jquery-2.1.3.min.js"></script>
+<script src="./zindex/js/bootstrap.min.js"></script>
 <script src="./zindex/js/qrcode.min.js"></script>
 <script src="./zindex/js/handlebars-v4.0.5.min.js"></script>
 <script>
@@ -171,6 +195,20 @@ export default (config, cb = () => {}) => {
             colorDark: "#000000",
             colorLight: "#ffffff",
             correctLevel: QRCode.CorrectLevel.H
+        });
+    }).click(function(){
+         $('#qrModal').modal();
+         $('#qrModal .modal-title').html($(this).data("href"));
+         new QRCode($('#qrModal .qr-img')[0], {
+            text: window.location.protocol + "//${ip}" + (window.location.port ? ':' + window.location.port : '') + "/" + $(this).data("href"),
+            width: 360,
+            height: 360,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
+        });
+        $('#qrModal').on('hidden.bs.modal', function (e) {
+          $('#qrModal .qr-img').html("");
         });
     });
 })();
