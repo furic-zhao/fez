@@ -273,7 +273,16 @@ let config = require('rc')('fez', {
         "options": {
             "extensions": [], // import require 引入文件时可以省略的扩展名
             "paths": ["./src/views"] // import require 引入文件的根路径
-        }
+        },
+        /**
+         * 抽取来通过 import $ from 'jquery';或let $ = require('jquery');
+         * 引入的公共文件不和业务逻辑文件打包到一起
+         * 此处配置后需要通过script标签形式在页面引入
+         * 具体信息请参考：https://github.com/thlorenz/browserify-shim
+         * 配置格式：
+         * {"import": "Vue","from": "vue"}
+         */
+        "shim": []
     },
 
     /**
