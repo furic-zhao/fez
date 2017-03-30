@@ -5,9 +5,9 @@
      * ================================== */
 
     /*************************************************
-     * 本文件是FEZ工程目录中的默认配置文件
-     * 项目目录中的.fezrc文件中的配置会优先覆盖此文件中的配置
-     * 项目目录中没有配置的项会使用此文件中的默认配置
+     * 本文件是FEZ开发框架 .fezrc 配置文件的示例文件
+     * 项目目录中 .fezrc 配置文件可参考此文件单独配置
+     * 项目目录中没有配置的项 FEZ将使用此文件中的默认配置
      ************************************************/
 
     /**
@@ -90,8 +90,12 @@
 
     /**
      * 生产环境 启用自动化添加文件版本号(md5)
+     * 配置参考：https://github.com/smysnk/gulp-rev-all
      */
-    "useMd5": true,
+    "useMd5": {
+        "available": true,
+        "options": {}
+    },
 
     /**
      * 生产环境 启用增量编译
@@ -121,7 +125,7 @@
      * 生产环境 html压缩配置
      */
     "useHtmlMin": {
-        "available": false,
+        "available": true,
         //配置参考 https://github.com/kangax/html-minifier
         "options": {
             "removeComments": true, //清除HTML注释
@@ -143,7 +147,7 @@
         "port": "22",
         "user": "root",
         "password": "",
-        "remotePath": "/var/www/html/fez-demo",
+        "remotePath": "/var/www/html",
         "includeHtml": true //是否包含 html 文件
     },
 
@@ -176,28 +180,16 @@
          * }
          */
         "bower": {
-            "available": true, //启用 bower 文件自动化注入
-            "js": [{
-                "target": "a-vendor-jquery.js",
-                "contain": ["**/jquery.js"]
-            }, {
-                "target": "b-vendor-bootstrap.js",
-                "contain": ["**/bootstrap.js"]
-            }],
-            "css": [{
-                "target": "vendor-bootstrap.css",
-                "contain": ["**/bootstrap.css"]
-            }, {
-                "target": "vendor-font-awesome.css",
-                "contain": ["**/font-awesome.css"]
-            }]
+            "available": false, //启用 bower 文件自动化注入
+            "js": [],
+            "css": []
         },
         /**
          * 【支持单个文件指定注入到某些页面】
          * （命名规则：assign-{页面名}-{页面名}-{other}
          */
         "lib": {
-            "available": true, //启用 公共 文件自动化注入
+            "available": false, //启用 公共 文件自动化注入
             "css": "*common*", //以common命名的样式文件会注入到所有的页面
             /*
              * ---------- 公共脚本打包格式 仅对 生产环境------------
@@ -212,7 +204,7 @@
         /**
          * 【支持src目录中的样式及编译后的逻辑脚本自动化注入到对应的页面】
          */
-        "views": true //启用 业务目录 文件自动化注入
+        "views": false //启用 业务目录 文件自动化注入
     },
 
     /**
@@ -222,35 +214,7 @@
         "options": {
             "extensions": [], // import require 引入文件时可以省略的扩展名
             "paths": ["./src/views"] // import require 引入文件的根路径
-        },
-        /**
-         * 抽取来通过 import $ from 'jquery';或let $ = require('jquery');
-         * 引入的公共文件不和业务逻辑文件打包到一起
-         * 此处配置后需要通过script标签形式在页面引入
-         * 具体信息请参考：https://github.com/thlorenz/browserify-shim
-         */
-        "shim": [{
-            "import": "$",
-            "from": "jquery"
-        }, {
-            "import": "Q",
-            "from": "q"
-        }, {
-            "import": "Vue",
-            "from": "vue"
-        }, {
-            "import": "PNotify",
-            "from": "pnotify"
-        }, {
-            "import": "echarts",
-            "from": "echarts"
-        }, {
-            "import": "Vuex",
-            "from": "vuex"
-        }, {
-            "import": "store",
-            "from": "store"
-        }]
+        }
     },
 
     /**

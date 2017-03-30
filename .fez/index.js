@@ -206,7 +206,7 @@ let config = require('rc')('fez', {
         "port": "22",
         "user": "root",
         "password": "",
-        "remotePath": "/var/www/html/fez-web",
+        "remotePath": "/var/www/html",
         "includeHtml": true //是否包含 html 文件
     },
 
