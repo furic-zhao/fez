@@ -39,7 +39,7 @@
     "del": "^2.2.0",
     "event-stream": "^3.3.4",
     "glob": "^7.0.3",
-    "gulp": "git://github.com/gulpjs/gulp.git#4.0",
+    "gulp": "https://github.com/gulpjs/gulp.git#4.0",
     "gulp-cache": "^0.4.5",
     "gulp-cached": "^1.1.1",
     "gulp-cdnify": "^1.0.7",
