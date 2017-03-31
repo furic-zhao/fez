@@ -8,3 +8,4 @@ dev
 dist
 tmp
 *-web
+.vscode
