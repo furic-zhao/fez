@@ -215,6 +215,7 @@ import postcssAutoprefixer from 'autoprefixer'; //
 
 /**
  * md5版本号
+ * https://www.npmjs.com/package/gulp-rev-all
  */
 import RevAll from 'gulp-rev-all';
 

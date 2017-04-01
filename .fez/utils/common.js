@@ -8,7 +8,7 @@
  * http://nodejs.cn/api/fs
  */
 import fs from 'fs';
-let stat = fs.stat;
+const stat = fs.stat;
 
 /**
  * Nodejs处理路径
@@ -16,7 +16,7 @@ let stat = fs.stat;
  */
 import path from 'path';
 
-let common = {
+const common = {
     /*
      * 复制目录中的所有文件包括子目录
      * @param{ String } 需要复制的目录
@@ -29,10 +29,11 @@ let common = {
                 throw err;
             }
 
-            paths.forEach((path) => {
+            paths.map((path) => {
                 let _src = src + '/' + path,
                     _dist = dist + '/' + path,
-                    readable, writable;
+                    readable,
+                    writable;
 
                 stat(_src, (err, st) => {
                     if (err) {
@@ -61,7 +62,7 @@ let common = {
      * 在复制目录前需要判断该目录是否存在，不存在需要先创建目录
      */
     exists(src, dist, callback) {
-        let distDir = fs.existsSync(dist);
+        const distDir = fs.existsSync(dist);
 
         if (distDir) {
             callback(src, dist);
@@ -70,7 +71,7 @@ let common = {
                 callback(src, dist);
             });
         }
-    }
+    },
 };
 
 export default common;

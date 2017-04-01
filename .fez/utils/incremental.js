@@ -42,23 +42,25 @@ import gutil from 'gulp-util';
 export default (gulp, config, cb, delTmp) => {
 
     function changed(dir) {
-        var manifestPath = path.resolve('./src/manifest.json');
-        var manifest = {};
-        var originManifest = {};
+        const manifestPath = path.resolve(`${config.paths.src.dir}/manifest.json`);
+
+        let manifest = {};
+
+        let originManifest = {};
+
+        let diff = {};
 
         //如果存在 manifest.json, 则加载保存
-        if (fs.existsSync(manifestPath)) {
-            originManifest = require(manifestPath);
-        }
+        if (fs.existsSync(manifestPath)) originManifest = require(manifestPath);
 
         //遍历目录, 根据内容 md5 加密
-        rd.eachFileFilterSync(dir, function(file) {
-            var index = path.relative(dir, file);
+        rd.eachFileFilterSync(dir, (file) => {
+            const index = path.relative(dir, file);
 
             //过滤掉 隐藏文件 和 manifest.json
             if (path.extname(file) && index !== 'manifest.json' && fs.existsSync(file)) {
 
-                var data = fs.readFileSync(file);
+                let data = fs.readFileSync(file);
 
                 if (data) {
                     manifest[index] = md5(data, 'hex');
@@ -68,15 +70,14 @@ export default (gulp, config, cb, delTmp) => {
         });
 
         //将新的 manifest.json 保存
-        fs.writeFile(manifestPath, JSON.stringify(manifest), function(err) {
+        fs.writeFile(manifestPath, JSON.stringify(manifest), (err) => {
             if (err) throw err;
         });
 
         //找出有变动的文件
         if (originManifest) {
-            var diff = {};
 
-            _.forEach(manifest, function(item, index) {
+            _.forEach(manifest, (item, index) => {
                 if (originManifest[index] !== item) {
                     diff[index] = item;
                 }
@@ -86,55 +87,21 @@ export default (gulp, config, cb, delTmp) => {
         return diff;
     }
 
-    let diff = changed(config.paths.tmp.dir);
+    const diff = changed(config.paths.tmp.dir);
 
     let tmpSrc = [];
 
     if (!_.isEmpty(diff)) {
 
-        //如果有reversion
-        if (config.useMd5) {
-            let keys = _.keys(diff);
+        _.forEach(diff, (item, index) => {
+            console.log(item, index);
+            tmpSrc.push(`${config.paths.tmp.dir}/${index}`);
 
-            //先取得 reversion 生成的manifest.json
-            let reversionManifest = require(path.resolve(`${config.paths.tmp.dir}/manifest.json`));
-
-            if (reversionManifest) {
-                reversionManifest = _.invert(reversionManifest);
-
-                reversionManifest = _.pick(reversionManifest, keys);
-
-                reversionManifest = _.invert(reversionManifest);
-
-                _.forEach(reversionManifest, (item, index) => {
-                    tmpSrc.push(`${config.paths.tmp.dir}/${item}`);
-                    gutil.log(`changed ${gutil.colors.yellow(index)}`);
-                });
-
-                //将新的 manifest.json 保存
-                fs.writeFileSync(`${config.paths.tmp.dir}/manifest.json`, JSON.stringify(reversionManifest));
-
-                tmpSrc.push(`${config.paths.tmp.dir}/manifest.json`);
-            }
-        } else {
-            _.forEach(diff, (item, index) => {
-
-                tmpSrc.push(`${config.paths.tmp.dir}/${index}`);
-
-                gutil.log(`changed ${gutil.colors.yellow(index)}`);
-            });
-        }
-
-        return gulp.src(tmpSrc, {
-                base: config.paths.tmp.dir
-            })
-            .pipe(gulp.dest(config.paths.dist.dir))
-            .on('end', () => {
-                delTmp();
-            })
+            gutil.log(`已改动 ${gutil.colors.yellow(index)}`);
+        });
 
     } else {
-        gutil.log(gutil.colors.yellow('nothing has changed!'));
+        gutil.log(gutil.colors.yellow('没有文件发生改动!'));
         delTmp();
         cb();
     }
