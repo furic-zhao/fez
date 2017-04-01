@@ -22,7 +22,12 @@ import path from 'path';
  */
 import localIp from 'quick-local-ip';
 
-export default (config, cb = () => {}) => {
+/**
+ * 引入 .fezrc 配置
+ */
+import config from './fezrc';
+
+export default (cb = () => {}) => {
     let htmlPages = []; //所有html页面
 
     const devPathLen = config.paths.dev.html.length; //研发目录路径字符长度

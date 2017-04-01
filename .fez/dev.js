@@ -188,10 +188,20 @@ import cache from 'gulp-cached';
 /**
  * 引入开发环境生成二维码页面模块
  */
-import qrCode from './utils/zindex.js';
+import qrCode from './utils/zindex';
 
+/**
+ * 引入gulp
+ * https://github.com/gulpjs/gulp
+ */
+import gulp from 'gulp';
 
-export default (gulp, config) => {
+/**
+ * 引入 .fezrc 配置
+ */
+import config from './utils/fezrc';
+
+export default () => {
 
     /**
      * 调用browsersync自动刷新浏览器
@@ -255,16 +265,19 @@ export default (gulp, config) => {
      * 可以在 .fezrc 配置中任选其一
      */
     function compileCss() {
-        let lessCondition = config.cssCompiler === 'less';
-        let sassCondition = config.cssCompiler === 'sass';
+        const lessCondition = config.cssCompiler === 'less';
+        const sassCondition = config.cssCompiler === 'sass';
 
-        let sourcePath = () => {
-            if (config.cssCompiler === 'sass') {
-                return config.paths.src.sass;
-            } else if (config.cssCompiler === 'less') {
-                return config.paths.src.less;
-            } else {
-                return config.paths.src.css;
+        function sourcePath() {
+            switch (config.cssCompiler) {
+                case 'sass':
+                    return config.paths.src.sass;
+                    break;
+                case 'less':
+                    return config.paths.src.less;
+                    break;
+                default:
+                    return config.paths.src.css;
             }
         }
 
@@ -338,13 +351,14 @@ export default (gulp, config) => {
          * https://github.com/isaacs/node-glob
          */
         glob(config.paths.src.appJs, (err, files) => {
-            let filesLength = files.length;
+            const filesLength = files.length;
+
             let filesIndex = 0;
 
             files.map((file) => {
-                let source_name = file.match(/src[\/|\\]views[\/|\\](.*?)[\/|\\]/)[1];
+                const source_name = file.match(/src[\/|\\]views[\/|\\](.*?)[\/|\\]/)[1];
 
-                let b = watchify(browserify(Object.assign({}, config.browserify.options, watchify.args, {
+                const b = watchify(browserify(Object.assign({}, config.browserify.options, watchify.args, {
                         entries: file,
                         debug: true,
                     }))
@@ -396,7 +410,7 @@ export default (gulp, config) => {
                     if (config.useJsHint.available) jshintAppJs(); //运行js代码检测
 
                     b.bundle()
-                        .on('error', function(err) {
+                        .on('error', (err) => {
                             gutil.log(err.message);
                             bs.notify(err.message, 3000);
                             this.emit('end');
@@ -416,7 +430,7 @@ export default (gulp, config) => {
                         // })
                         .pipe(sourcemaps.write())
                         .pipe(gulp.dest(config.paths.dev.appjs))
-                        .on('end', function() {
+                        .on('end', () => {
                             filesIndex++;
 
                             if (bUpdate) reloadHandler();
@@ -433,7 +447,7 @@ export default (gulp, config) => {
                 /**
                  * 当任何依赖发生改变的时候，运行打包工具
                  */
-                b.on('update', function(ids) {
+                b.on('update', (ids) => {
                     bandle(true);
                 });
 
@@ -449,7 +463,7 @@ export default (gulp, config) => {
     function copyBowerFiles(cb) {
         if (!config.useInject.bower.available) return cb();
 
-        let cssFilter = filter('**/*.css', {
+        const cssFilter = filter('**/*.css', {
             restore: true
         });
 
@@ -483,8 +497,8 @@ export default (gulp, config) => {
      * 编译 html 文件
      */
     function compileHtml(cb) {
-        let injectBower = lazypipe()
-            .pipe(function() {
+        const injectBower = lazypipe()
+            .pipe(() => {
                 if (!config.useInject.bower.available) return buffer();
 
                 return inject(gulp.src(mainBowerFiles(), {
@@ -498,8 +512,8 @@ export default (gulp, config) => {
                 })
             });
 
-        let injectLib = lazypipe()
-            .pipe(function() {
+        const injectLib = lazypipe()
+            .pipe(() => {
                 return inject(gulp.src([`./dev/static/css/**/*common*.css`, `./dev/lib/**/*.js`, `!./dev/lib/**/*assign*.js`], {
                     read: false
                 }), {
@@ -510,9 +524,9 @@ export default (gulp, config) => {
                 })
             });
 
-        let injectHtml = function(es) {
-            return es.map(function(file, cb) {
-                let cateName = file.path.match(/((.*?)[\/|\\])*([^.]+).*/)[2];
+        const injectHtml = (es) => {
+            return es.map((file, cb) => {
+                const cateName = file.path.match(/((.*?)[\/|\\])*([^.]+).*/)[2];
 
                 gulp.src(file.path)
                     .pipe(plumber({
@@ -539,7 +553,7 @@ export default (gulp, config) => {
                         })
                     ))
                     .pipe(gulp.dest(config.paths.dev.html))
-                    .on("end", function() {
+                    .on("end", () => {
                         cb();
                     });
             });
@@ -594,14 +608,15 @@ export default (gulp, config) => {
      * 通用处理文件改动
      */
     function watchHandler(type, file) {
-        let target = file.match(/^src[\/|\\](.*?)[\/|\\]/)[1];
+        const target = file.match(/^src[\/|\\](.*?)[\/|\\]/)[1];
 
         if (target === "views") {
             /*监视页面*/
             if (type === 'removed') {
-                let tmp = file.replace('src/', 'dev/');
-                del([tmp]).then(function() {
-                    qrcodeViewHtml(config);
+                const tmp = file.replace('src/', 'dev/');
+
+                del([tmp]).then(() => {
+                    qrcodeViewHtml();
                 });
             } else {
                 compileHtml();
@@ -609,17 +624,18 @@ export default (gulp, config) => {
 
             if (type === 'add') {
                 setTimeout(function() {
-                    qrcodeViewHtml(config);
+                    qrcodeViewHtml();
                 }, 500);
             }
         } else if (target === "static") {
             /*监视静态资源*/
-            let staticFile = file.match(/^src[\/|\\]static[\/|\\](.*?)[\/|\\]/)[1];
+            const staticFile = file.match(/^src[\/|\\]static[\/|\\](.*?)[\/|\\]/)[1];
 
             switch (staticFile) {
                 case 'images':
                     if (type === 'removed') {
-                        let tmp = file.replace('src/', 'dev/');
+                        const tmp = file.replace('src/', 'dev/');
+
                         del([tmp]);
                     } else {
                         copyHandler('img', file);
@@ -628,7 +644,8 @@ export default (gulp, config) => {
 
                 case 'fonts':
                     if (type === 'removed') {
-                        let tmp = file.replace('src/', 'dev/');
+                        const tmp = file.replace('src/', 'dev/');
+
                         del([tmp]);
                     } else {
                         copyHandler('fonts', file);
@@ -637,7 +654,8 @@ export default (gulp, config) => {
 
                 case 'slice':
                     if (type === 'removed') {
-                        let tmp = file.replace('src/', 'dev/');
+                        const tmp = file.replace('src/', 'dev/');
+
                         del([tmp]);
                     } else {
                         copyHandler('slice', file);
@@ -650,7 +668,7 @@ export default (gulp, config) => {
                      */
                     // case 'js':
                     //     if (type === 'removed') {
-                    //         let tmp = file.replace('src/', 'dev/');
+                    //         const tmp = file.replace('src/', 'dev/');
                     //         del([tmp]);
                     //     } else {
                     //         copyHandler('js', file);
@@ -660,7 +678,8 @@ export default (gulp, config) => {
                 case 'styles':
 
                     if (type === 'removed') {
-                        let tmp = file.replace('src/', 'dev/').replace('.less', '.css').replace('.scss', '.css');
+                        const tmp = file.replace('src/', 'dev/').replace('.less', '.css').replace('.scss', '.css');
+
                         del([tmp]);
                     } else {
                         compileCss();
@@ -677,7 +696,7 @@ export default (gulp, config) => {
      * 使用 gulp 监听文件 改动
      */
     function watch(cb) {
-        let watcher = gulp.watch([
+        const watcher = gulp.watch([
             config.paths.src.img,
             config.paths.src.slice,
             config.paths.src.lib,
@@ -690,15 +709,15 @@ export default (gulp, config) => {
         });
 
         watcher
-            .on('change', function(file) {
+            .on('change', (file) => {
                 gutil.log(`${file} 已被修改`);
                 watchHandler('changed', file);
             })
-            .on('add', function(file) {
+            .on('add', (file) => {
                 gutil.log(`${file} 新文件已被添加`);
                 watchHandler('add', file);
             })
-            .on('unlink', function(file) {
+            .on('unlink', (file) => {
                 gutil.log(`${file} 已被删除`);
                 watchHandler('removed', file);
             });
@@ -711,7 +730,7 @@ export default (gulp, config) => {
      */
     function qrcodeViewHtml(cb) {
         if (config.useQrCodeHtml) {
-            qrCode(config, cb);
+            qrCode(cb);
         } else {
             cb();
         }

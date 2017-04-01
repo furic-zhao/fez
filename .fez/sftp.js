@@ -20,10 +20,21 @@ import sftp from 'gulp-sftp';
  */
 // import notify from 'gulp-notify';
 
-export default (gulp, config) => {
+/**
+ * 引入gulp
+ * https://github.com/gulpjs/gulp
+ */
+import gulp from 'gulp';
+
+/**
+ * 引入 .fezrc 配置
+ */
+import config from './utils/fezrc';
+
+export default () => {
 
     function sftpUpload() {
-        let sftpConfig = Object.assign({
+        const sftpConfig = Object.assign({
             "host": "xxx.xxx.xxx.xxx",
             "port": "22",
             "user": "user",
@@ -31,7 +42,7 @@ export default (gulp, config) => {
             "remotePath": ""
         }, config.sftp);
 
-        let distPath = config.sftp.includeHtml ? `${config.paths.dist.dir}/**/*` : [`${config.paths.dist.dir}/**/*`, `!${config.paths.dist.dir}/**/*.html`];
+        const distPath = config.sftp.includeHtml ? `${config.paths.dist.dir}/**/*` : [`${config.paths.dist.dir}/**/*`, `!${config.paths.dist.dir}/**/*.html`];
 
         return gulp.src(distPath, { base: config.paths.dist.dir })
             // .pipe(notify("Found file: <%= file.relative %>!"))
@@ -39,7 +50,8 @@ export default (gulp, config) => {
     }
 
     function gulpSeries() {
-        let distDir = fs.existsSync(config.paths.dist.dir);
+        const distDir = fs.existsSync(config.paths.dist.dir);
+
         if (distDir) {
             return gulp.series(
                 sftpUpload

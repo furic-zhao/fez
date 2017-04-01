@@ -52,8 +52,6 @@
 //     detectionWebp(setCssLink);
 // })();
 
-import gulp from 'gulp';
-
 /**
  * 深度遍历目录/列出目录下所有文件
  * https://www.npmjs.com/package/rd
@@ -96,7 +94,18 @@ import replace from 'gulp-replace';
  */
 import injectString from 'gulp-inject-string';
 
-export default (config, cb) => {
+/**
+ * 引入gulp
+ * https://github.com/gulpjs/gulp
+ */
+import gulp from 'gulp';
+
+/**
+ * 引入 .fezrc 配置
+ */
+import config from './fezrc';
+
+export default (cb) => {
 
     const webpScript = `<script>;(function(){function setCssLink(a){var b=document.getElementsByTagName("link");for(var i=0,linkLen=b.length;i<linkLen;i++){if(a){b[i].href=b[i].getAttribute("data-href").replace(".css",".webp.css")}else{b[i].href=b[i].getAttribute("data-href")}}}function detectionWebp(a){var b=window.localStorage;if(b!==undefined&&b.supportWebp!==undefined&&b.supportWebp===false){a(false);return false}else{if(b!==undefined&&b.supportWebp!==undefined&&b.supportWebp===true){a(true);return true}else{var c=new Image();c.onerror=function(){if(b!==undefined){b.supportWebp=false}a(false)};c.onload=function(){if(b!==undefined){b.supportWebp=true}a(true)};c.src='data:image/webp;base64,UklGRjIAAABXRUJQVlA4ICYAAACyAgCdASoBAAEALmk0mk0iIiIiIgBoSygABc6zbAAA/v56QAAAAA=='}}}detectionWebp(setCssLink)})();</script>`;
 

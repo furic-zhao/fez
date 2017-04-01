@@ -39,7 +39,18 @@ import _ from 'lodash';
  */
 import gutil from 'gulp-util';
 
-export default (gulp, config, cb, delTmp) => {
+/**
+ * 引入gulp
+ * https://github.com/gulpjs/gulp
+ */
+import gulp from 'gulp';
+
+/**
+ * 引入 .fezrc 配置
+ */
+import config from './fezrc';
+
+export default (cb, delTmp) => {
 
     function changed(dir) {
         const manifestPath = path.resolve(`${config.paths.src.dir}/manifest.json`);

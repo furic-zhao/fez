@@ -256,10 +256,24 @@ import webp from './utils/webp';
  */
 import incremental from './utils/incremental';
 
+/**
+ * CDN地址替换
+ * https://github.com/kaiqigong/gulp-cdnify
+ */
 import cdnify from 'gulp-cdnify';
 
+/**
+ * 引入gulp
+ * https://github.com/gulpjs/gulp
+ */
+import gulp from 'gulp';
 
-export default (gulp, config) => {
+/**
+ * 引入 .fezrc 配置
+ */
+import config from './utils/fezrc';
+
+export default () => {
 
     /**
      * 清除 dist 目录
@@ -272,16 +286,19 @@ export default (gulp, config) => {
      * 编译css/less/sass
      **/
     function compileCss() {
-        let lessCondition = config.cssCompiler === 'less';
-        let sassCondition = config.cssCompiler === 'sass';
+        const lessCondition = config.cssCompiler === 'less';
+        const sassCondition = config.cssCompiler === 'sass';
 
-        let sourcePath = () => {
-            if (config.cssCompiler === 'sass') {
-                return config.paths.src.sass;
-            } else if (config.cssCompiler === 'less') {
-                return config.paths.src.less;
-            } else {
-                return config.paths.src.css;
+        function sourcePath() {
+            switch (config.cssCompiler) {
+                case 'sass':
+                    return config.paths.src.sass;
+                    break;
+                case 'less':
+                    return config.paths.src.less;
+                    break;
+                default:
+                    return config.paths.src.css;
             }
         }
 
@@ -373,7 +390,7 @@ export default (gulp, config) => {
          * "pc": ["last 3 versions", "Explorer >= 8", "Chrome >= 21", "Firefox >= 1", "Edge 13"],
          * "all":["Android >= 4", "iOS >= 6", "last 3 versions", "Explorer >= 8", "Chrome >= 21", "Firefox >= 1", "Edge 13"]
          */
-        let postcssOption = [postcssAutoprefixer({
+        const postcssOption = [postcssAutoprefixer({
             browsers: ["Android >= 4", "iOS >= 6", "last 3 versions", "Explorer >= 8", "Chrome >= 21", "Firefox >= 1", "Edge 13"]
         })];
 
@@ -396,13 +413,14 @@ export default (gulp, config) => {
         });
 
         glob(config.paths.src.appJs, (err, files) => {
-            let filesLength = files.length;
+            const filesLength = files.length;
+
             let filesIndex = 0;
 
             files.map((file) => {
-                let source_name = file.match(/src[\/|\\]views[\/|\\](.*?)[\/|\\]/)[1];
+                const source_name = file.match(/src[\/|\\]views[\/|\\](.*?)[\/|\\]/)[1];
 
-                let b = browserify(Object.assign({}, config.browserify.options, {
+                const b = browserify(Object.assign({}, config.browserify.options, {
                         entries: file,
                         debug: false,
                     }))
@@ -481,13 +499,13 @@ export default (gulp, config) => {
     function copyBowerFiles(cb) {
         if (!config.useInject.bower.available) return cb();
 
-        let jsFilter = filter('**/*.js', {
+        const jsFilter = filter('**/*.js', {
             restore: true
         });
-        let cssFilter = filter('**/*.css', {
+        const cssFilter = filter('**/*.css', {
             restore: true
         });
-        let fontFilter = filter('**/*.{eot,svg,ttf,woff,woff2}');
+        const fontFilter = filter('**/*.{eot,svg,ttf,woff,woff2}');
 
         return gulp.src(mainBowerFiles())
             .pipe(jsFilter)
@@ -521,6 +539,7 @@ export default (gulp, config) => {
         if (!config.useInject.bower.available || config.useInject.bower.js.length === 0) return cb();
 
         let fileIndex = 0;
+
         for (let elem of config.useInject.bower.js) {
             gulp.src('./tmp/bower/**/*.js')
                 .pipe(filter(elem.contain))
@@ -533,6 +552,7 @@ export default (gulp, config) => {
                 .pipe(gulp.dest(config.paths.tmp.appjs))
                 .on("end", () => {
                     fileIndex++;
+
                     let delFiles = [];
 
                     for (let item of elem.contain) {
@@ -638,6 +658,7 @@ export default (gulp, config) => {
                 .pipe(gulp.dest(config.paths.tmp.appjs))
                 .on("end", () => {
                     fileIndex++;
+
                     let delFiles = [];
 
                     for (let item of elem.contain) {
@@ -689,7 +710,7 @@ export default (gulp, config) => {
      **/
     function compileHtml(cb) {
         //压缩编译html
-        let htmlMinPipe = lazypipe()
+        const htmlMinPipe = lazypipe()
             .pipe(() => {
                 return usemin({
                     html: [() => {
@@ -710,7 +731,7 @@ export default (gulp, config) => {
             });
 
         //合并后的bower文件注入
-        let injectBowerFiles = lazypipe()
+        const injectBowerFiles = lazypipe()
             .pipe(() => {
                 return inject(gulp.src([`./tmp/static/js/*vendor*.js`, `./tmp/static/css/*vendor*.css`], {
                     read: false
@@ -722,7 +743,7 @@ export default (gulp, config) => {
             });
 
         //公共文件注入
-        let injectLibFiles = lazypipe()
+        const injectLibFiles = lazypipe()
             .pipe(() => {
                 return inject(gulp.src([`./tmp/static/css/*common*.css`, `./tmp/static/js/*common*.js`, `!./tmp/static/js/*assign*.js`], {
                     read: false
@@ -734,7 +755,7 @@ export default (gulp, config) => {
             })
 
         //处理页面
-        let injectHtml = (es) => {
+        const injectHtml = (es) => {
             return es.map((file, cb) => {
                 let cateName = file.path.match(/((.*?)[\/|\\])*([^.]+).*/)[2];
 
@@ -837,7 +858,8 @@ export default (gulp, config) => {
             }
         }
 
-        let webpTask = webp(config);
+        const webpTask = webp();
+
         return webpTask();
     }
 
@@ -847,13 +869,14 @@ export default (gulp, config) => {
     function reversion(cb) {
         if (!config.useMd5.available) return cb();
 
-        let revAllConfig = Object.assign({}, {
+        const revAllConfig = Object.assign({}, {
             fileNameManifest: 'manifest.json',
             dontRenameFile: ['.html', '.php'],
             dontUpdateReference: ['.html'],
             transformFilename: (file, hash) => {
-                let filename = path.basename(file.path);
-                let ext = path.extname(file.path);
+                const filename = path.basename(file.path);
+
+                const ext = path.extname(file.path);
 
                 return `${path.basename(file.path, ext)}.${hash.substr(0, config.useMd5.options.hashLength || 8)}${ext}`;
 
@@ -876,9 +899,7 @@ export default (gulp, config) => {
      */
     function compileChanged(cb) {
         //清除 tmp 目录
-        let delTmp = () => {
-            return del([config.paths.tmp.dir]);
-        }
+        const delTmp = () => del([config.paths.tmp.dir]);
 
         if (!config.compileChanged) {
             return gulp.src(`${config.paths.tmp.dir}/**/*`, {
@@ -889,7 +910,7 @@ export default (gulp, config) => {
                     delTmp();
                 });
         } else {
-            return incremental(gulp, config, cb, delTmp);
+            return incremental(cb, delTmp);
         }
     }
 

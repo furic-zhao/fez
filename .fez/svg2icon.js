@@ -10,12 +10,24 @@
 import gutil from 'gulp-util';
 
 import iconfont from 'gulp-iconfont';
+
 import iconfontCss from 'gulp-iconfont-css';
 
-export default (gulp, config) => {
+/**
+ * 引入gulp
+ * https://github.com/gulpjs/gulp
+ */
+import gulp from 'gulp';
+
+/**
+ * 引入 .fezrc 配置
+ */
+import config from './utils/fezrc';
+
+export default () => {
 
     function svg2icon() {
-        let runTimestamp = Math.round(Date.now() / 1000);
+        const runTimestamp = Math.round(Date.now() / 1000);
 
         return gulp.src(`${config.svgIcons.src}**/*.svg`)
             .pipe(iconfontCss({

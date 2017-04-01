@@ -15,7 +15,18 @@ import fs from 'fs';
  */
 import zip from 'gulp-zip';
 
-export default (gulp, config) => {
+/**
+ * 引入gulp
+ * https://github.com/gulpjs/gulp
+ */
+import gulp from 'gulp';
+
+/**
+ * 引入 .fezrc 配置
+ */
+import config from './utils/fezrc';
+
+export default () => {
 
     function distZip() {
         return gulp.src(`${config.paths.dist.dir}/**/*`)
@@ -24,7 +35,8 @@ export default (gulp, config) => {
     }
 
     function gulpSeries() {
-        let distDir = fs.existsSync(config.paths.dist.dir);
+        const distDir = fs.existsSync(config.paths.dist.dir);
+
         if (distDir) {
             return gulp.series(
                 distZip
