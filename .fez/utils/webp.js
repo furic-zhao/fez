@@ -111,12 +111,17 @@ export default (config, cb) => {
         /**
          * 通用查找所有的webp图片
          */
-        rd.eachFileSync(src, function(file, stats) {
-            let extname = path.extname(file);
-            let basename = path.basename(file, extname);
+        rd.eachFileSync(src, (file, stats) => {
+            const extname = path.extname(file);
+
+            const basename = path.basename(file, extname);
+
             if (!(basename in webpMap)) {
+
                 webpMap[basename] = {};
+
                 webpMap[basename]['size'] = stats.size;
+
                 webpMap[basename]['extname'] = extname;
             } else {
                 /**
@@ -124,6 +129,7 @@ export default (config, cb) => {
                  */
                 if ((webpMap[basename]['size'] > stats.size) && (extname === '.webp')) {
                     imgArr.push(basename + webpMap[basename]['extname']);
+
                     allImages[basename + webpMap[basename]['extname']] = 1;
                 } else {
                     allImages[basename + webpMap[basename]['extname']] = 0;
@@ -145,7 +151,8 @@ export default (config, cb) => {
      * 将 编译过的 images 目录下的图片转换成 .webp 格式
      */
     function compileWebpImg() {
-        let webpConfig = Object.assign({}, config.useWebp.options);
+        const webpConfig = Object.assign({}, config.useWebp.options);
+
         return gulp.src(`${config.paths.tmp.img}/**/*`)
             .pipe(gulpWebp(webpConfig))
             .pipe(gulp.dest(config.paths.tmp.img));
@@ -155,7 +162,9 @@ export default (config, cb) => {
      */
     function webpImgNames(cb) {
         render_webp(config.paths.tmp.sprite);
+
         render_webp(config.paths.tmp.img);
+
         if (imgArr.length) {
             reg = eval('/(' + imgArr.join('|') + ')/ig');
         }
@@ -170,7 +179,7 @@ export default (config, cb) => {
             .pipe(rename({
                 suffix: '.webp'
             }))
-            .pipe(replace(reg, function(match) {
+            .pipe(replace(reg, (match) => {
                 if (match) {
                     return match.substring(0, match.lastIndexOf('.')) + '.webp';
                 }

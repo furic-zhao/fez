@@ -25,34 +25,34 @@ import localIp from 'quick-local-ip';
 export default (config, cb = () => {}) => {
     let htmlPages = []; //所有html页面
 
-    let devPathLen = config.paths.dev.html.length; //研发目录路径字符长度
+    const devPathLen = config.paths.dev.html.length; //研发目录路径字符长度
 
-    let ip = localIp.getLocalIP4();
+    const ip = localIp.getLocalIP4();
 
     /**
      * 遍历目录所有文件
      * http://nodejs.cn/api/fs.html#fs_fs_readdirsync_path_options
      */
     function dirAllFiles(dir) {
-        let collector = {
+        const collector = {
             'name': dir,
             'type': 'dir',
             'url': '',
             'child': []
         };
 
-        let files = fs.readdirSync(dir); //
+        const files = fs.readdirSync(dir); //
 
         files.forEach((file) => {
-            let absolutePath = dir + '/' + file; //文件绝对地址
+            const absolutePath = dir + '/' + file; //文件绝对地址
 
             /**
              * 返回一个stats 实例
              * http://nodejs.cn/api/fs.html#fs_class_fs_stats
              */
-            let stats = fs.statSync(absolutePath);
+            const stats = fs.statSync(absolutePath);
 
-            let url = absolutePath.substring(devPathLen + 1); //截取开发目录路径
+            const url = absolutePath.substring(devPathLen + 1); //截取开发目录路径
 
             if (stats.isDirectory() && (stats.isDirectory() !== '.' || stats.isDirectory() !== '..')) {
                 //如果是目录 继续遍历
@@ -72,8 +72,8 @@ export default (config, cb = () => {}) => {
      * 遍历出所有的html文件
      */
     function showdir(collector, level) {
-        let file = collector['name'];
-        let basename = path.basename(file);
+        const file = collector['name'];
+        const basename = path.basename(file);
 
         if (collector['type'] == 'dir') {
             collector['child'].forEach((item) => {
@@ -84,6 +84,7 @@ export default (config, cb = () => {}) => {
         if (collector['type'] == 'file') {
             if (path.extname(file) === '.html' && basename !== 'zindex.html') {
                 let pageItem = {};
+
                 pageItem.name = collector['name'];
                 pageItem.url = collector['url'];
                 htmlPages.push(pageItem);
@@ -94,7 +95,7 @@ export default (config, cb = () => {}) => {
 
     showdir(dirAllFiles(config.paths.dev.html), 0);
 
-    let zindexHtml = `<!DOCTYPE html>
+    const zindexHtml = `<!DOCTYPE html>
 <html>
 
 <head>
@@ -217,15 +218,18 @@ export default (config, cb = () => {}) => {
 </html>
 `;
 
-    let out = fs.createWriteStream(config.paths.dev.html + '/zindex.html', {
+    const out = fs.createWriteStream(config.paths.dev.html + '/zindex.html', {
         encoding: "utf8"
     });
+
     out.write(zindexHtml, (err) => {
         if (err) console.log(err);
     });
+
     out.end();
 
     // 复制目录
     common.exists('../.fez/utils/zindex', config.paths.dev.html + '/zindex', common.copy);
+
     cb();
 }
