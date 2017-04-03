@@ -9,21 +9,21 @@ import Footer from 'public/module/common/footer';
 import urlParam from 'public/utils/url-param';
 
 urlParam('id').then((data) => {
-	let Page = React.createClass({
-		render() {
-			return (
-				<div>
+  let Page = React.createClass({
+    render() {
+      return (
+        <div>
         <Header />
         <Jumbotron id={data}/>
         <Detail id={data}/>
         <Footer />
         </div>
-			);
-		}
-	});
+      );
+    }
+  });
 
-	ReactDOM.render(
-		<Page />,
-		document.getElementById('app')
-	);
+  ReactDOM.render(
+    <Page />,
+    document.getElementById('app')
+  );
 });

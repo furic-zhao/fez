@@ -7,20 +7,20 @@ import Listing from './module/listing/index';
 import Footer from 'public/module/common/footer';
 
 
-let Page = React.createClass({
-	render() {
-		return (
-			<div>
+const Page = React.createClass({
+  render() {
+    return (
+      <div>
         <Header />
         <Jumbotron />
         <Listing />
         <Footer />
-        </div>
-		);
-	}
+      </div>
+    );
+  }
 });
 
 ReactDOM.render(
-	<Page />,
-	document.getElementById('app')
+  <Page />,
+  document.getElementById('app')
 );
