@@ -16,12 +16,23 @@ const config = require('rc')('fez', {
     "projectName": process.cwd().split(path.sep).pop(),
 
     /**
-     * 研发环境 browsersync配置信息
+     * browsersync配置信息
+     * 配置参考【仅对optons】 http://www.browsersync.cn/docs/options/
      */
     "browsersync": {
-        "available": true, //开启浏览器自动化刷新
-        "port": 8080, //本地服务器的默认端口
-        "startPath": "zindex.html" //打开浏览器默认访问的页面
+        "dev": {
+            "available": true, //研发环境 开启浏览器自动化刷新
+            "options": {
+                "port": 8080, //研发环境 本地服务器的默认端口
+                "startPath": "zindex.html" //研发环境 打开浏览器默认访问的页面
+            }
+        },
+        "dist": {
+            "options": {
+                "port": 9090, //本地测试生产环境及 默认端口
+                "startPath": "index.html" //生产环境 打开浏览器默认访问的页面
+            }
+        }
     },
 
     /**

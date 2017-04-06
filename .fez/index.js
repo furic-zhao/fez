@@ -46,6 +46,11 @@ import gulpZip from './zip';
 import gulpSvg2Icon from './svg2icon';
 
 /**
+ * 本地测试生产环境
+ */
+import gulpView from './view';
+
+/**
  * 默认任务(执行研发任务)
  * gulp
  */
@@ -67,4 +72,5 @@ export default () => {
     gulpSftp();
     gulpZip();
     gulpSvg2Icon();
+    gulpView();
 };

@@ -116,11 +116,14 @@ import source from 'vinyl-source-stream';
 import buffer from 'vinyl-buffer';
 import sourcemaps from 'gulp-sourcemaps';
 
-/*加入对es6的支持*/
+/**
+ * 加入对es6的支持
+ */
 import babelify from 'babelify';
 
-/*browserify 处理多文件
-https://github.com/isaacs/node-glob
+/**
+ * browserify 处理多文件
+ * https://github.com/isaacs/node-glob
  */
 import glob from 'glob';
 
@@ -142,9 +145,10 @@ import pugify from 'pugify';
  */
 import cssify from 'cssify';
 
-/*borwserify 支持 require less样式
-https://github.com/dstokes/lessify
-*/
+/**
+ * borwserify 支持 require less样式
+ * https://github.com/dstokes/lessify
+ */
 import lessify from 'lessify';
 
 /**
@@ -162,14 +166,16 @@ import vueify from 'vueify';
  * 以下为研发环境单独使用模块
  *****************************/
 
-/*自动刷新浏览器
-https://browsersync.io/docs/gulp
+/**
+ * 多终端测试
+ * https://browsersync.io/docs/gulp
  */
 import bs from 'browser-sync';
 bs.create();
 
-/* 提高browserify 的处理效率
-https://github.com/substack/watchify
+/**
+ * 提高browserify 的处理效率
+ * https://github.com/substack/watchify
  */
 import watchify from 'watchify';
 
@@ -207,7 +213,7 @@ export default () => {
      * 调用browsersync自动刷新浏览器
      */
     function reloadHandler() {
-        config.browsersync.available && bs.reload();
+        config.browsersync.dev.available && bs.reload();
     }
 
     /**
@@ -413,7 +419,7 @@ export default () => {
                         .on('error', (err) => {
                             gutil.log(err.message);
                             bs.notify(err.message, 3000);
-                            this.emit('end');
+                            // this.emit('end');
                         })
                         .pipe(plumber({
                             errorHandler: notify.onError("Error: <%= error.message %>")
@@ -572,8 +578,8 @@ export default () => {
      * 配置参考：http://www.browsersync.cn/docs/options/
      */
     function startServer() {
-        bs.init({
-            //在Chrome浏览器中打开网站 
+        bs.init(Object.assign({
+            //在Chrome浏览器中打开网站
             // open: "external",
             // browser: "google chrome",
             socket: {
@@ -583,8 +589,8 @@ export default () => {
             ui: {
                 port: 5050
             },
-            port: config['browsersync']['port'] || 8080,
-            startPath: config['browsersync']['startPath'] || '/',
+            port: 8080,
+            startPath: '/',
             notify: { //自定制livereload 提醒条
                 styles: [
                     "margin: 0",
@@ -601,7 +607,7 @@ export default () => {
                     "text-align: center"
                 ]
             }
-        });
+        }, config.browsersync.dev.options));
     }
 
     /**
