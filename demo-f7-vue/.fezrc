@@ -27,20 +27,6 @@
     },
 
     /**
-     * 研发环境 Javascript 语法自动化测试
-     * .jshintrc可做详细配置
-     */
-    "useJsHint": {
-        "available": false, //启用 jshint 自动化测试
-        "files": "./src/views/**/*.js" //检测文件
-    },
-
-    /**
-     * 选择css编译器【取值:less/sass/css】
-     */
-    "cssCompiler": "less",
-
-    /**
      * 启用 PX => REM 自动化转换
      * 如果启用 REM 转换需要在公共样式中对<html>设置基准值
      * 通过 media媒体查询 为 <html> 设置不同值 以实现在不同的屏幕中等比缩放
@@ -60,21 +46,6 @@
                 "mediaQuery": false, //允许在媒体查询中转换px
                 "minPixelValue": 0 //设置要替换的最小像素值
             }
-        }
-    },
-
-    /**
-     * 生产环境 启用 图片 => webp 自动化转换
-     * 配置参考：https://github.com/imagemin/imagemin-webp
-     */
-    "useWebp": {
-        "available": false,
-        "options": {
-            "quality": 75, //将质量因子设置为0到100。
-            "alphaQuality": 100, //将透明度 - 压缩质量设置为0到100。
-            "method": 4, //指定要使用的压缩方法，介于0（最快）和6（最慢）之间。此参数控制编码速度与压缩文件大小和质量之间的折衷。
-            "sns": 80, //设置空间噪声整形的幅度在0和100之间
-            "lossless": false //无损编码图像
         }
     },
 

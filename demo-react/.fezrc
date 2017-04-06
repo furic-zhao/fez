@@ -5,15 +5,6 @@
      * ================================== */
 
     /**
-     * 研发环境 browsersync配置信息
-     */
-    "browsersync": {
-        "available": true, //开启浏览器自动化刷新
-        "port": 8080, //本地服务器的默认端口
-        "startPath": "zindex.html" //打开浏览器默认访问的页面
-    },
-
-    /**
      * bowserify配置
      */
     "browserify": {
@@ -37,82 +28,6 @@
             "import": "ReactDOM",
             "from": "react-dom"
         }]
-    },
-
-    /**
-     * 研发环境 Javascript 语法自动化测试
-     * .jshintrc可做详细配置
-     */
-    "useJsHint": {
-        "available": false, //启用 jshint 自动化测试
-        "files": "./src/views/**/*.js" //检测文件
-    },
-
-    /**
-     * 选择css编译器【取值:less/sass/css】
-     */
-    "cssCompiler": "less",
-
-    /**
-     * 启用 PX => REM 自动化转换
-     * 如果启用 REM 转换需要在公共样式中对<html>设置基准值
-     * 通过 media媒体查询 为 <html> 设置不同值 以实现在不同的屏幕中等比缩放
-     */
-    "useREM": {
-        "css": {
-            "available": false, //启用 css 中的 px => rem 转换 【包含less,sass】
-            /**
-             * 配置参考：https://github.com/cuth/postcss-pxtorem
-             */
-            "options": {
-                "rootValue": 16, //相对于html根字体大小
-                "unitPrecision": 5, //允许REM单位增长到的十进制数
-                "propList": ["*"], //可以从px更改为rem的属性
-                "selectorBlackList": [], //要忽略的选择器
-                "replace": true, //替换包含rems的规则，而不是添加fallback
-                "mediaQuery": false, //允许在媒体查询中转换px
-                "minPixelValue": 0 //设置要替换的最小像素值
-            }
-        }
-    },
-
-    /**
-     * 生产环境 启用 图片 => webp 自动化转换
-     * 配置参考：https://github.com/imagemin/imagemin-webp
-     */
-    "useWebp": {
-        "available": false,
-        "options": {
-            "quality": 75, //将质量因子设置为0到100。
-            "alphaQuality": 100, //将透明度 - 压缩质量设置为0到100。
-            "method": 4, //指定要使用的压缩方法，介于0（最快）和6（最慢）之间。此参数控制编码速度与压缩文件大小和质量之间的折衷。
-            "sns": 80, //设置空间噪声整形的幅度在0和100之间
-            "lossless": false //无损编码图像
-        }
-    },
-
-    /**
-     * 生产环境 上传sftp服务器配置信息
-     */
-    "sftp": {
-        "host": "xxx.xxx.xxx.xxx",
-        "port": "22",
-        "user": "root",
-        "password": "",
-        "remotePath": "/var/www/html/fez-demo",
-        "includeHtml": true //是否包含 html 文件
-    },
-
-    /**
-     * 生产环境 启用CDN静态资源url替换
-     */
-    "useCdn": {
-        "available": false,
-        "base": "http://fezcdn.com/", //默认CDN地址
-        "js": "http://js.fezcdn.com/", //脚本CDN地址
-        "css": "http://css.fezcdn.com/", //样式CDN地址
-        "images": "http://img.fezcdn.com/", //图片CDN地址
-        "fonts": "http://fonts.fezcdn.com/" //字体CDN地址
     },
 
     /**html自动化注入文件*
