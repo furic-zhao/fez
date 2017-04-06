@@ -1,3 +1,5 @@
+import $ from 'jquery'
+
 import header from 'public/module/header'
 header($("#js-header"))
 

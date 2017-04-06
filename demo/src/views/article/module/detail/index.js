@@ -1,9 +1,12 @@
 import temp from './index.hbs'
+
 import jumbotronTemp from './jumbotron.hbs'
 
 import Service from './service'
 
 import urlParam from 'public/utils/url-param'
+
+import $ from 'jquery'
 
 export default ($box = $("body")) => {
     urlParam('id').then((data) => {
