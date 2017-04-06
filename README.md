@@ -207,6 +207,12 @@ gulp zip
 gulp svg2icon
 ````
 
+- 本地测试生产环境
+
+````bash
+gulp view
+````
+
 ## 待续...
 
 
