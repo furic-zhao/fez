@@ -7,7 +7,7 @@
 
 > 模块化是一种处理复杂系统分解为更好的可管理模块的方式。每个模块完成一个特定的子功能，所有的模块再进行统一的拼装和加载，成为一个整体，完成整个系统所要求的功能。
 
-[FEZ](http://fez.hestudy.com) 支持使用[ES6 Module](http://es6.ruanyifeng.com/#docs/module)来组织前端代码，并支持使用ES6标准特性开发项目，通过编译完美运行在浏览器中。可以整合如[Vue](https://cn.vuejs.org/)、[React](https://github.com/facebook/react)等MVVM框架实现[单文件组件](https://cn.vuejs.org/v2/guide/single-file-components.html)形式的高效开发体验。
+[FEZ](http://fez.hestudy.com) 支持使用[ES6 Module](http://es6.ruanyifeng.com/#docs/module)来组织前端代码，并支持使用ES6标准特性开发项目，通过[Babel](http://babeljs.cn/)编译完美运行在浏览器中。可以整合如[Vue](https://cn.vuejs.org/)、[React](https://github.com/facebook/react)等MVVM框架实现[单文件组件](https://cn.vuejs.org/v2/guide/single-file-components.html)形式的高效开发体验。
 
 > 有关模块化的更多知识请参考：【[https://github.com/fouber/blog](https://github.com/fouber/blog)】【[https://www.zhihu.com/question/37011441](https://www.zhihu.com/question/37011441)】
 
@@ -77,19 +77,19 @@ static
 
 #### 统一的职责划分
 
-- Service.js 专职提供各种方法处理API数据
-- .hbs 或 .jade 负责页面的html模板
-- index.js 或 index.vue 负责数据展现和交互操作
+- Service.js `专职提供各种方法处理API数据`
+- .hbs 或 .jade `负责页面的html模板`
+- index.js 或 index.vue `负责数据展现和交互操作`
 
 > 规范化在项目中对于后续功能的扩展和可维护性起着非常重要的作用，直接影响项目的开发质量和功能迭代速度。
 
-- 【目录结构规范化】
+- 【目录结构规范化】FEZ支持可定制化的目录结构
 - 【代码规范化】FEZ可开启JSHint对JS代码做规范性的自动化检测
 - 【前后端接口规范化】FEZ 附带有[API文档编写平台](http://doc.hestudy.com)
 
 ### 开发自动化
 
-> 任何机械的重复性的工作都应该交给程序完成。FEZ集成了大量自动化前端工作流。
+> FEZ 集成了大量自动化前端工作流。任何机械的重复性的工作都应该交给 FEZ 来完成。
 
 - 自动化搭建本地研发环境，快速响应文件更改并自动刷新浏览器。
 - 自动化编译ES6或CommonJS标准的JS代码，自动化生成source map便于浏览器端调试。
@@ -104,7 +104,9 @@ static
 - 自动化注入WebP浏览器支持检测脚本并替换所有的WebP文件。
 - 自动化生成所有静态资源的MD5版本号。
 - 自动化将所有静态资源添加CDN前缀。
+- 自动化搭建用于测试上线代码的多终端测试环境。
 - 自动化通过SFTP部署上线、或部署静态资源。
+
 
 ## 安装使用
 
@@ -128,16 +130,15 @@ npm install gulpjs/gulp#4.0 -g
 ```
 
 - 详情请参考 Github 社区 [Gulp](https://github.com/gulpjs/gulp)
-- 目前Gulp发行版本是3.9.1，虽然4.0还未发布，依然阻止不了我们使用它高效的构建我们的项目。
 
-> 如果安装过全局的非4.0版本 gulp 请先卸载 `npm uninstall gulp -g`
+> 目前Gulp发行版本是3.9.1，如果安装过全局的非4.0版本 gulp 请先卸载 `npm uninstall gulp -g`
 
 #### 全局安装 Bower
 
 ```bash
 npm install bower -g
 ```
-> 使用Bower主要是为了管理从 github 下载的第三方框架库，通过页面自动化注入技术解决页面框架库的引入和管理问题，如果想用固定的CDN资源，手动的引入页面，可以不安装，并在 项目根目录.fezrc 配置文件中将此配置关闭
+> 使用Bower主要是为了管理第三方框架库，通过页面自动化注入技术解决页面框架库的引入和管理问题，如果想用固定的CDN资源，或手动的引入页面，可以不安装，并在 项目根目录.fezrc 配置文件中将此配置关闭
 
 ### 运行 Demo 示例项目
 
