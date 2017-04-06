@@ -7,16 +7,7 @@
 
 > 模块化是一种处理复杂系统分解为更好的可管理模块的方式。每个模块完成一个特定的子功能，所有的模块再进行统一的拼装和加载，成为一个整体，完成整个系统所要求的功能。
 
-[FEZ](http://fez.hestudy.com) 支持使用[ES6 Module](http://es6.ruanyifeng.com/#docs/module)来组织前端代码，并支持使用ES6标准特性开发项目，通过编译完美运行在浏览器中。可以整合如[Vue](https://cn.vuejs.org/)等MVVM框架实现[单文件组件](https://cn.vuejs.org/v2/guide/single-file-components.html)形式的高效开发体验。
-
-#### Javascript 模块化历史
-- 上古时期  Module 设计模式
-- 石器时代  Script Loader  不仅需要封装，还需要加载
-- 蒸汽朋克  Module Loader  模块化架构的工业革命
-- 号角吹响  CommonJS  征服世界的第一步要跳出浏览器
-- 双塔奇兵  AMD/CMD  浏览器环境模块化方案
-- 精灵宝钻  Browserify/Webpack  大势所趋，去掉这层包裹！
-- 王者归来  ES6 Module  最后的战役
+[FEZ](http://fez.hestudy.com) 支持使用[ES6 Module](http://es6.ruanyifeng.com/#docs/module)来组织前端代码，并支持使用ES6标准特性开发项目，通过编译完美运行在浏览器中。可以整合如[Vue](https://cn.vuejs.org/)、[React](https://github.com/facebook/react)等MVVM框架实现[单文件组件](https://cn.vuejs.org/v2/guide/single-file-components.html)形式的高效开发体验。
 
 > 有关模块化的更多知识请参考：【[https://github.com/fouber/blog](https://github.com/fouber/blog)】【[https://www.zhihu.com/question/37011441](https://www.zhihu.com/question/37011441)】
 
