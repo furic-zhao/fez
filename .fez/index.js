@@ -48,7 +48,7 @@ import gulpSvg2Icon from './svg2icon';
 /**
  * 本地测试生产环境
  */
-import gulpView from './view';
+import gulpTest from './test';
 
 /**
  * 默认任务(执行研发任务)
@@ -72,5 +72,5 @@ export default () => {
     gulpSftp();
     gulpZip();
     gulpSvg2Icon();
-    gulpView();
+    gulpTest();
 };

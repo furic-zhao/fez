@@ -11,6 +11,11 @@ import bs from 'browser-sync';
 bs.create();
 
 /**
+ * 引入开发环境生成二维码页面模块
+ */
+import qrCode from './utils/zindex';
+
+/**
  * Nodejs处理文件
  * http://nodejs.cn/api/fs
  */
@@ -30,6 +35,28 @@ import config from './utils/fezrc';
 export default () => {
 
     /**
+     * 测试环境生成二维码方便在移动端浏览测试
+     */
+    function qrcodeViewHtml(cb) {
+        if (config.useQrCodeHtml) {
+            qrCode(cb, config.paths.test.html);
+        } else {
+            cb();
+        }
+    }
+
+    /**
+     * 拷贝 dist 目录下所有文件到测试目录
+     */
+    function copyDistToTest(cb) {
+
+        return gulp.src(`${config.paths.dist.dir}/**/*`, {
+                base: config.paths.dist.dir
+            })
+            .pipe(gulp.dest(config.paths.test.dir));
+    }
+
+    /**
      * 启动 browsersync
      * 配置参考：http://www.browsersync.cn/docs/options/
      */
@@ -41,7 +68,7 @@ export default () => {
             socket: {
                 namespace: '/fez'
             },
-            server: config.paths.dist.dir,
+            server: config.paths.test.dir,
             ui: {
                 port: 3030
             },
@@ -63,7 +90,7 @@ export default () => {
                     "text-align: center"
                 ]
             }
-        }, config.browsersync.dist.options));
+        }, config.browsersync.test.options));
     }
 
     function gulpSeries() {
@@ -71,11 +98,15 @@ export default () => {
 
         if (distDir) {
             return gulp.series(
+                copyDistToTest,
+                qrcodeViewHtml,
                 startServer
             );
         } else {
             return gulp.series(
                 'dist',
+                copyDistToTest,
+                qrcodeViewHtml,
                 startServer
             );
         }
@@ -84,7 +115,7 @@ export default () => {
     /**
      * 启动本地服务 测试 dist 目录
      */
-    gulp.task('view', gulp.series(
+    gulp.task('test', gulp.series(
         gulpSeries()
     ));
 }

@@ -27,10 +27,10 @@ const config = require('rc')('fez', {
                 "startPath": "zindex.html" //研发环境 打开浏览器默认访问的页面
             }
         },
-        "dist": {
+        "test": {
             "options": {
-                "port": 9090, //本地测试生产环境及 默认端口
-                "startPath": "index.html" //生产环境 打开浏览器默认访问的页面
+                "port": 8080, //本地测试生产环境 默认端口
+                "startPath": "zindex.html" //生产环境 打开浏览器默认访问的页面
             }
         }
     },
@@ -350,6 +350,25 @@ const config = require('rc')('fez', {
             "sprite": "./dist/static/sprite", //自动生成雪碧图后的存放目录
 
             "html": "./dist" //html编译后的存放目录
+        },
+
+        /**
+         * 测试目录配置
+         */
+        "test": {
+            "dir": "./test", //测试环境 根目录
+
+            "appjs": "./test/static/js", //编译后脚本代码存放目录
+
+            "css": "./test/static/css", //编译后的css代码存放目录
+
+            "fonts": "./test/static/fonts", //编译后的字体文件存放目录
+
+            "img": "./test/static/images", //压缩后的图片存放目录
+
+            "sprite": "./test/static/sprite", //自动生成雪碧图后的存放目录
+
+            "html": "./test" //html编译后的存放目录
         }
     }
 });

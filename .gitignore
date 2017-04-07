@@ -6,5 +6,6 @@ npm-debug.log
 .zip
 dev
 dist
+test
 tmp
-*-web
+fez-*

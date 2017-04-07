@@ -27,78 +27,81 @@ import localIp from 'quick-local-ip';
  */
 import config from './fezrc';
 
-export default (cb = () => {}) => {
-    let htmlPages = []; //所有html页面
+let htmlPages = []; //所有html页面
 
-    const devPathLen = config.paths.dev.html.length; //研发目录路径字符长度
+/**
+ * 遍历目录所有文件
+ * http://nodejs.cn/api/fs.html#fs_fs_readdirsync_path_options
+ */
+function dirAllFiles(dir) {
+    const devPathLen = dir.length; //研发目录路径字符长度
+
+    const collector = {
+        'name': dir,
+        'type': 'dir',
+        'url': '',
+        'child': []
+    };
+
+    const files = fs.readdirSync(dir); //
+
+    files.forEach((file) => {
+        const absolutePath = dir + '/' + file; //文件绝对地址
+
+        /**
+         * 返回一个stats 实例
+         * http://nodejs.cn/api/fs.html#fs_class_fs_stats
+         */
+        const stats = fs.statSync(absolutePath);
+
+        const url = absolutePath.substring(devPathLen + 1); //截取开发目录路径
+
+        if (stats.isDirectory() && (stats.isDirectory() !== '.' || stats.isDirectory() !== '..')) {
+            //如果是目录 继续遍历
+            collector['child'].push(dirAllFiles(absolutePath));
+        } else {
+            collector['child'].push({
+                'name': path.basename(absolutePath),
+                'type': 'file',
+                'url': url
+            });
+        }
+    });
+    return collector;
+}
+
+/**
+ * 遍历出所有的html文件
+ */
+function showdir(collector, level) {
+    const file = collector['name'];
+    const basename = path.basename(file);
+
+    if (collector['type'] == 'dir') {
+        collector['child'].forEach((item) => {
+            showdir(item, level + 1);
+        });
+    }
+
+    if (collector['type'] == 'file') {
+        if (path.extname(file) === '.html' && basename !== 'zindex.html') {
+            let pageItem = {};
+
+            pageItem.name = collector['name'];
+            pageItem.url = collector['url'];
+            htmlPages.push(pageItem);
+
+        }
+    }
+}
+
+export default (cb = () => {}, applyDir = config.paths.dev.html) => {
 
     const ip = localIp.getLocalIP4();
 
-    /**
-     * 遍历目录所有文件
-     * http://nodejs.cn/api/fs.html#fs_fs_readdirsync_path_options
-     */
-    function dirAllFiles(dir) {
-        const collector = {
-            'name': dir,
-            'type': 'dir',
-            'url': '',
-            'child': []
-        };
+    const collector = dirAllFiles(applyDir);
 
-        const files = fs.readdirSync(dir); //
-
-        files.forEach((file) => {
-            const absolutePath = dir + '/' + file; //文件绝对地址
-
-            /**
-             * 返回一个stats 实例
-             * http://nodejs.cn/api/fs.html#fs_class_fs_stats
-             */
-            const stats = fs.statSync(absolutePath);
-
-            const url = absolutePath.substring(devPathLen + 1); //截取开发目录路径
-
-            if (stats.isDirectory() && (stats.isDirectory() !== '.' || stats.isDirectory() !== '..')) {
-                //如果是目录 继续遍历
-                collector['child'].push(dirAllFiles(absolutePath));
-            } else {
-                collector['child'].push({
-                    'name': path.basename(absolutePath),
-                    'type': 'file',
-                    'url': url
-                });
-            }
-        });
-        return collector;
-    }
-
-    /**
-     * 遍历出所有的html文件
-     */
-    function showdir(collector, level) {
-        const file = collector['name'];
-        const basename = path.basename(file);
-
-        if (collector['type'] == 'dir') {
-            collector['child'].forEach((item) => {
-                showdir(item, level + 1);
-            });
-        }
-
-        if (collector['type'] == 'file') {
-            if (path.extname(file) === '.html' && basename !== 'zindex.html') {
-                let pageItem = {};
-
-                pageItem.name = collector['name'];
-                pageItem.url = collector['url'];
-                htmlPages.push(pageItem);
-
-            }
-        }
-    }
-
-    showdir(dirAllFiles(config.paths.dev.html), 0);
+    showdir(collector, 0);
 
     const zindexHtml = `<!DOCTYPE html>
 <html>
@@ -223,7 +226,7 @@ export default (cb = () => {}) => {
 </html>
 `;
 
-    const out = fs.createWriteStream(config.paths.dev.html + '/zindex.html', {
+    const out = fs.createWriteStream(applyDir + '/zindex.html', {
         encoding: "utf8"
     });
 
@@ -234,7 +237,7 @@ export default (cb = () => {}) => {
     out.end();
 
     // 复制目录
-    common.exists('../.fez/utils/zindex', config.paths.dev.html + '/zindex', common.copy);
+    common.exists('../.fez/utils/zindex', applyDir + '/zindex', common.copy);
 
     cb();
 }
