@@ -1,6 +1,14 @@
 # FEZ
 [FEZ](http://fez.hestudy.com) 是面向 前端模块化工程 的开发框架。主要为解决 前端开发多人高效协作、提高开发质量、及项目功能扩展的快速迭代和可维护性等问题。核心包括功能模块化、结构规范化、及开发自动化。
 
+## 使用场景
+- 【基于Vue的高性能大中型WEBAPP应用】参考示例：`[fez-demo-vue](https://github.com/furic-zhao/fez-demo-vue)`
+- 【基于React的高性能大中型WEBAPP应用】参考示例：`[fez-demo-react](https://github.com/furic-zhao/fez-demo-react)`
+- 【基于Framework7和Vue的高性能移动端混合APP及H5应用】参考示例：`[fez-demo-framework7](https://github.com/furic-zhao/fez-demo-framework7)`
+- 【一份代码支持多终端响应式WEB应用】参考示例：`[Demo](https://github.com/furic-zhao/fez/tree/master/demo)`
+- 【整合PHP/Java后端渲染的大中型WEBAPP应用及网站】
+- 【快速构建中小型官方网站、活动、专题、宣传页面】
+
 ## 核心特性
 
 ### 功能模块化
@@ -199,7 +207,7 @@ gulp zip
 gulp svg2icon
 ````
 
-- 本地测试生产环境
+- 本地测试上线代码
 
 ````bash
 gulp view
