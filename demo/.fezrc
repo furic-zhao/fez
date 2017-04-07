@@ -14,7 +14,7 @@
     },
 
     /**
-     * bowserify配置
+     * browserify配置
      */
     "browserify": {
         "options": {
