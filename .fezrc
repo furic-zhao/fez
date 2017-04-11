@@ -46,6 +46,15 @@
     },
 
     /**
+     * 研发环境 Javascript 语法自动化测试
+     * .eslintrc可做详细配置
+     */
+    "useEslint": {
+        "available": false, //启用 eslint 自动化测试
+        "files": "./src/views/**/*.js" //检测文件
+    },
+
+    /**
      * 选择css编译器【取值:less/sass/css】
      */
     "cssCompiler": "less",

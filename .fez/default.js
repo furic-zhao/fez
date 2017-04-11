@@ -7,7 +7,7 @@
  * 默认 执行 研发 任务
  */
 export default (gulp, config) => {
-    gulp.task('default', gulp.series(
+  gulp.task('default', gulp.series(
         'dev'
     ));
 };

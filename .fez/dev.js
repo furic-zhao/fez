@@ -179,6 +179,8 @@ import watchify from 'watchify';
  */
 import jshint from 'gulp-jshint';
 
+import eslint from 'gulp-eslint';
+
 /**
  * 只对发生更改的 js 文件进行语法检测
  * https://github.com/contra/gulp-cached
@@ -192,7 +194,6 @@ import qrCode from './utils/zindex.js';
 
 
 export default (gulp, config) => {
-
     /**
      * 调用browsersync自动刷新浏览器
      */
@@ -323,6 +324,20 @@ export default (gulp, config) => {
             .pipe(jshint())
             .pipe(jshint.reporter('default'))
     };
+    /**
+     * 使用 eslint 对脚本文件基本测试
+     * 只用在研发环境，提升代码质量
+     */
+    function eslintAppJs() {
+      return gulp.src(config.useEslint.files)
+      .pipe(plumber({
+        errorHandler: notify.onError("Error: <%= error.message %>")
+      }))
+      .pipe(cache('linting')) //检测当前改动的文件
+      .pipe(eslint())
+      .pipe(eslint.format())
+      .pipe(eslint.failAfterError())
+    };
 
     /**
      * 使用 browserify 编译 模块化 脚本代码
@@ -340,7 +355,6 @@ export default (gulp, config) => {
         glob(config.paths.src.appJs, (err, files) => {
             let filesLength = files.length;
             let filesIndex = 0;
-
             files.map((file) => {
                 let source_name = file.match(/src[\/|\\]views[\/|\\](.*?)[\/|\\]/)[1];
 
@@ -394,6 +408,8 @@ export default (gulp, config) => {
                 function bandle(bUpdate = false) {
 
                     if (config.useJsHint.available) jshintAppJs(); //运行js代码检测
+                  
+                    if (config.useEslint.available) eslintAppJs();
 
                     b.bundle()
                         .on('error', function(err) {

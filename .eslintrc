@@ -1,0 +1,99 @@
+/**
+ * "off" or 0 - turn the rule off
+ * "warn" or 1 - turn the rule on as a warning (doesn’t affect exit code)
+ * "error" or 2 - turn the rule on as an error (exit code is 1 when triggered)
+ */
+{
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": false,
+    "jquery": true
+  },
+  "rules": {
+    // 句末分号
+    "semi": [
+      1,
+      "always",
+      {
+        "omitLastInOneLineBlock": true
+      }
+    ],
+    "no-extra-semi": 2,
+    // 单引号还是双引号
+    "quotes": [
+      1,
+      "single"
+    ],
+    // 强制使用 === ,!==
+    "eqeqeq": 2,
+    "no-console": 0,
+    "asi": 0,
+    "no-var": 0,
+    "vars-on-top": 0,
+    "func-names": [
+      "error",
+      "never"
+    ],
+    "prefer-arrow-callback": [
+      "off",
+      {
+        "allowNamedFunctions": false
+      }
+    ],
+    "space-before-function-paren": [
+      "error",
+      {
+        "anonymous": "always",
+        "named": "never",
+        "asyncArrow": "ignore"
+      }
+    ],
+    "comma-dangle": [
+      "error",
+      "never"
+    ],
+    "object-shorthand": [
+      "off",
+      "always",
+      {
+        "ignoreConstructors": true
+      }
+    ],
+    "prefer-template": 1,
+    "no-plusplus": [
+      "error",
+      {
+        "allowForLoopAfterthoughts": true
+      }
+    ]
+  },
+  "globals": {
+    "req": 0,
+    "commValidation": 0,
+    "echo": 0,
+    "Mustache": 0,
+    "doT": 0,
+    "define": 0,
+    "getURLParameter": 0,
+    "APP_ROOT": 0
+  },
+  "sort-imports": [
+    "error",
+    {
+      "ignoreCase": false,
+      "ignoreMemberSort": false,
+      "memberSyntaxSortOrder": [
+        "none",
+        "all",
+        "multiple",
+        "single"
+      ]
+    }
+  ],
+  "parserOptions": {
+    "sourceType": "module"
+  },
+  "extends": "eslint:recommended",
+  "installedESLint": true
+}
