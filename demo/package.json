@@ -2,12 +2,19 @@
     "name": "FEZ Project",
     "version": "1.0.0",
     "description": "",
-    "license": "MIT",
+    "main": "",
+    "directories": {},
+    "dependencies": {
+        "jquery": "^3.2.1",
+        "q": "^1.5.0"
+    },
+    "devDependencies": {},
+    "scripts": {},
     "author": "Furic zhao",
     "homepage": "http://fez.hestudy.com/",
-    "dependencies": {
-        "jquery": "^3.2.1"
-    },
+    "license": "MIT",
+
+
     "browserify": {
         "transform": [
             "browserify-shim"
