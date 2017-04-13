@@ -8,6 +8,7 @@
  * https://github.com/jtblin/crypto-md5
  */
 import md5 from 'crypto-md5';
+
 /**
  * 深度遍历目录/列出目录下所有文件
  * https://www.npmjs.com/package/rd
@@ -25,7 +26,6 @@ import fs from 'fs';
  * http://nodejs.cn/api/path.html
  */
 import path from 'path';
-
 
 /**
  * 具有一致接口、模块化、高性能等特性的 JavaScript 扩展工具库

@@ -22,6 +22,12 @@ import qrCode from './utils/zindex';
 import fs from 'fs';
 
 /**
+ * 用于删除文件或目录
+ * https://github.com/sindresorhus/del
+ */
+import del from 'del';
+
+/**
  * 引入gulp
  * https://github.com/gulpjs/gulp
  */
@@ -33,6 +39,16 @@ import gulp from 'gulp';
 import config from './utils/fezrc';
 
 export default () => {
+
+
+    /**
+     * 清除 test 目录
+     **/
+    function delTest(cb) {
+        del([config.paths.test.dir]).then(() => {
+            cb();
+        });
+    }
 
     /**
      * 测试环境生成二维码方便在移动端浏览测试
@@ -98,6 +114,7 @@ export default () => {
 
         if (distDir) {
             return gulp.series(
+                delTest,
                 copyDistToTest,
                 qrcodeViewHtml,
                 startServer
@@ -105,6 +122,7 @@ export default () => {
         } else {
             return gulp.series(
                 'dist',
+                delTest,
                 copyDistToTest,
                 qrcodeViewHtml,
                 startServer

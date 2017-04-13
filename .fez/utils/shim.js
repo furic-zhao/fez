@@ -11,4 +11,6 @@ for (let v of config.browserify.shim) {
         exports: `global:${v.import}`
     };
 }
+
+
 module.exports = shim;

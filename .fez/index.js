@@ -15,6 +15,7 @@ import path from 'path';
  */
 import gutil from 'gulp-util';
 
+
 /**
  * 研发任务
  * gulp dev
@@ -34,19 +35,19 @@ import gulpDist from './dist'; //生产任务
 import gulpSftp from './sftp';
 
 /**
- * 压缩 dist 目录并生成zip文件
+ * 压缩 dist 目录并生成zip文件 任务
  * gulp zip
  */
 import gulpZip from './zip';
 
 /**
- * svg 转换成字体
+ * svg 转换成字体 任务
  * gulp svg2icon
  */
 import gulpSvg2Icon from './svg2icon';
 
 /**
- * 本地测试生产环境
+ * 构建 dist 目录中的上线文件多终端测试环境 任务
  */
 import gulpTest from './test';
 
@@ -56,11 +57,6 @@ import gulpTest from './test';
  */
 import gulpDefault from './default';
 
-/**
- * 获取 .fezrc 配置文件
- * https://github.com/dominictarr/rc
- * 每个项目下面的rc配置文件 会覆盖此处的默认配置
- */
 
 export default () => {
     gutil.log("---------------------------------------");
