@@ -745,7 +745,7 @@ export default () => {
         //公共文件注入
         const injectLibFiles = lazypipe()
             .pipe(() => {
-                return inject(gulp.src([`./tmp/static/css/*common*.css`, `./tmp/static/js/*common*.js`, `!./tmp/static/js/*assign*.js`], {
+                return inject(gulp.src([`./tmp/static/css/${config.useInject.lib.css}.css`, `./tmp/static/js/*common*.js`, `!./tmp/static/js/*assign*.js`], {
                     read: false
                 }), {
                     starttag: '<!-- inject:lib:{{ext}} -->',
