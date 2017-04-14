@@ -84,8 +84,9 @@ import lazyImageCSS from 'gulp-lazyimagecss';
  */
 import postcss from 'gulp-postcss';
 
-/* CSS 转换 `px` 为 `rem`
-https://github.com/cuth/postcss-pxtorem
+/**
+ * CSS 转换 `px` 为 `rem`
+ * https://github.com/cuth/postcss-pxtorem
  */
 import postcssPxtorem from 'postcss-pxtorem';
 
@@ -107,13 +108,15 @@ import sourcemaps from 'gulp-sourcemaps';
 /*加入对es6的支持*/
 import babelify from 'babelify';
 
-/*browserify 处理多文件
-https://github.com/isaacs/node-glob
+/**
+ * browserify 处理多文件
+ * https://github.com/isaacs/node-glob
  */
 import glob from "glob";
 
-/* borwserify 支持 require handlebars模板
-https://github.com/epeli/node-hbsfy
+/**
+ * borwserify 支持 require handlebars模板
+ * https://github.com/epeli/node-hbsfy
  */
 import hbsfy from 'hbsfy';
 
@@ -128,9 +131,10 @@ https://github.com/davidguttman/cssify
 */
 import cssify from 'cssify';
 
-/*borwserify 支持 require less样式
-https://github.com/dstokes/lessify
-*/
+/**
+ * borwserify 支持 require less样式
+ * https://github.com/dstokes/lessify
+ */
 import lessify from 'lessify';
 
 /**
@@ -172,8 +176,9 @@ import path from 'path';
  */
 import size from 'gulp-size';
 
-/* 压缩js
-https://github.com/terinjokes/gulp-uglify
+/**
+ * 压缩js
+ * https://github.com/terinjokes/gulp-uglify
  */
 import uglify from 'gulp-uglify';
 
@@ -183,23 +188,27 @@ import uglify from 'gulp-uglify';
  */
 import htmlmin from 'gulp-htmlmin';
 
-/* 合并压缩html中的JS或CSS文件
-https://github.com/pursual/gulp-usemin
+/**
+ * 合并压缩html中的JS或CSS文件
+ * https://github.com/pursual/gulp-usemin
  */
 import usemin from 'gulp-usemin';
 
-/* 压缩css
-https://github.com/ben-eb/gulp-cssnano
+/**
+ * 压缩css
+ * https://github.com/ben-eb/gulp-cssnano
  */
 import minifyCSS from 'gulp-clean-css';
 
-/* 压缩图片
-https://github.com/sindresorhus/gulp-imagemin
+/**
+ * 压缩图片
+ * https://github.com/sindresorhus/gulp-imagemin
  */
 import imagemin from 'gulp-imagemin';
 
-/* 压缩png
-https://github.com/imagemin/imagemin-pngquant
+/**
+ * 压缩png
+ * https://github.com/imagemin/imagemin-pngquant
  */
 import pngquant from 'imagemin-pngquant';
 
@@ -491,7 +500,7 @@ export default () => {
 
             });
         });
-    };
+    }
 
     /**
      * 复制bower文件到缓存目录等待处理
@@ -638,6 +647,7 @@ export default () => {
         return gulp.src(config.paths.src.lib)
             .pipe(gulp.dest(`./tmp/lib/js`));
     }
+
     /**
      * 根据 .fezrc 配置项合并公共脚本
      **/
@@ -673,6 +683,7 @@ export default () => {
                 })
         }
     }
+
     /**
      * 处理插入到指定页面的脚本
      **/
@@ -688,6 +699,7 @@ export default () => {
                 del.sync(`./tmp/lib/**/*assign*.js`);
             });
     }
+
     /**
      * 合并 .fezrc 中未配置的剩下的所有公共脚本
      **/
@@ -788,7 +800,7 @@ export default () => {
                         cb();
                     });
             });
-        };
+        }
 
         gulp.src(config.paths.src.html)
             .pipe(injectHtml(es))
@@ -851,7 +863,7 @@ export default () => {
     /**
      * webp 编译
      **/
-    function compileWebp() {
+    function compileWebp(cb) {
         if (!config.useWebp.available) {
             return function notAvailableWebp(cb) {
                 cb();
@@ -954,4 +966,4 @@ export default () => {
         compileWebp(), //编译webp
         compileChanged //只编译改动过的文件
     ));
-};
+}

@@ -236,7 +236,7 @@ export default () => {
             }))
             .pipe(gulp.dest(config.paths.dev.dir))
             .on('end', reloadHandler);
-    };
+    }
 
     /**
      * 复制图片到研发目录
@@ -341,7 +341,7 @@ export default () => {
             .pipe(cache('linting')) //检测当前改动的文件
             .pipe(jshint())
             .pipe(jshint.reporter('default'))
-    };
+    }
 
     /**
      * 使用 browserify 编译 模块化 脚本代码
@@ -460,7 +460,7 @@ export default () => {
                 b.on('log', gutil.log);
             });
         });
-    };
+    }
 
     /**
      * 复制bower文件到dev目录
@@ -696,7 +696,7 @@ export default () => {
         }
 
 
-    };
+    }
 
     /**
      * 使用 gulp 监听文件 改动
@@ -768,4 +768,4 @@ export default () => {
         )
     ));
 
-};
+}

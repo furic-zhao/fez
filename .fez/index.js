@@ -57,7 +57,6 @@ import gulpTest from './test';
  */
 import gulpDefault from './default';
 
-
 export default () => {
     gutil.log("---------------------------------------");
     gutil.log(gutil.colors.cyan("* 欢迎使用 FEZ 前端模块化工程开发框架 *"));

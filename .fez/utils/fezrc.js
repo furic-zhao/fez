@@ -3,6 +3,7 @@
  * http://javascript.ruanyifeng.com/nodejs/path.html
  */
 import path from 'path';
+
 /**
  * 获取 .fezrc 配置文件
  * https://github.com/dominictarr/rc
