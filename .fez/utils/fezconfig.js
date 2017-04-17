@@ -400,9 +400,9 @@ const fezConfig = {};
 const fezConfigPath = path.resolve(process.cwd(), 'fez.config.js');
 
 if (fs.existsSync(fezConfigPath)) {
-    _.defaultsDeep(fezConfig, fezConfigDefault, require(fezConfigPath).default);
+    Object.assign(fezConfig, _.defaultsDeep(require(fezConfigPath).default, fezConfigDefault));
 } else {
-    _.defaultsDeep(fezConfig, require('rc')('fez', fezConfigDefault));
+    Object.assign(fezConfig, require('rc')('fez', fezConfigDefault));
 }
 
 export default fezConfig;
