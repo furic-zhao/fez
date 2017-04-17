@@ -7,7 +7,7 @@
 - 【基于Framework7和Vue的高性能移动端混合APP及H5应用】参考示例：[fez-demo-framework7](https://github.com/furic-zhao/fez-demo-framework7)
 - 【一份代码支持多终端响应式WEB应用】参考示例：[Demo](https://github.com/furic-zhao/fez/tree/master/demo)
 - 【整合PHP/Java后端渲染的大中型WEBAPP应用及网站】
-- 【快速构建中小型官方网站、活动、专题、宣传页面】
+- 【快速构建中小型官方网站、活动、专题、宣传页面】参考示例：[fez-demo-75team](https://github.com/furic-zhao/fez-demo-75team)  [fez-web](https://github.com/furic-zhao/fez-web)
 
 ## 核心特性
 
@@ -89,11 +89,14 @@ static
 - .hbs 或 .jade `负责页面的html模板`
 - index.js 或 index.vue `负责数据展现和交互操作`
 
-> 规范化在项目中对于后续功能的扩展和可维护性起着非常重要的作用，直接影响项目的开发质量和功能迭代速度。
+#### 规范化
 
 - 【目录结构规范化】FEZ支持可定制化的目录结构
 - 【代码规范化】FEZ可开启JSHint对JS代码做规范性的自动化检测
 - 【前后端接口规范化】FEZ 附带有[API文档编写平台](http://doc.hestudy.com)
+
+> 规范化在项目中对于后续功能的扩展和可维护性起着非常重要的作用，直接影响项目的开发质量和功能迭代速度。
+
 
 ### 开发自动化
 
