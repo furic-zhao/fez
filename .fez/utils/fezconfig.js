@@ -1,3 +1,14 @@
+/* ==================================
+ * @ 2017 FEZ 前端模块化工程开发框架
+ * https://github.com/furic-zhao/fez
+ * ================================== */
+
+/*****************************************
+ * 获取 .fezrc 或 fez.config.js 配置文件
+ * 每个项目下面的 .fezrc 或 fez.config.js 会覆盖此文件中的默认配置
+ * fez.config.js 优先级最高并支持 JS 逻辑代码
+ *****************************************/
+
 /**
  * nodejs中的路径处理模块
  * http://javascript.ruanyifeng.com/nodejs/path.html
@@ -5,11 +16,21 @@
 import path from 'path';
 
 /**
- * 获取 .fezrc 配置文件
- * https://github.com/dominictarr/rc
- * 每个项目下面的rc配置文件 会覆盖此处的默认配置
+ * Nodejs处理文件
+ * http://nodejs.cn/api/fs
  */
-const config = require('rc')('fez', {
+import fs from 'fs';
+
+/**
+ * 具有一致接口、模块化、高性能等特性的 JavaScript 扩展工具库
+ * https://lodash.com/
+ */
+import _ from 'lodash';
+
+/**
+ * fez 模块化工程框架默认配置
+ */
+const fezConfigDefault = {
 
     /**
      * 项目目录名称
@@ -372,6 +393,16 @@ const config = require('rc')('fez', {
             "html": "./test" //html编译后的存放目录
         }
     }
-});
+};
 
-export default config;
+const fezConfig = {};
+
+const fezConfigPath = path.resolve(process.cwd(), 'fez.config.js');
+
+if (fs.existsSync(fezConfigPath)) {
+    _.defaultsDeep(fezConfig, fezConfigDefault, require(fezConfigPath).default);
+} else {
+    _.defaultsDeep(fezConfig, require('rc')('fez', fezConfigDefault));
+}
+
+export default fezConfig;

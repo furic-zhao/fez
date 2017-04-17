@@ -20,9 +20,9 @@ import iconfontCss from 'gulp-iconfont-css';
 import gulp from 'gulp';
 
 /**
- * 引入 .fezrc 配置
+ * 引入 .fezconfig 配置
  */
-import config from './utils/fezrc';
+import config from './utils/fezconfig';
 
 export default () => {
 

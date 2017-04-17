@@ -46,9 +46,9 @@ import gutil from 'gulp-util';
 import gulp from 'gulp';
 
 /**
- * 引入 .fezrc 配置
+ * 引入 .fezconfig 配置
  */
-import config from './fezrc';
+import config from './fezconfig';
 
 
 function changed(dir) {

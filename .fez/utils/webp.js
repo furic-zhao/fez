@@ -101,9 +101,9 @@ import injectString from 'gulp-inject-string';
 import gulp from 'gulp';
 
 /**
- * 引入 .fezrc 配置
+ * 引入 .fezconfig 配置
  */
-import config from './fezrc';
+import config from './fezconfig';
 
 export default (cb) => {
 

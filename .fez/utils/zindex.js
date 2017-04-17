@@ -23,9 +23,9 @@ import path from 'path';
 import localIp from 'quick-local-ip';
 
 /**
- * 引入 .fezrc 配置
+ * 引入 .fezconfig 配置
  */
-import config from './fezrc';
+import config from './fezconfig';
 
 let htmlPages = []; //所有html页面
 
