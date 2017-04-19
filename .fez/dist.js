@@ -757,7 +757,7 @@ export default () => {
         //公共文件注入
         const injectLibFiles = lazypipe()
             .pipe(() => {
-                return inject(gulp.src([`./tmp/static/css/${config.useInject.lib.css}.css`, `./tmp/static/js/*common*.js`, `!./tmp/static/js/*assign*.js`], {
+                return inject(gulp.src([`./tmp/static/css/**/${config.useInject.lib.css}.css`, `./tmp/static/js/**/*common*.js`, `!./tmp/static/js/**/assign-*.js`], {
                     read: false
                 }), {
                     starttag: '<!-- inject:lib:{{ext}} -->',
@@ -783,7 +783,7 @@ export default () => {
                     ))
                     .pipe(gulpif(
                         config.useInject.views,
-                        inject(gulp.src([`./tmp/static/css/*${cateName}*.css`, `./tmp/static/js/*${cateName}*.js`], {
+                        inject(gulp.src([`./tmp/static/js/**/assign*-${cateName}*.js`, `./tmp/static/css/**/${cateName}.css`, `./tmp/static/js/**/${cateName}.js`], {
                             read: false
                         }), {
                             starttag: '<!-- inject:views:{{ext}} -->',

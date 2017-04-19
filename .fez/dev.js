@@ -520,7 +520,7 @@ export default () => {
 
         const injectLib = lazypipe()
             .pipe(() => {
-                return inject(gulp.src([`./dev/static/css/**/${config.useInject.lib.css}.css`, `./dev/lib/**/*.js`, `!./dev/lib/**/*assign*.js`], {
+                return inject(gulp.src([`./dev/static/css/**/${config.useInject.lib.css}.css`, `./dev/lib/**/*.js`, `!./dev/lib/**/assign-*.js`], {
                     read: false
                 }), {
                     starttag: '<!-- inject:lib:{{ext}} -->',
@@ -549,7 +549,7 @@ export default () => {
                     ))
                     .pipe(gulpif(
                         config.useInject.views,
-                        inject(gulp.src([`./dev/lib/*${cateName}*.js`, `./dev/static/css/*${cateName}*.css`, `./dev/static/js/*${cateName}*.js`], {
+                        inject(gulp.src([`./dev/lib/**/assign*-${cateName}*.js`, `./dev/static/css/**/${cateName}.css`, `./dev/static/js/**/${cateName}.js`], {
                             read: false
                         }), {
                             starttag: '<!-- inject:views:{{ext}} -->',
