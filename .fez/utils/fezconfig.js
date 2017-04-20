@@ -222,10 +222,7 @@ const fezConfigDefault = {
             "js": [],
             "css": []
         },
-        /**
-         * 【支持单个文件指定注入到某些页面】
-         * （命名规则：assign-{页面名}-{页面名}-{other}
-         */
+
         "lib": {
             "available": false, //启用 公共 文件自动化注入
             "css": "*common*", //以common命名的样式文件会注入到所有的页面
@@ -236,11 +233,17 @@ const fezConfigDefault = {
              *     "target": "{排序序号}-common-{打包名称}.js",
              *     "contain": ["{文件1}", "{文件2}", "{文件3}"]
              * }
+             *
+             * 【支持单个文件指定注入到某些页面】
+             * （命名规则：assign-{页面名}-{页面名}-{other}
              */
             "js": []
         },
+
         /**
          * 【支持src目录中的样式及编译后的逻辑脚本自动化注入到对应的页面】
+         * style 目录中的样式命名规则必须为：
+         * {页面名}.{css,less,scss} 或者 {other}-{页面名}.{css,less,scss}
          */
         "views": false //启用 业务目录 文件自动化注入
     },
