@@ -237,7 +237,7 @@ export default (cb = () => {}, applyDir = config.paths.dev.html) => {
     out.end();
 
     // 复制目录
-    common.exists('../.fez/utils/zindex', applyDir + '/zindex', common.copy);
+    common.exists(path.resolve(__dirname, './zindex'), applyDir + '/zindex', common.copy);
 
     cb();
 }
