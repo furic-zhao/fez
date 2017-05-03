@@ -574,11 +574,21 @@ export default () => {
             });
         };
 
+        /**
+         * 入口页面
+         */
+        const indexHtmlFilter = filter('**/index.html', {
+            restore: true
+        });
+
         return gulp.src(config.paths.src.html)
             .pipe(plumber({
                 errorHandler: notify.onError("Error: <%= error.message %>")
             }))
+            .pipe(indexHtmlFilter)
             .pipe(injectHtml(es))
+            .pipe(indexHtmlFilter.restore)
+            .pipe(gulp.dest(config.paths.dev.html))
             .on('end', reloadHandler)
     }
 

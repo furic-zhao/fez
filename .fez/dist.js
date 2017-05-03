@@ -764,7 +764,7 @@ export default () => {
                     ignorePath: '../../../tmp/',
                     relative: true,
                 })
-            })
+            });
 
         //处理页面
         const injectHtml = (es) => {
@@ -800,10 +800,19 @@ export default () => {
                         cb();
                     });
             });
-        }
+        };
+
+        /**
+         * 入口页面
+         */
+        const indexHtmlFilter = filter('**/index.html', {
+            restore: true
+        });
 
         gulp.src(config.paths.src.html)
+            .pipe(indexHtmlFilter)
             .pipe(injectHtml(es))
+            .pipe(indexHtmlFilter.restore)
             .on("end", () => {
                 cb();
             });

@@ -323,7 +323,7 @@ const fezConfigDefault = {
             "sass": "./src/static/styles/*.scss", //页面中引用的样式，工程只编译样式根目录下的文件
             "sassAll": "./src/static/styles/**/*.scss", //所有业务层sass文件，用于监视改动自动刷新
 
-            "html": ["./src/views/**/*.html", "!./src/views/_*/**.html", "!./src/views/_*/**/**.html"], //所有html文件
+            "html": ["./src/views/**/*.html"], //所有html文件
             "htmlAll": "./src/views/**/*.html" //用于监视改动html自动刷新
         },
 
