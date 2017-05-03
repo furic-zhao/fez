@@ -294,13 +294,22 @@ export default () => {
             .pipe(sourcemaps.init())
             .pipe(gulpif(
                 sassCondition,
-                sass()
+                sass(Object.assign({
+                    /**
+                     * ------- outputStyle 取值 ------
+                     * nested：嵌套缩进的css代码，它是默认值。
+                     * expanded：没有缩进的、扩展的css代码。
+                     * compact：简洁格式的css代码。
+                     * compressed：压缩后的css代码
+                     */
+                    outputStyle: 'compact'
+                }, config.cssCompilerOptions))
             ))
             .pipe(gulpif(
                 lessCondition,
-                less({
+                less(Object.assign({
                     relativeUrls: true //将网址编译成相对网址
-                })
+                }, config.cssCompilerOptions))
             ))
             .pipe(sourcemaps.write())
             .on('error', (error) => {

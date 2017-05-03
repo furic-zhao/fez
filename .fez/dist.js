@@ -314,7 +314,7 @@ export default () => {
         return gulp.src(sourcePath())
             .pipe(gulpif(
                 sassCondition,
-                sass({
+                sass(Object.assign({
                     /**
                      * ------- outputStyle 取值 ------
                      * nested：嵌套缩进的css代码，它是默认值。
@@ -323,13 +323,13 @@ export default () => {
                      * compressed：压缩后的css代码
                      */
                     outputStyle: 'compact'
-                })
+                }, config.cssCompilerOptions))
             ))
             .pipe(gulpif(
                 lessCondition,
-                less({
+                less(Object.assign({
                     relativeUrls: true //将网址编译成相对网址
-                })
+                }, config.cssCompilerOptions))
             ))
             //css中的rem转换
             .pipe(gulpif(

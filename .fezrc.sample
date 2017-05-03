@@ -62,6 +62,15 @@
   "cssCompiler": "less",
 
   /**
+   * CSS 编译器配置项
+   * 请根据 cssCompiler 配置的编译器设置此项
+   * 配置参考：
+   * https://www.npmjs.com/package/gulp-sass
+   * https://www.npmjs.com/package/gulp-less
+   */
+  "cssCompilerOptions": {},
+
+  /**
    * 启用 PX => REM 自动化转换
    * 如果启用 REM 转换需要在公共样式中对<html>设置基准值
    * 通过 media媒体查询 为 <html> 设置不同值 以实现在不同的屏幕中等比缩放
