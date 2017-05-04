@@ -813,6 +813,7 @@ export default () => {
             .pipe(indexHtmlFilter)
             .pipe(injectHtml(es))
             .pipe(indexHtmlFilter.restore)
+            .pipe(gulp.dest(config.paths.tmp.html))
             .on("end", () => {
                 cb();
             });
