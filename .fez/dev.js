@@ -443,7 +443,7 @@ export default () => {
                         //     console.log('err:' + err);
                         //     gutil.log(err)
                         // })
-                        .pipe(sourcemaps.write())
+                        .pipe(sourcemaps.write('.'))
                         .pipe(gulp.dest(config.paths.dev.appjs))
                         .on('end', () => {
                             filesIndex++;
