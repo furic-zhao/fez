@@ -9,7 +9,7 @@
 - 积木式、组件化快速构建页面，使用API接口/Mock数据前后端分离、并在流程上让研发、设计、测试团队、并行工作。
 - 使用国际前沿的前端工程自动化技术解决项目的资源管理和大量重复的代码编译工作。
 
-## 使用场景
+## FEZ使用场景
 - 【一份代码支持多终端响应式WEB应用】参考示例：[Demo](https://github.com/furic-zhao/fez/tree/master/demo)
 - 【基于Vue的高性能大中型WEBAPP应用】参考示例：[fez-demo-vue](https://github.com/furic-zhao/fez-demo-vue)
 - 【基于React的高性能大中型WEBAPP应用】参考示例：[fez-demo-react](https://github.com/furic-zhao/fez-demo-react)
@@ -17,7 +17,7 @@
 - 【整合PHP/Java后端渲染的大中型WEBAPP应用及网站】
 - 【快速构建中小型官方网站、活动、专题、宣传页面】参考示例：[fez-demo-75team](https://github.com/furic-zhao/fez-demo-75team)  [fez-web](https://github.com/furic-zhao/fez-web)
 
-## 核心特性
+## FEZ核心特性
 
 ### 功能模块化
 
@@ -127,7 +127,7 @@ static
 - 自动化通过SFTP部署上线、或部署静态资源。
 
 
-## 安装使用
+## FEZ安装使用
 
 ### 安装
 
@@ -141,6 +141,8 @@ static
 - 支持所有Node的发行版本，建议使用最新稳定版 6.x 。
 - Ubuntu 用户使用 `apt-get` 安装 node 后，安装的程序名叫 `nodejs`，需要软链成 `node`
 - Windows 用户安装完成后需要在 CMD 下确认是否能执行 node 和 npm
+
+> 由于windows依赖的开发环境配置较为复杂，windows 用户建议使用`Node 6.9.X`及其以下版本安装和运行FEZ。
 
 #### 全局安装 Gulp4.0
 
