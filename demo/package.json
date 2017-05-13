@@ -13,8 +13,6 @@
     "author": "Furic zhao",
     "homepage": "http://fez.hestudy.com/",
     "license": "MIT",
-
-
     "browserify": {
         "transform": [
             "browserify-shim"

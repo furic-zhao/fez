@@ -1,11 +1,19 @@
 # FEZ
+随着Web业务多元化及项目的日益迭代，Web应用的复杂程度与日俱增，随之而来的工程问题困扰着研发团队的效率和执行。
+
 [FEZ](http://fez.hestudy.com) 是面向 前端模块化工程 的开发框架。主要为解决 前端开发多人高效协作、提高开发质量、及项目功能扩展的快速迭代和可维护性等问题。核心包括功能模块化、结构规范化、及开发自动化。
 
+## FEZ倡导的前端开发理念
+- 一份代码各种终端设备兼容，自动化适配PC端、手机端、Pad端及各种大小的屏幕，可以内嵌到手机端任何APP中使用（微信、微博等），若做产品APP只需要IOS端和Android端做个壳引入页面即可，为产品的多元化几何倍的提高开发效率。
+- 模块式开发、将复杂的系统细分为模块，分治管理，并有统一的文件结构，兼顾模块的通用和复用原则，极大提高研发效率及产品迭代的可维护性。
+- 积木式、组件化快速构建页面，使用API接口/Mock数据前后端分离、并在流程上让研发、设计、测试团队、并行工作。
+- 使用国际前沿的前端工程自动化技术解决项目的资源管理和大量重复的代码编译工作。
+
 ## 使用场景
+- 【一份代码支持多终端响应式WEB应用】参考示例：[Demo](https://github.com/furic-zhao/fez/tree/master/demo)
 - 【基于Vue的高性能大中型WEBAPP应用】参考示例：[fez-demo-vue](https://github.com/furic-zhao/fez-demo-vue)
 - 【基于React的高性能大中型WEBAPP应用】参考示例：[fez-demo-react](https://github.com/furic-zhao/fez-demo-react)
 - 【基于Framework7和Vue的高性能移动端混合APP及H5应用】参考示例：[fez-demo-framework7](https://github.com/furic-zhao/fez-demo-framework7)
-- 【一份代码支持多终端响应式WEB应用】参考示例：[Demo](https://github.com/furic-zhao/fez/tree/master/demo)
 - 【整合PHP/Java后端渲染的大中型WEBAPP应用及网站】
 - 【快速构建中小型官方网站、活动、专题、宣传页面】参考示例：[fez-demo-75team](https://github.com/furic-zhao/fez-demo-75team)  [fez-web](https://github.com/furic-zhao/fez-web)
 
