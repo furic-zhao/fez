@@ -18,13 +18,13 @@ export default {
          * 此处配置后需要通过script标签形式在页面引入
          * 具体信息请参考：https://github.com/thlorenz/browserify-shim
          */
-        // "shim": [{
-        //     "import": "$",
-        //     "from": "jquery"
-        // }, {
-        //     "import": "Q",
-        //     "from": "q"
-        // }]
+        "shim": [{
+            "import": "$",
+            "from": "jquery"
+        }, {
+            "import": "Q",
+            "from": "q"
+        }]
     },
 
     /**html自动化注入文件*
