@@ -159,7 +159,7 @@ npm install gulpjs/gulp#4.0 -g
 ```bash
 npm install bower -g
 ```
-> 使用Bower主要是为了管理第三方框架库，通过页面自动化注入技术解决页面框架库的引入和管理问题，如果想用固定的CDN资源，或手动的引入页面，可以不安装，并在 项目根目录.fezrc 配置文件中将此配置关闭
+> 使用Bower主要是为了管理第三方框架库，通过页面自动化注入技术解决页面框架库的引入和管理问题，如果想用固定的CDN资源，或手动的引入页面，可以不安装，并在 项目根目录fez.config.js 配置文件中将此配置关闭
 
 ### 运行 Demo 示例项目
 
@@ -220,7 +220,7 @@ gulp test
 gulp sftp
 ````
 
-> FEZ 会调用项目目录中`.fezrc`的`sftp`配置信息，通过SSH方式快速部署`dist` 中的上线代码，或是部署`dist`目录中的静态资源。
+> FEZ 会调用项目目录中`fez.config.js`的`sftp`配置信息，通过SSH方式快速部署`dist` 中的上线代码，或是部署`dist`目录中的静态资源。
 
 - 打包压缩
 
@@ -235,7 +235,14 @@ gulp zip
 ````bash
 gulp svg2icon
 ````
-> FEZ 会调用项目目录中`.fezrc`的`svgIcons`配置信息，自动化转换svg图标为icon字体文件并生成对应的样式文件。
+> FEZ 会调用项目目录中`fez.config.js`的`svgIcons`配置信息，自动化转换svg图标为icon字体文件并生成对应的样式文件。
+
+- 合并雪碧图
+
+````bash
+gulp sprite
+````
+> FEZ 会调用项目目录中`fez.config.js`的`sprites`配置信息，自动化合并`slice`目录中的小图标为雪碧图并生成sprite.png图片到`images/sprite／`目录，同时生成对应的样式文件(可配置生成css/less/sass/scss)到`styles/sprite/`目录
 
 ## 待续...
 
