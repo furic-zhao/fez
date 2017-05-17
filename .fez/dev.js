@@ -306,7 +306,7 @@ export default () => {
                     relativeUrls: true //将网址编译成相对网址
                 }, config.cssCompilerOptions))
             ))
-            .pipe(sourcemaps.write('.'))
+            .pipe(sourcemaps.write())
             .on('error', (error) => {
                 gutil.log(error.message);
             })
