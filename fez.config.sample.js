@@ -1,36 +1,4 @@
-/* ==================================
- * @ 2017 FEZ 前端模块化工程开发框架
- * https://github.com/furic-zhao/fez
- * ================================== */
-
-/*****************************************
- * 获取 .fezrc 或 fez.config.js 配置文件
- * 每个项目下面的 .fezrc 或 fez.config.js 会覆盖此文件中的默认配置
- * fez.config.js 优先级最高并支持 JS 逻辑代码
- *****************************************/
-
-/**
- * nodejs中的路径处理模块
- * http://javascript.ruanyifeng.com/nodejs/path.html
- */
-import path from 'path';
-
-/**
- * Nodejs处理文件
- * http://nodejs.cn/api/fs
- */
-import fs from 'fs';
-
-/**
- * 具有一致接口、模块化、高性能等特性的 JavaScript 扩展工具库
- * https://lodash.com/
- */
-import _ from 'lodash';
-
-/**
- * fez 模块化工程框架默认配置
- */
-const fezConfigDefault = {
+export default {
 
     /**
      * 项目目录名称
@@ -428,16 +396,4 @@ const fezConfigDefault = {
             html: "./test" //html编译后的存放目录
         }
     }
-};
-
-const fezConfig = {};
-
-const fezConfigPath = path.resolve(process.cwd(), 'fez.config.js');
-
-if (fs.existsSync(fezConfigPath)) {
-    Object.assign(fezConfig, _.defaultsDeep(require(fezConfigPath).default, fezConfigDefault));
-} else {
-    Object.assign(fezConfig, require('rc')('fez', fezConfigDefault));
 }
-
-export default fezConfig;

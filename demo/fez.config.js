@@ -7,10 +7,10 @@ export default {
     /**
      * bowserify配置
      */
-    "browserify": {
-        "options": {
-            "extensions": [], // import require 引入文件时可以省略的扩展名
-            "paths": ["./src/views"] // import require 引入文件的根路径
+    browserify: {
+        options: {
+            extensions: [], // import require 引入文件时可以省略的扩展名
+            paths: ["./src/views"] // import require 引入文件的根路径
         },
         /**
          * 抽取来通过 import $ from 'jquery';或let $ = require('jquery');
@@ -18,12 +18,12 @@ export default {
          * 此处配置后需要通过script标签形式在页面引入
          * 具体信息请参考：https://github.com/thlorenz/browserify-shim
          */
-        "shim": [{
-            "import": "$",
-            "from": "jquery"
+        shim: [{
+            import: "$",
+            from: "jquery"
         }, {
-            "import": "Q",
-            "from": "q"
+            import: "Q",
+            from: "q"
         }]
     },
 
@@ -34,7 +34,7 @@ export default {
      * 【插入页面顺序以字母或数字降序排列-解决插入页面的脚本文件依赖关系】
      * 【打包顺序以文件配置先后降序排列-解决打包文件间的依赖关系】
      */
-    "useInject": {
+    useInject: {
         /**
          * ---------- bower打包格式 仅对 生产环境------------
          * 打包文件支持 gulp格式的正则文件名
@@ -43,30 +43,30 @@ export default {
          *     "contain": ["{文件1}", "{文件2}", "{文件3}"]
          * }
          */
-        "bower": {
-            "available": true, //启用 bower 文件自动化注入
-            "js": [{
-                "target": "a-vendor-jquery.js",
-                "contain": ["**/jquery.js"]
+        bower: {
+            available: true, //启用 bower 文件自动化注入
+            js: [{
+                target: "a-vendor-jquery.js",
+                contain: ["**/jquery.js"]
             }, {
-                "target": "b-vendor-bootstrap.js",
-                "contain": ["**/bootstrap.js"]
+                target: "b-vendor-bootstrap.js",
+                contain: ["**/bootstrap.js"]
             }],
-            "css": [{
-                "target": "vendor-bootstrap.css",
-                "contain": ["**/bootstrap.css"]
+            css: [{
+                target: "vendor-bootstrap.css",
+                contain: ["**/bootstrap.css"]
             }, {
-                "target": "vendor-font-awesome.css",
-                "contain": ["**/font-awesome.css"]
+                target: "vendor-font-awesome.css",
+                contain: ["**/font-awesome.css"]
             }]
         },
         /**
          * 【支持单个文件指定注入到某些页面】
          * （命名规则：assign-{页面名}-{页面名}-{other}
          */
-        "lib": {
-            "available": true, //启用 公共 文件自动化注入
-            "css": "*common*", //以common命名的样式文件会注入到所有的页面
+        lib: {
+            available: true, //启用 公共 文件自动化注入
+            css: "*common*", //以common命名的样式文件会注入到所有的页面
             /*
              * ---------- 公共脚本打包格式 仅对 生产环境------------
              * 打包文件支持 gulp格式的正则文件名
@@ -75,11 +75,11 @@ export default {
              *     "contain": ["{文件1}", "{文件2}", "{文件3}"]
              * }
              */
-            "js": []
+            js: []
         },
         /**
          * 【支持src目录中的样式及编译后的逻辑脚本自动化注入到对应的页面】
          */
-        "views": true //启用 业务目录 文件自动化注入
+        views: true //启用 业务目录 文件自动化注入
     }
 }

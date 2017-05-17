@@ -248,13 +248,6 @@ export default () => {
     }
 
     /**
-     * 复制雪碧图到研发目录 不做任何处理
-     */
-    function copySlice() {
-        return copyHandler('slice');
-    }
-
-    /**
      * 复制字体到研发字体目录
      */
     function copyFonts() {
@@ -667,16 +660,6 @@ export default () => {
                         copyHandler('fonts', file);
                     }
                     break;
-
-                case 'slice':
-                    if (type === 'removed') {
-                        const tmp = file.replace('src/', 'dev/');
-
-                        del([tmp]);
-                    } else {
-                        copyHandler('slice', file);
-                    }
-                    break;
                     /**
                      * 此处注释掉
                      * 公共脚本放入lib目录
@@ -714,7 +697,6 @@ export default () => {
     function watch(cb) {
         const watcher = gulp.watch([
             config.paths.src.img,
-            config.paths.src.slice,
             config.paths.src.lib,
             config.paths.src.cssAll,
             config.paths.src.lessAll,
@@ -763,7 +745,6 @@ export default () => {
         gulp.parallel(
             copyImg,
             copyFonts,
-            copySlice,
             copyLib,
             compileCss,
             compileAppJs
