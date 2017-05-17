@@ -293,6 +293,37 @@ const fezConfigDefault = {
     },
 
     /**
+     * 雪碧图配置
+     */
+    sprites: {
+        src: './src/static/slice/**/*.png',
+        dest: {
+            css: './src/static/styles/sprite/',
+            image: './src/static/images/sprite/'
+        },
+        options: {
+            imgName: 'sprite.png',
+            imgPath: '../../images/sprite/sprite.png',
+            cssName: 'sprite.less',
+            padding: 4,
+            cssFormat: "less",
+            cssOpts: {
+                cssClass: function(item) {
+                    // If this is a hover sprite, name it as a hover one (e.g. 'home-hover' -> 'home:hover')
+                    if (item.name.indexOf('-hover') !== -1) {
+                        return '.icon-' + item.name.replace('-hover', ':hover');
+                        // Otherwise, use the name as the selector (e.g. 'home' -> 'home')
+                    } else {
+                        return '.icon-' + item.name;
+                    }
+                }
+            },
+            retinaSrcFilter: ['./src/static/slice/**/*@2x.png'],
+            retinaImgName: 'sprite@2x.png'
+        }
+    },
+
+    /**
      * 路径配置
      */
     "paths": {

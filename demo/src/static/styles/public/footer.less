@@ -1,15 +1,10 @@
+@import url('../sprite/sprite.less');
 .icon {
     display: inline-block;
 }
-
 .icon-weibo {
-    background-image: url(../../slice/weibo.png);
-    width: 32PX;
-    height: 32PX;
+    .sprite(@weibo);
 }
-
 .icon-weixin {
-    background-image: url(../../slice/weixin.png);
-    width: 32PX;
-    height: 32PX;
+    .sprite(@weixin);
 }

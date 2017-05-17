@@ -74,11 +74,6 @@ import less from 'gulp-less';
 import sass from 'gulp-sass';
 
 /**
- * 自动为css中的图片样式添加 宽/高/background-size 属性
- */
-import lazyImageCSS from 'gulp-lazyimagecss';
-
-/**
  * css 预处理 css中的 rem/autoprefixer等
  * https://github.com/postcss/gulp-postcss
  */
@@ -213,11 +208,6 @@ import imagemin from 'gulp-imagemin';
 import pngquant from 'imagemin-pngquant';
 
 /**
- * 雪碧图合并
- */
-import tmtsprite from 'gulp-tmtsprite';
-
-/**
  * 自动添加css前缀
  */
 import postcssAutoprefixer from 'autoprefixer'; //
@@ -346,17 +336,7 @@ export default () => {
                     }, config.useREM.css.options))
                 ])
             ))
-            .pipe(lazyImageCSS({
-                imagePath: ['../slice'] //gulp-lazyImageCSS 寻找目录
-            }))
-            .pipe(tmtsprite({
-                margin: 4
-            }))
-            .pipe(gulpif(
-                '*.png',
-                gulp.dest(config.paths.tmp.sprite),
-                gulp.dest(config.paths.tmp.css)
-            ));
+            .pipe(gulp.dest(config.paths.tmp.css));
     }
 
     /**

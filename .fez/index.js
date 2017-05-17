@@ -52,6 +52,11 @@ import gulpSvg2Icon from './svg2icon';
 import gulpTest from './test';
 
 /**
+ * 自动合并雪碧图
+ */
+import gulpSprite from './sprite';
+
+/**
  * 默认任务(执行研发任务)
  * gulp
  */
@@ -68,4 +73,5 @@ export default () => {
     gulpZip();
     gulpSvg2Icon();
     gulpTest();
+    gulpSprite();
 };

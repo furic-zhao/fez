@@ -74,11 +74,6 @@ import less from 'gulp-less';
 import sass from 'gulp-sass';
 
 /**
- * 自动为css中的图片样式添加 宽/高/background-size 属性
- */
-import lazyImageCSS from 'gulp-lazyimagecss';
-
-/**
  * css 预处理 css中的 rem/autoprefixer等
  * https://github.com/postcss/gulp-postcss
  */
@@ -311,7 +306,7 @@ export default () => {
                     relativeUrls: true //将网址编译成相对网址
                 }, config.cssCompilerOptions))
             ))
-            .pipe(sourcemaps.write())
+            .pipe(sourcemaps.write('.'))
             .on('error', (error) => {
                 gutil.log(error.message);
             })
@@ -330,10 +325,6 @@ export default () => {
                     })
                 ])
             ))
-            //自动添加图片的宽/高属性
-            .pipe(lazyImageCSS({
-                imagePath: ['../slice'] //gulp-lazyImageCSS 寻找目录
-            }))
             .pipe(gulp.dest(config.paths.dev.css))
             .on('end', reloadHandler)
     }
