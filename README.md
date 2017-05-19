@@ -142,7 +142,7 @@ static
 - Ubuntu 用户使用 `apt-get` 安装 node 后，安装的程序名叫 `nodejs`，需要软链成 `node`
 - Windows 用户安装完成后需要在 CMD 下确认是否能执行 node 和 npm
 
-> 由于windows依赖的开发环境配置较为复杂，windows 用户建议使用`Node 6.9.X`及其以下版本安装和运行FEZ。
+> FEZ已为window系统做了兼容优化包括新版node V7.10.0，但不能保证所有的window环境都能正常运行。可以尝试安装[windows开发工具集](https://github.com/felixrieseberg/windows-build-tools)
 
 #### 全局安装 Gulp4.0
 
