@@ -1,10 +1,9 @@
+/* ==================================
+ * @ 2017 FEZ 前端模块化工程开发框架
+ * https://github.com/furic-zhao/fez
+ * ================================== */
+
 export default {
-
-    /**
-     * 项目目录名称
-     */
-    projectName: process.cwd().split(path.sep).pop(),
-
     /**
      * browsersync配置信息
      * 配置参考【仅对optons】 http://www.browsersync.cn/docs/options/
@@ -261,6 +260,22 @@ export default {
     },
 
     /**
+     * Svg图标symblo形式使用配置
+     */
+    svgSymbol: {
+        available: false, //启用svg图标自动化symbol合并
+        autoInject: false, //启用将合并后的symbol.svg自动化注入到页面
+        /**
+         * 配置参考
+         * https://github.com/Hiswe/gulp-svg-symbols#options
+         */
+        options: {
+            id: 'fez-%f',
+            className: '.fez-%f'
+        }
+    },
+
+    /**
      * 雪碧图配置
      */
     sprites: {
@@ -304,6 +319,8 @@ export default {
 
             img: "./src/static/images/**/*.{png,jpg,gif,ico}", //图片目录
 
+            svg: "./src/static/svg/**/*.svg", //SVG源文件目录
+
             fonts: "./src/static/fonts/**/*.{otf,eot,svg,ttf,woff,woff2}", //字体存放目录
 
             lib: "./src/lib/**/*.js", //项目公共库文件
@@ -338,6 +355,10 @@ export default {
 
             fonts: "./dev/static/fonts", //编译后的字体文件存放目录
 
+            img: "./dev/static/images", //压缩后的图片存放目录
+
+            svg: "./dev/static/svg", //压缩后的图片存放目录
+
             html: "./dev" //html编译后的存放目录
         },
 
@@ -356,6 +377,8 @@ export default {
             fonts: "./tmp/static/fonts", //编译后的字体文件存放目录
 
             img: "./tmp/static/images", //压缩后的图片存放目录
+
+            svg: "./tmp/static/svg", //处理后的SVG存放目录
 
             html: "./tmp" //html编译后的存放目录
         },
@@ -376,6 +399,8 @@ export default {
 
             img: "./dist/static/images", //压缩后的图片存放目录
 
+            svg: "./dist/static/svg", //处理后的SVG存放目录
+
             html: "./dist" //html编译后的存放目录
         },
 
@@ -392,6 +417,8 @@ export default {
             fonts: "./test/static/fonts", //编译后的字体文件存放目录
 
             img: "./test/static/images", //压缩后的图片存放目录
+
+            svg: "./dist/static/svg", //处理后的SVG存放目录
 
             html: "./test" //html编译后的存放目录
         }
