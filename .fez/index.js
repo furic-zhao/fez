@@ -56,6 +56,7 @@ import gulpTest from './test';
  */
 import gulpSprite from './sprite';
 
+
 /**
  * 默认任务(执行研发任务)
  * gulp

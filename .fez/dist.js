@@ -4,6 +4,29 @@
  * ================================== */
 
 /**
+ * 合并SVG图标
+ * https://github.com/Hiswe/gulp-svg-symbols
+ */
+import svgSymbols from 'gulp-svg-symbols';
+
+/**
+ * 在页面中插入内容
+ * https://github.com/mikehazell/gulp-inject-string
+ */
+import injectString from 'gulp-inject-string';
+
+/**
+ * gulp 替换内容
+ */
+import gulpReplace from 'gulp-replace';
+
+/**
+ * nodejs中提供本地文件的读写能力
+ * http://javascript.ruanyifeng.com/nodejs/fs.html
+ */
+import fs from 'fs';
+
+/**
  * gulp插件的实用函数
  * https://github.com/gulpjs/gulp-util
  */
@@ -154,12 +177,6 @@ import vueify from 'vueify';
 import _ from 'lodash';
 
 /**
- * nodejs中提供本地文件的读写能力
- * http://javascript.ruanyifeng.com/nodejs/fs.html
- */
-import fs from 'fs';
-
-/**
  * nodejs中的路径处理模块
  * http://javascript.ruanyifeng.com/nodejs/path.html
  */
@@ -279,6 +296,19 @@ export default () => {
      **/
     function delDist() {
         return del([config.paths.dist.dir]);
+    }
+
+    /**
+     * 合并SVG图标
+     */
+    function svgSymbol(cb) {
+        if (!config.svgSymbol.available) return cb();
+
+        return gulp.src(config.paths.src.svg)
+            .pipe(svgSymbols(Object.assign({}, config.svgSymbol.options)))
+            .pipe(filter("**/*.svg"))
+            .pipe(gulpReplace(`<svg xmlns="http://www.w3.org/2000/svg"`, `<svg xmlns="http://www.w3.org/2000/svg" style="display:none"`))
+            .pipe(gulp.dest(config.paths.tmp.svg));
     }
 
     /**
@@ -735,6 +765,18 @@ export default () => {
                 })
             });
 
+        /**
+         * 将symbol后的svg内容自动注入到html中
+         */
+        const injectSvg = lazypipe()
+            .pipe(() => {
+                if (config.svgSymbol.available && config.svgSymbol.autoInject) {
+                    return injectString.after('<body>', fs.readFileSync(`${config.paths.tmp.svg}/svg-symbols.svg`).toString('utf-8'))
+                } else {
+                    return buffer();
+                }
+            });
+
         //处理页面
         const injectHtml = (es) => {
             return es.map((file, cb) => {
@@ -759,6 +801,10 @@ export default () => {
                             ignorePath: '../../../tmp/',
                             relative: true,
                         })
+                    ))
+                    .pipe(gulpif(
+                        (config.svgSymbol.available && config.svgSymbol.autoInject),
+                        injectSvg()
                     ))
                     .pipe(gulpif(
                         config.useHtmlMin.available,
@@ -917,6 +963,7 @@ export default () => {
             compileAutoprefixer, //自动添加前缀
             imageminImg, //图片压缩
             fontsSize, //字体压缩
+            svgSymbol //合并svg图标
         ),
         gulp.parallel(
             compileAppJs, //编译压缩业务层js

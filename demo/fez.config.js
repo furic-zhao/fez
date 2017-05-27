@@ -31,5 +31,9 @@ export default {
             js: []
         },
         views: true
+    },
+    svgSymbol: {
+        available: true,
+        autoInject: true
     }
 }

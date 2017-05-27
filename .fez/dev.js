@@ -4,6 +4,29 @@
  * ================================== */
 
 /**
+ * 合并SVG图标
+ * https://github.com/Hiswe/gulp-svg-symbols
+ */
+import svgSymbols from 'gulp-svg-symbols';
+
+/**
+ * 在页面中插入内容
+ * https://github.com/mikehazell/gulp-inject-string
+ */
+import injectString from 'gulp-inject-string';
+
+/**
+ * gulp 替换内容
+ */
+import gulpReplace from 'gulp-replace';
+
+/**
+ * Nodejs处理文件
+ * http://nodejs.cn/api/fs
+ */
+import fs from 'fs';
+
+/**
  * gulp插件的实用函数
  * https://github.com/gulpjs/gulp-util
  */
@@ -216,6 +239,19 @@ export default () => {
      */
     function delDev() {
         return del([config.paths.dev.dir]);
+    }
+
+    /**
+     * 合并SVG图标
+     */
+    function svgSymbol(cb) {
+        if (!config.svgSymbol.available) return cb();
+
+        return gulp.src(config.paths.src.svg)
+            .pipe(svgSymbols(Object.assign({}, config.svgSymbol.options)))
+            .pipe(filter("**/*.svg"))
+            .pipe(gulpReplace(`<svg xmlns="http://www.w3.org/2000/svg"`, `<svg xmlns="http://www.w3.org/2000/svg" style="display:none"`))
+            .pipe(gulp.dest(config.paths.dev.svg));
     }
 
     /**
@@ -496,6 +532,9 @@ export default () => {
      * 编译 html 文件
      */
     function compileHtml(cb) {
+        /**
+         * 自动注入Bower库文件到html页面中
+         */
         const injectBower = lazypipe()
             .pipe(() => {
                 if (!config.useInject.bower.available) return buffer();
@@ -511,6 +550,9 @@ export default () => {
                 })
             });
 
+        /**
+         * 自动注入项目公共库文件到html页面中
+         */
         const injectLib = lazypipe()
             .pipe(() => {
                 return inject(gulp.src([`./dev/static/css/**/${config.useInject.lib.css}.css`, `./dev/lib/**/*.js`, `!./dev/lib/**/assign-*.js`], {
@@ -521,6 +563,18 @@ export default () => {
                     ignorePath: '../../../dev/',
                     // addRootSlash: true
                 })
+            });
+
+        /**
+         * 将symbol后的svg内容自动注入到html中
+         */
+        const injectSvg = lazypipe()
+            .pipe(() => {
+                if (config.svgSymbol.available && config.svgSymbol.autoInject) {
+                    return injectString.after('<body>', fs.readFileSync(`${config.paths.dev.svg}/svg-symbols.svg`).toString('utf-8'))
+                } else {
+                    return buffer();
+                }
             });
 
         const injectHtml = (es) => {
@@ -550,6 +604,10 @@ export default () => {
                             ignorePath: '../../../dev/',
                             // addRootSlash: true
                         })
+                    ))
+                    .pipe(gulpif(
+                        (config.svgSymbol.available && config.svgSymbol.autoInject),
+                        injectSvg()
                     ))
                     .pipe(gulp.dest(config.paths.dev.html))
                     .on("end", () => {
@@ -744,6 +802,7 @@ export default () => {
         delDev,
         gulp.parallel(
             copyImg,
+            svgSymbol,
             copyFonts,
             copyLib,
             compileCss,

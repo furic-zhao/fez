@@ -293,6 +293,22 @@ const fezConfigDefault = {
     },
 
     /**
+     * Svg图标symblo形式使用配置
+     */
+    svgSymbol: {
+        available: false, //启用svg图标自动化symbol合并
+        autoInject: false, //启用将合并后的symbol.svg自动化注入到页面
+        /**
+         * 配置参考
+         * https://github.com/Hiswe/gulp-svg-symbols#options
+         */
+        options: {
+            id: 'fez-%f',
+            className: '.fez-%f'
+        }
+    },
+
+    /**
      * 雪碧图配置
      */
     sprites: {
@@ -336,6 +352,8 @@ const fezConfigDefault = {
 
             img: "./src/static/images/**/*.{png,jpg,gif,ico}", //图片目录
 
+            svg: "./src/static/svg/**/*.svg", //SVG源文件目录
+
             fonts: "./src/static/fonts/**/*.{otf,eot,svg,ttf,woff,woff2}", //字体存放目录
 
             lib: "./src/lib/**/*.js", //项目公共库文件
@@ -370,6 +388,10 @@ const fezConfigDefault = {
 
             fonts: "./dev/static/fonts", //编译后的字体文件存放目录
 
+            img: "./dev/static/images", //压缩后的图片存放目录
+
+            svg: "./dev/static/svg", //压缩后的图片存放目录
+
             html: "./dev" //html编译后的存放目录
         },
 
@@ -388,6 +410,8 @@ const fezConfigDefault = {
             fonts: "./tmp/static/fonts", //编译后的字体文件存放目录
 
             img: "./tmp/static/images", //压缩后的图片存放目录
+
+            svg: "./tmp/static/svg", //处理后的SVG存放目录
 
             html: "./tmp" //html编译后的存放目录
         },
@@ -408,6 +432,8 @@ const fezConfigDefault = {
 
             img: "./dist/static/images", //压缩后的图片存放目录
 
+            svg: "./dist/static/svg", //处理后的SVG存放目录
+
             html: "./dist" //html编译后的存放目录
         },
 
@@ -424,6 +450,8 @@ const fezConfigDefault = {
             fonts: "./test/static/fonts", //编译后的字体文件存放目录
 
             img: "./test/static/images", //压缩后的图片存放目录
+
+            svg: "./dist/static/svg", //处理后的SVG存放目录
 
             html: "./test" //html编译后的存放目录
         }
