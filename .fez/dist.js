@@ -118,6 +118,7 @@ import posthtml from 'gulp-posthtml';
     browserify 相关处理模块
  ***************************/
 import browserify from 'browserify';
+import envify from 'envify/custom';
 import browserifyShim from 'browserify-shim';
 import source from 'vinyl-source-stream';
 import buffer from 'vinyl-buffer';
@@ -431,6 +432,10 @@ export default () => {
                 const b = browserify(Object.assign({}, config.browserify.options, {
                         entries: file,
                         debug: false,
+                    }))
+                    .transform(envify({
+                        _: 'purge',
+                        NODE_ENV: 'production'
                     }))
                     .transform(browserifyShim)
                     // 处理条件打包

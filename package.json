@@ -37,6 +37,7 @@
     "crypto-md5": "^1.0.0",
     "cssify": "^1.0.2",
     "del": "^2.2.0",
+    "envify": "^4.0.0",
     "event-stream": "^3.3.4",
     "glob": "^7.0.3",
     "gulp": "git://github.com/gulpjs/gulp.git#4.0",

@@ -129,6 +129,7 @@ import notify from 'gulp-notify';
     browserify 相关处理模块
  ***************************/
 import browserify from 'browserify';
+import envify from 'envify/custom';
 import browserifyShim from 'browserify-shim';
 import source from 'vinyl-source-stream';
 import buffer from 'vinyl-buffer';
@@ -396,6 +397,10 @@ export default () => {
                 const b = watchify(browserify(Object.assign({}, config.browserify.options, watchify.args, {
                         entries: file,
                         debug: true,
+                    }))
+                    .transform(envify({
+                        _: 'purge',
+                        NODE_ENV: 'development'
                     }))
                     .transform(browserifyShim)
                     /**
