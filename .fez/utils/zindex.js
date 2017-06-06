@@ -210,8 +210,8 @@ export default (cb = () => {}, applyDir = config.paths.dev.html) => {
          $('#qrModal .modal-title').html($(this).data("href"));
          new QRCode($('#qrModal .qr-img')[0], {
             text: window.location.protocol + "//${ip}" + (window.location.port ? ':' + window.location.port : '') + "/" + $(this).data("href"),
-            width: 360,
-            height: 360,
+            width: 300,
+            height: 300,
             colorDark: "#000000",
             colorLight: "#ffffff",
             correctLevel: QRCode.CorrectLevel.H
