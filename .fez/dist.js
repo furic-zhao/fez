@@ -872,7 +872,7 @@ export default () => {
             .pipe(cdnify({
                 base: config.useCdn.base,
                 rewriter: (url, process) => {
-                    if (/http|https/.test(url)) {
+                    if (/http|https|^(\/\/)/.test(url)) {
                         return process(url);
                     } else if (/eot|ttf|woff|woff2/.test(url)) {
                         return `${config.useCdn.fonts}${url}`;
@@ -991,9 +991,9 @@ export default () => {
             )
         ),
         compileHtml, //编译压缩html
-        cdnReplace,
         reversion, //给静态资源添加版本号
         compileWebp(), //编译webp
+        cdnReplace,
         compileChanged //只编译改动过的文件
     ));
 }
