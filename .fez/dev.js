@@ -162,7 +162,7 @@ import pugify from 'pugify';
  * borwserify 支持 require css样式
  * https://github.com/davidguttman/cssify
  */
-import cssify from 'cssify';
+import cssify from 'browserify-css';
 
 /**
  * borwserify 支持 require less样式
@@ -434,7 +434,7 @@ export default () => {
                     // 编译 module 中的less
                     .transform(lessify)
                     // 编译 module 中的 css
-                    .transform(cssify)
+                    .transform(cssify, { autoInject: true })
                     // 编译 module 中的 handlebars 模板
                     .transform(hbsfy)
                     // 编译 module 中的 jade 模板
