@@ -203,6 +203,7 @@ const fezConfigDefault = {
      */
     useCdn: {
         available: false,
+        extFile: 'css,html', //可以替换CDN地址的文件扩展名
         base: "http://fezcdn.com/", //默认CDN地址
         js: "http://js.fezcdn.com/", //脚本CDN地址
         css: "http://css.fezcdn.com/", //样式CDN地址

@@ -868,7 +868,7 @@ export default () => {
     function cdnReplace(cb) {
         if (!config.useCdn.available) return cb();
 
-        return gulp.src([`${config.paths.tmp.dir}/**/*.{css,html}`])
+        return gulp.src([`${config.paths.tmp.dir}/**/*.{${config.useCdn.extFile}}`])
             .pipe(cdnify({
                 base: config.useCdn.base,
                 rewriter: (url, process) => {
