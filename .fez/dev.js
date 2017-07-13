@@ -292,6 +292,13 @@ export default () => {
     }
 
     /**
+     * 复制自定义文件到研发目录
+     */
+    function copyCustom() {
+        return copyHandler('custom');
+    }
+
+    /**
      * 编译css/less/sass
      * 可以在 .fezrc 配置中任选其一
      */
@@ -810,6 +817,7 @@ export default () => {
             svgSymbol,
             copyFonts,
             copyLib,
+            copyCustom,
             compileCss,
             compileAppJs
         ),

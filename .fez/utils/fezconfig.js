@@ -359,6 +359,8 @@ const fezConfigDefault = {
 
             lib: "./src/lib/**/*.js", //项目公共库文件
 
+            custom: "./src/custom/**/*", //自定义文件目录
+
             appJs: "./src/views/*/index.js", //每个页面目录下的index.js 入口文件
             appJsALL: "./src/views/**/*.js", //所有业务层js文件，用于监视改动自动刷新
 
@@ -383,6 +385,8 @@ const fezConfigDefault = {
 
             lib: "./dev/lib", //公共库文件生成目录
 
+            custom: "./dev/custom", //自定义文件目录
+
             appjs: "./dev/static/js", //编译后的业务逻辑存放目录
 
             css: "./dev/static/css", //编译后的css代码存放目录
@@ -403,6 +407,8 @@ const fezConfigDefault = {
             dir: "./tmp", //缓存根目录
 
             lib: "./tmp/lib", //公共库文件生成目录
+
+            custom: "./tmp/custom", //自定义文件目录
 
             appjs: "./tmp/static/js", //编译后的业务逻辑存放目录
 
@@ -425,6 +431,8 @@ const fezConfigDefault = {
 
             lib: "./dist/lib", //公共库文件生成目录 (已废弃)
 
+            custom: "./dist/custom", //自定义文件目录
+
             appjs: "./dist/static/js", //编译后脚本代码存放目录
 
             css: "./dist/static/css", //编译后的css代码存放目录
@@ -443,6 +451,8 @@ const fezConfigDefault = {
          */
         test: {
             dir: "./test", //测试环境 根目录
+
+            custom: "./test/custom", //自定义文件目录
 
             appjs: "./test/static/js", //编译后脚本代码存放目录
 

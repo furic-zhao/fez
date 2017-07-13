@@ -391,6 +391,14 @@ export default () => {
     }
 
     /**
+     * 处理自定义字体文件
+     **/
+    function copyCustom() {
+        return gulp.src(config.paths.src.custom)
+            .pipe(gulp.dest(config.paths.tmp.custom));
+    }
+
+    /**
      * 自动添加css前缀
      **/
     function compileAutoprefixer() {
@@ -968,6 +976,7 @@ export default () => {
             compileAutoprefixer, //自动添加前缀
             imageminImg, //图片压缩
             fontsSize, //字体压缩
+            copyCustom, //处理自定义文件
             svgSymbol //合并svg图标
         ),
         gulp.parallel(
