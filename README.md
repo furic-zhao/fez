@@ -246,6 +246,11 @@ gulp sprite
 ````
 > FEZ 会调用项目目录中`fez.config.js`的`sprites`配置信息，自动化合并`slice`目录中的小图标为雪碧图并生成sprite.png图片到`images/sprite／`目录，同时生成对应的样式文件(可配置生成css/less/sass/scss)到`styles/sprite/`目录
 
+## FEZ升级
+
+- 下载FEZ工程目录中的所有文件，覆盖本地的FEZ工程目录中的所有文件，然后执行`npm install`。
+- 如果你是通过Git下载FEZ工程，在FEZ工程目录里面执行`git pull`，然后执行`npm install`。
+
 ## 待续...
 
 
