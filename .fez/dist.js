@@ -231,15 +231,28 @@ import pngquant from 'imagemin-pngquant';
 import postcssAutoprefixer from 'autoprefixer'; //
 
 /**
- * md5版本号
- * https://www.npmjs.com/package/gulp-rev-all
+ * 生成md5版本号
+ * https://www.npmjs.com/package/gulp-rev
  */
-import RevAll from 'gulp-rev-all';
+import RevAll from 'gulp-rev';
+
+/**
+ * 替换md5版本号文件
+ * https://www.npmjs.com/package/gulp-rev-replace
+ */
+import RevReplace from 'gulp-rev-replace';
 
 /**
  * 删除由gulp-rev或gulp-rev-all重写的原始文件。
+ * https://www.npmjs.com/package/gulp-rev-delete-original
  */
 import revDel from 'gulp-rev-delete-original';
+
+/**
+ * 提取样式中的相对路径
+ * https://www.npmjs.com/package/gulp-rev-css-url
+ */
+import override from 'gulp-rev-css-url';
 
 /**
  * 合并JS
@@ -378,6 +391,12 @@ export default () => {
             .pipe(imagemin({
                 use: [pngquant()]
             }))
+            .pipe(RevAll())
+            .pipe(override())
+            .pipe(gulp.dest(config.paths.tmp.img))
+            .pipe(RevAll.manifest({
+                merge: true
+            }))
             .pipe(gulp.dest(config.paths.tmp.img));
     }
 
@@ -387,6 +406,12 @@ export default () => {
     function fontsSize() {
         return gulp.src(config.paths.src.fonts)
             .pipe(size())
+            .pipe(RevAll())
+            .pipe(override())
+            .pipe(gulp.dest(config.paths.tmp.fonts))
+            .pipe(RevAll.manifest({
+                merge: true
+            }))
             .pipe(gulp.dest(config.paths.tmp.fonts));
     }
 
@@ -553,6 +578,12 @@ export default () => {
             .pipe(fontFilter)
             .pipe(flatten())
             .pipe(size())
+            .pipe(RevAll())
+            .pipe(override())
+            .pipe(gulp.dest(config.paths.tmp.fonts))
+            .pipe(RevAll.manifest({
+                merge: true
+            }))
             .pipe(gulp.dest(config.paths.tmp.fonts));
     }
 
@@ -919,27 +950,28 @@ export default () => {
     function reversion(cb) {
         if (!config.useMd5.available) return cb();
 
-        const revAllConfig = Object.assign({}, {
-            fileNameManifest: 'manifest.json',
-            dontRenameFile: ['.html', '.php'],
-            dontUpdateReference: ['.html'],
-            transformFilename: (file, hash) => {
-                const filename = path.basename(file.path);
-
-                const ext = path.extname(file.path);
-
-                return `${path.basename(file.path, ext)}.${hash.substr(0, config.useMd5.options.hashLength || 8)}${ext}`;
-
-            }
-        }, config.useMd5.options);
-
-        return gulp.src([`${config.paths.tmp.dir}/**/*`])
-            .pipe(RevAll.revision(revAllConfig))
+        return gulp.src([`${config.paths.tmp.dir}/**/*`, `!${config.paths.tmp.dir}/**/*.html`, `!${config.paths.tmp.dir}/**/images/**/*`, `!${config.paths.tmp.dir}/**/fonts/**/*`])
+            .pipe(RevAll())
+            .pipe(override())
+            .pipe(revDel())
             .pipe(gulp.dest(config.paths.tmp.dir))
-            .pipe(revDel({
-                exclude: /(.html|.htm)$/
+            .pipe(RevAll.manifest({
+                merge: true
             }))
-            .pipe(RevAll.manifestFile())
+            .pipe(gulp.dest(config.paths.tmp.dir));
+    }
+
+    /**
+     * 替换md5后缀的文件名
+     */
+    function reversionRepalce(cb) {
+        if (!config.useMd5.available) return cb();
+
+        let manifest = gulp.src(`${config.paths.tmp.dir}/**/rev-manifest*.json`);
+        return gulp.src([`${config.paths.tmp.dir}/**/*`])
+            .pipe(RevReplace({
+                manifest: manifest
+            }))
             .pipe(gulp.dest(config.paths.tmp.dir));
     }
 
@@ -1001,6 +1033,7 @@ export default () => {
         ),
         compileHtml, //编译压缩html
         reversion, //给静态资源添加版本号
+        reversionRepalce, //替换版本号的静态资源
         compileWebp(), //编译webp
         cdnReplace,
         compileChanged //只编译改动过的文件
