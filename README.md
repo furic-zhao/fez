@@ -1,4 +1,4 @@
-<p align="center"><a href="http://fez.hestudy.com" target="_blank"><img width="100"src="/furic-zhao/fez/blob/master/demo/src/static/images/fez-logo.png"></a></p>
+<p align="center"><a href="http://fez.hestudy.com" target="_blank"><img width="100"src="/fez/master/demo/src/static/images/fez-logo.png"></a></p>
 
 
 # FEZ
