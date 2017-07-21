@@ -1,5 +1,4 @@
-<p align="center"><a href="http://fez.hestudy.com" target="_blank"><img width="330"src="/demo/src/static/images/fez-logo.png"></a></p>
-
+<p align="center"><a href="http://fez.hestudy.com" target="_blank"><img width="240"src="/demo/src/static/images/fez-logo.png"></a></p>
 
 # FEZ
 随着Web业务多元化及项目的日益迭代，Web应用的复杂程度与日俱增，随之而来的工程问题困扰着研发团队的效率和执行。
