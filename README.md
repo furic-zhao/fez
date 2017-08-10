@@ -1,4 +1,4 @@
-<p align="center"><a href="http://fez.hestudy.com" target="_blank"><img width="240"src="/demo/src/static/images/fez-logo.png"></a></p>
+<p align="center"><a href="http://fez.hestudy.com" target="_blank"><img width="240"src="https://github.com/furic-zhao/fez-demo-handlebars/blob/master/src/static/images/fez-logo.png?raw=true"></a></p>
 
 # FEZ
 随着Web业务多元化及项目的日益迭代，Web应用的复杂程度与日俱增，随之而来的工程问题困扰着研发团队的效率和执行。
@@ -12,7 +12,7 @@
 - 使用国际前沿的前端工程自动化技术解决项目的资源管理和大量重复的代码编译工作。
 
 ## FEZ使用场景
-- 【一份代码支持多终端响应式WEB应用】参考示例：[Demo](https://github.com/furic-zhao/fez/tree/master/demo)
+- 【一份代码支持多终端响应式WEB应用】参考示例：[fez-demo-handlebars](https://github.com/furic-zhao/fez-demo-handlebars)
 - 【基于Vue的高性能大中型WEBAPP应用】参考示例：[fez-demo-vue](https://github.com/furic-zhao/fez-demo-vue)
 - 【基于React的高性能大中型WEBAPP应用】参考示例：[fez-demo-react](https://github.com/furic-zhao/fez-demo-react)
 - 【基于Framework7和Vue的高性能移动端混合APP及H5应用】参考示例：[fez-demo-framework7](https://github.com/furic-zhao/fez-demo-framework7)
@@ -23,12 +23,10 @@
 
 ### 功能模块化
 
-> 模块化是一种处理复杂系统分解为更好的可管理模块的方式。每个模块完成一个特定的子功能，所有的模块再进行统一的拼装和加载，成为一个整体，完成整个系统所要求的功能。
-
 [FEZ](http://fez.hestudy.com) 支持使用[ES6 Module](http://es6.ruanyifeng.com/#docs/module)来组织前端代码，并支持使用ES6标准特性开发项目，通过[Babel](http://babeljs.cn/)编译完美运行在浏览器中。可以整合如[Vue](https://cn.vuejs.org/)、[React](https://github.com/facebook/react)等MVVM框架实现[单文件组件](https://cn.vuejs.org/v2/guide/single-file-components.html)形式的高效开发体验。
 
+> 模块化是一种处理复杂系统分解为更好的可管理模块的方式。每个模块完成一个特定的子功能，所有的模块再进行统一的拼装和加载，成为一个整体，完成整个系统所要求的功能。
 > 有关模块化的更多知识请参考：【[https://github.com/fouber/blog](https://github.com/fouber/blog)】【[https://www.zhihu.com/question/37011441](https://www.zhihu.com/question/37011441)】
-
 
 ### 结构规范化
 
@@ -129,15 +127,32 @@ static
 - 自动化将所有静态资源添加CDN前缀。
 - 自动化搭建用于测试上线代码的多终端测试环境。
 - 自动化通过SFTP部署上线、或部署静态资源。
-
+- 自动化通过Mock方式构建随机数据，模拟研发和上线的数据环境。
 
 ## FEZ安装使用
-
-### 安装
 
 - Mac系统推荐使用 [iterm2](http://iterm2.com/) 及 [oh my zsh](http://ohmyz.sh/)
 - 类 Unix 系统，请打开任意终端输入命令执行。
 - Windows 用户请先安装 [git](http://git-scm.com/)，然后在 [Git Bash](http://git-for-windows.github.io/) 下执行命令
+
+### 下载
+
+#### 使用Git下载
+- 如果已经安装[git](http://git-scm.com/)，打开终端命令行进入要存放FEZ的目录，执行以下命令
+
+```bash
+git clone git@github.com:furic-zhao/fez.git
+```
+或者
+```bash
+git clone https://github.com/furic-zhao/fez.git
+```
+#### 使用浏览器下载
+- 下载以下链接解压到本地目录即可
+
+`https://github.com/furic-zhao/fez/archive/master.zip`
+
+### 安装
 
 #### 安装 Node 和 NPM
 
@@ -146,7 +161,7 @@ static
 - Ubuntu 用户使用 `apt-get` 安装 node 后，安装的程序名叫 `nodejs`，需要软链成 `node`
 - Windows 用户安装完成后需要在 CMD 下确认是否能执行 node 和 npm
 
-> FEZ已为window系统做了兼容优化包括新版node V7.10.0，但不能保证所有的window环境都能正常运行。可以尝试安装[windows开发工具集](https://github.com/felixrieseberg/windows-build-tools)
+> FEZ不能保证所有 window系统 下默认的 Nodejs 环境都能正常运行。可以尝试安装nodejs的[windows开发工具集](https://github.com/felixrieseberg/windows-build-tools)
 
 #### 全局安装 Gulp4.0
 
@@ -165,26 +180,24 @@ npm install bower -g
 ```
 > 使用Bower主要是为了管理第三方框架库，通过页面自动化注入技术解决页面框架库的引入和管理问题，如果想用固定的CDN资源，或手动的引入页面，可以不安装，并在 项目根目录fez.config.js 配置文件中将此配置关闭
 
-### 运行 Demo 示例项目
-
 #### 安装 NPM 包
 
-- 进入fez 目录执行以下命令
+- 在 FEZ 目录执行以下命令
 
 ```bash
 npm install
 ```
 
-#### 安装 Bower 包
-- 进入项目 demo 目录执行以下命令
+### 初始化项目
+- 在 FEZ 目录执行以下命令
 
 ```bash
-bower install
+gulp init --dir=项目目录名
 ```
 
-#### 运行 Demo 示例
+### 运行 初始化项目
 
-- 在项目目录下执行
+- 进入刚刚创建的 项目目录 执行以下命令
 
 ```bash
 gulp
@@ -252,6 +265,8 @@ gulp sprite
 
 - 下载FEZ工程目录中的所有文件，覆盖本地的FEZ工程目录中的所有文件，然后执行`npm install`。
 - 如果你是通过Git下载FEZ工程，在FEZ工程目录里面执行`git pull`，然后执行`npm install`。
+
+> 每次升级请确保在FEZ工程目录执行`npm install`
 
 ## 待续...
 

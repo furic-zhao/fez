@@ -163,7 +163,7 @@ const fezConfigDefault = {
             safe: true,
             reduceTransforms: false,
             advanced: false, //类型：Boolean 默认：true [是否开启高级优化（合并选择器等）]
-            compatibility: "ie7", //保留ie7及以下兼容写法(hack写法) 类型：String 默认：''or'*' [启用兼容模式； 'ie7'：IE7兼容模式，'ie8'：IE8兼容模式，'*'：IE9+兼容模式]
+            compatibility: "ie8", //保留ie7及以下兼容写法(hack写法) 类型：String 默认：''or'*' [启用兼容模式； 'ie7'：IE7兼容模式，'ie8'：IE8兼容模式，'*'：IE9+兼容模式]
             keepSpecialComments: 0 //保留所有特殊前缀 当你用autoprefixer生成的浏览器前缀，如果不加这个参数，有可能将会删除你的部分前缀
         }
     },
@@ -255,7 +255,7 @@ const fezConfigDefault = {
          * style 目录中的样式命名规则必须为：
          * {页面名}.{css,less,scss} 或者 {other}-{页面名}.{css,less,scss}
          */
-        views: false //启用 业务目录 文件自动化注入
+        views: true //启用 业务目录 文件自动化注入
     },
 
     /**
