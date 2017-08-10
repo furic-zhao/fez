@@ -44,7 +44,7 @@ export default () => {
   }
 
   /*****************************
-   * 使用gulp 通过 SFTP 上传文件
+   * 自动化创建新项目
    *****************************/
   gulp.task('init', gulp.series(
     initProject
