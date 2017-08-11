@@ -838,7 +838,7 @@ export default () => {
                     ))
                     .pipe(gulpif(
                         config.useInject.views,
-                        inject(gulp.src([`./tmp/static/js/**/assign*-${cateName}*.js`, `./tmp/static/css/**/${cateName}.css`, `./tmp/static/js/**/${cateName}.js`, `./tmp/static/css/**/*-${cateName}.css`, `./tmp/static/js/**/*-${cateName}.js`], {
+                        inject(gulp.src([`./tmp/static/js/**/assign*-${cateName}*.js`, `./tmp/static/css/**/${cateName}.css`, `./tmp/static/js/**/${cateName}.js`], {
                             read: false
                         }), {
                             starttag: '<!-- inject:views:{{ext}} -->',
