@@ -364,6 +364,8 @@ const fezConfigDefault = {
             appJs: "./src/views/*/index.js", //每个页面目录下的index.js 入口文件
             appJsALL: "./src/views/**/*.js", //所有业务层js文件，用于监视改动自动刷新
 
+            styles: "./src/static/styles",
+
             css: "./src/static/styles/*.css", //页面中引用的样式，工程只编译样式根目录下的文件
             cssAll: "./src/static/styles/**/*.css", //所有业务层css文件，用于监视改动自动刷新
 

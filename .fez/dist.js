@@ -330,18 +330,21 @@ export default () => {
      **/
     function compileCss() {
         const lessCondition = config.cssCompiler === 'less';
-        const sassCondition = config.cssCompiler === 'sass';
+        const sassCondition = config.cssCompiler === ('sass'||'scss');
 
         function sourcePath() {
             switch (config.cssCompiler) {
                 case 'sass':
-                    return config.paths.src.sass;
+                    return [`${config.paths.src.styles}/*.sass`,`${config.paths.src.styles}/*.scss`];
+                    break;
+                case 'scss':
+                    return [`${config.paths.src.styles}/*.sass`,`${config.paths.src.styles}/*.scss`];
                     break;
                 case 'less':
-                    return config.paths.src.less;
+                    return [`${config.paths.src.styles}/*.less`];
                     break;
                 default:
-                    return config.paths.src.css;
+                    return [`${config.paths.src.styles}/*.css`];
             }
         }
 

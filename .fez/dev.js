@@ -4,6 +4,12 @@
  * ================================== */
 
 /**
+ * Nodejs处理路径
+ * http://nodejs.cn/api/path.html
+ */
+import path from 'path';
+
+/**
  * 合并SVG图标
  * https://github.com/Hiswe/gulp-svg-symbols
  */
@@ -304,18 +310,21 @@ export default () => {
      */
     function compileCss() {
         const lessCondition = config.cssCompiler === 'less';
-        const sassCondition = config.cssCompiler === 'sass';
+        const sassCondition = config.cssCompiler === ('sass'||'scss');
 
         function sourcePath() {
             switch (config.cssCompiler) {
                 case 'sass':
-                    return config.paths.src.sass;
+                    return [`${config.paths.src.styles}/*.sass`,`${config.paths.src.styles}/*.scss`];
+                    break;
+                case 'scss':
+                    return [`${config.paths.src.styles}/*.sass`,`${config.paths.src.styles}/*.scss`];
                     break;
                 case 'less':
-                    return config.paths.src.less;
+                    return [`${config.paths.src.styles}/*.less`];
                     break;
                 default:
-                    return config.paths.src.css;
+                    return [`${config.paths.src.styles}/*.css`];
             }
         }
 
@@ -540,110 +549,121 @@ export default () => {
             .pipe(gulp.dest(config.paths.dev.dir));
     }
 
+    function injectHtmlFiles(htmlPath = config.paths.src.html) {
+        return new Promise((resolve, reject) => {
+            /**
+             * 自动注入Bower库文件到html页面中
+             */
+            const injectBower = lazypipe()
+                .pipe(() => {
+                    if (!config.useInject.bower.available) return buffer();
+
+                    return inject(gulp.src(mainBowerFiles(), {
+                        read: false
+                    }), {
+                        starttag: '<!-- inject:bower:{{ext}} -->',
+                        name: "bower",
+                        relative: true,
+                        ignorePath: '../../../',
+                        // addRootSlash: true
+                    })
+                });
+
+            /**
+             * 自动注入项目公共库文件到html页面中
+             */
+            const injectLib = lazypipe()
+                .pipe(() => {
+                    return inject(gulp.src([`./dev/static/css/**/${config.useInject.lib.css}.css`, `./dev/lib/**/*.js`, `!./dev/lib/**/assign-*.js`], {
+                        read: false
+                    }), {
+                        starttag: '<!-- inject:lib:{{ext}} -->',
+                        relative: true,
+                        ignorePath: '../../../dev/',
+                        // addRootSlash: true
+                    })
+                });
+
+            /**
+             * 将symbol后的svg内容自动注入到html中
+             */
+            const injectSvg = lazypipe()
+                .pipe(() => {
+                    if (config.svgSymbol.available && config.svgSymbol.autoInject) {
+                        return injectString.after('<body>', fs.readFileSync(`${config.paths.dev.svg}/svg-symbols.svg`).toString('utf-8'))
+                    } else {
+                        return buffer();
+                    }
+                });
+
+            const injectHtml = (es) => {
+                return es.map((file, cb) => {
+                    const cateName = file.path.match(/((.*?)[\/|\\])*([^.]+).*/)[2];
+
+                    gulp.src(file.path)
+                        .pipe(plumber({
+                            errorHandler: notify.onError("Error: <%= error.message %>")
+                        }))
+                        .pipe(rename(cateName + '.html'))
+                        .pipe(gulpif(
+                            config.useInject.bower.available,
+                            injectBower()
+                        ))
+                        .pipe(gulpif(
+                            config.useInject.lib.available,
+                            injectLib()
+                        ))
+                        .pipe(gulpif(
+                            config.useInject.views,
+                            inject(gulp.src([`./dev/lib/**/assign*-${cateName}*.js`, `./dev/static/css/**/${cateName}.css`, `./dev/static/js/**/${cateName}.js`], {
+                                read: false
+                            }), {
+                                starttag: '<!-- inject:views:{{ext}} -->',
+                                relative: true,
+                                ignorePath: '../../../dev/',
+                                // addRootSlash: true
+                            })
+                        ))
+                        .pipe(gulpif(
+                            (config.svgSymbol.available && config.svgSymbol.autoInject),
+                            injectSvg()
+                        ))
+                        .pipe(gulp.dest(config.paths.dev.html))
+                        .on("end", () => {
+                            cb();
+                        });
+                });
+            };
+
+            /**
+             * 入口页面
+             */
+            const indexHtmlFilter = filter(`**/index.html`, {
+                restore: true
+            });
+
+            return gulp.src(htmlPath)
+                .pipe(plumber({
+                    errorHandler: notify.onError("Error: <%= error.message %>")
+                }))
+                .pipe(indexHtmlFilter)
+                .pipe(injectHtml(es))
+                .pipe(indexHtmlFilter.restore)
+                .pipe(gulp.dest(config.paths.dev.html))
+                .on('end', () => {
+                    resolve();
+                    reloadHandler();
+                })
+        });
+    }
+
     /**
      * 编译 html 文件
      */
     function compileHtml(cb) {
-        /**
-         * 自动注入Bower库文件到html页面中
-         */
-        const injectBower = lazypipe()
-            .pipe(() => {
-                if (!config.useInject.bower.available) return buffer();
-
-                return inject(gulp.src(mainBowerFiles(), {
-                    read: false
-                }), {
-                    starttag: '<!-- inject:bower:{{ext}} -->',
-                    name: "bower",
-                    relative: true,
-                    ignorePath: '../../../',
-                    // addRootSlash: true
-                })
-            });
-
-        /**
-         * 自动注入项目公共库文件到html页面中
-         */
-        const injectLib = lazypipe()
-            .pipe(() => {
-                return inject(gulp.src([`./dev/static/css/**/${config.useInject.lib.css}.css`, `./dev/lib/**/*.js`, `!./dev/lib/**/assign-*.js`], {
-                    read: false
-                }), {
-                    starttag: '<!-- inject:lib:{{ext}} -->',
-                    relative: true,
-                    ignorePath: '../../../dev/',
-                    // addRootSlash: true
-                })
-            });
-
-        /**
-         * 将symbol后的svg内容自动注入到html中
-         */
-        const injectSvg = lazypipe()
-            .pipe(() => {
-                if (config.svgSymbol.available && config.svgSymbol.autoInject) {
-                    return injectString.after('<body>', fs.readFileSync(`${config.paths.dev.svg}/svg-symbols.svg`).toString('utf-8'))
-                } else {
-                    return buffer();
-                }
-            });
-
-        const injectHtml = (es) => {
-            return es.map((file, cb) => {
-                const cateName = file.path.match(/((.*?)[\/|\\])*([^.]+).*/)[2];
-
-                gulp.src(file.path)
-                    .pipe(plumber({
-                        errorHandler: notify.onError("Error: <%= error.message %>")
-                    }))
-                    .pipe(rename(cateName + '.html'))
-                    .pipe(gulpif(
-                        config.useInject.bower.available,
-                        injectBower()
-                    ))
-                    .pipe(gulpif(
-                        config.useInject.lib.available,
-                        injectLib()
-                    ))
-                    .pipe(gulpif(
-                        config.useInject.views,
-                        inject(gulp.src([`./dev/lib/**/assign*-${cateName}*.js`, `./dev/static/css/**/${cateName}.css`, `./dev/static/js/**/${cateName}.js`], {
-                            read: false
-                        }), {
-                            starttag: '<!-- inject:views:{{ext}} -->',
-                            relative: true,
-                            ignorePath: '../../../dev/',
-                            // addRootSlash: true
-                        })
-                    ))
-                    .pipe(gulpif(
-                        (config.svgSymbol.available && config.svgSymbol.autoInject),
-                        injectSvg()
-                    ))
-                    .pipe(gulp.dest(config.paths.dev.html))
-                    .on("end", () => {
-                        cb();
-                    });
-            });
-        };
-
-        /**
-         * 入口页面
-         */
-        const indexHtmlFilter = filter('**/index.html', {
-            restore: true
+        injectHtmlFiles().then(() => {
+            cb();
         });
-
-        return gulp.src(config.paths.src.html)
-            .pipe(plumber({
-                errorHandler: notify.onError("Error: <%= error.message %>")
-            }))
-            .pipe(indexHtmlFilter)
-            .pipe(injectHtml(es))
-            .pipe(indexHtmlFilter.restore)
-            .pipe(gulp.dest(config.paths.dev.html))
-            .on('end', reloadHandler)
     }
 
     /**
@@ -688,24 +708,32 @@ export default () => {
      */
     function watchHandler(type, file) {
         const target = file.match(/^src[\/|\\](.*?)[\/|\\]/)[1];
-
+        const pathParse = path.parse(file);
         if (target === "views") {
-            /*监视页面*/
-            if (type === 'removed') {
-                const tmp = file.replace('src/', 'dev/');
-
-                del([tmp]).then(() => {
-                    qrcodeViewHtml();
-                });
-            } else {
-                compileHtml();
+            if (pathParse.ext === '.html') {
+                const removeFiles = file.match(/^src[\/|\\]views[\/|\\](.*?)[\/|\\]/)[1];
+                /*监视页面*/
+                if (type === 'removed') {
+                    del([`${config.paths.dev.dir}/**/${removeFiles}.html`, `${config.paths.dev.dir}/**/${removeFiles}.js`]).then(() => {
+                        setTimeout(function() {
+                            qrcodeViewHtml();
+                        }, 500);
+                    });
+                } else if (type === 'add') {
+                    injectHtmlFiles(file).then(() => {
+                        setTimeout(function() {
+                            qrcodeViewHtml();
+                        }, 500);
+                    });
+                } else {
+                    injectHtmlFiles(file);
+                }
             }
 
-            if (type === 'add') {
-                setTimeout(function() {
-                    qrcodeViewHtml();
-                }, 500);
-            }
+        } else if (target === "lib") {
+            copyLib();
+        } else if (target === "custom") {
+            copyCustom();
         } else if (target === "static") {
             /*监视静态资源*/
             const staticFile = file.match(/^src[\/|\\]static[\/|\\](.*?)[\/|\\]/)[1];
@@ -713,7 +741,7 @@ export default () => {
             switch (staticFile) {
                 case 'images':
                     if (type === 'removed') {
-                        const tmp = file.replace('src/', 'dev/');
+                        const tmp = `${config.paths.dev.img}/**/${pathParse.base}`;
 
                         del([tmp]);
                     } else {
@@ -723,7 +751,7 @@ export default () => {
 
                 case 'fonts':
                     if (type === 'removed') {
-                        const tmp = file.replace('src/', 'dev/');
+                        const tmp = `${config.paths.dev.fonts}/**/${pathParse.base}`;
 
                         del([tmp]);
                     } else {
@@ -747,13 +775,12 @@ export default () => {
                 case 'styles':
 
                     if (type === 'removed') {
-                        const tmp = file.replace('src/', 'dev/').replace('.less', '.css').replace('.scss', '.css');
+                        const tmp = `${config.paths.dev.css}/**/${pathParse.name}`;
 
                         del([tmp]);
                     } else {
                         compileCss();
                     }
-
                     break;
             }
         }
@@ -766,12 +793,13 @@ export default () => {
      */
     function watch(cb) {
         const watcher = gulp.watch([
-            config.paths.src.img,
-            config.paths.src.lib,
-            config.paths.src.cssAll,
-            config.paths.src.lessAll,
-            config.paths.src.sassAll,
-            config.paths.src.htmlAll,
+            config.paths.src.dir + '/**/*'
+            // config.paths.src.img,
+            // config.paths.src.lib,
+            // config.paths.src.cssAll,
+            // config.paths.src.lessAll,
+            // config.paths.src.sassAll,
+            // config.paths.src.htmlAll,
             // config.paths.src.appJsALL //注释掉(交给watchify处理)
         ], {
             ignored: /[\/\\]\./

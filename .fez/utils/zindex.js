@@ -96,6 +96,7 @@ function showdir(collector, level) {
 }
 
 export default (cb = () => {}, applyDir = config.paths.dev.html) => {
+    htmlPages = [];
 
     const ip = localIp.getLocalIP4();
 
