@@ -25,17 +25,17 @@ import gulp from 'gulp';
 /**
  * 引入 .fezconfig 配置
  */
-import config from './fezconfig';
+import config from './utils/fezconfig';
 
 /**
  * 创建初始化相关文件和目录
  */
-import createProject from './init/project';
+import createPage from './utils/init/page';
 
 export default () => {
 
-  function initProject(cb) {
-    createProject({
+  function initPage(cb) {
+    createPage({
       name: argv.name || argv.dir,
       directory: argv.dir,
       path: argv.path,
@@ -47,7 +47,7 @@ export default () => {
   /*****************************
    * 自动化创建新项目
    *****************************/
-  gulp.task('fezinit', gulp.series(
-    initProject
+  gulp.task('initpage', gulp.series(
+    initPage
   ));
 }

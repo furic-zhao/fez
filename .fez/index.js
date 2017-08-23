@@ -56,6 +56,11 @@ import gulpTest from './test';
  */
 import gulpSprite from './sprite';
 
+/**
+ * 自动创建项目页面
+ */
+import initPage from './initpage';
+
 
 /**
  * 默认任务(执行研发任务)
@@ -75,4 +80,5 @@ export default () => {
     gulpSvg2Icon();
     gulpTest();
     gulpSprite();
+    initPage();
 };

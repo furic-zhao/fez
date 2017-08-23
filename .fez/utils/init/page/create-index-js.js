@@ -18,20 +18,18 @@ export default (opts) => {
  * https://github.com/furic-zhao/fez
  * ================================== */
 
-/**
- * index 页面所有业务脚本代码 写在此文件中
- */
+/* ${opts.name} 页面脚本 */
 
     `;
   writeFile({
-    directory: `${opts.directory}/src/views/index`,
+    directory: `src/views/${opts.directory}`,
     fileName: 'index.js',
     data: file,
     success() {
-      gutil.log(`创建 ${opts.directory}/src/views/index/index.js 成功`);
+      gutil.log(`创建 src/views/${opts.directory}/index.js 成功`);
     },
     error() {
-      gutil.log(`创建 ${opts.directory}/src/views/index/index.js 失败`);
+      gutil.log(`创建 src/views/${opts.directory}/index.js 失败`);
     }
   });
 }
