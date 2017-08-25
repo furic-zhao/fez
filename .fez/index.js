@@ -59,7 +59,7 @@ import gulpSprite from './sprite';
 /**
  * 自动创建项目页面
  */
-import initPage from './initpage';
+import initPage from './page';
 
 
 /**

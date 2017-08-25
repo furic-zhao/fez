@@ -47,7 +47,7 @@ export default () => {
   /*****************************
    * 自动化创建新项目
    *****************************/
-  gulp.task('initpage', gulp.series(
+  gulp.task('page', gulp.series(
     initPage
   ));
 }

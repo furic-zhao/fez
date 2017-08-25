@@ -42,11 +42,11 @@ export default (opts) => {
   <h3>页面目录结构</h3>
   <pre>
 .
-└── src                        /*源码目录*/
-    ├── static                 /*静态资源目录*/
-    │   └── styles             /*样式目录*/
+└── src
+    ├── static
+    │   └── styles
     │       └── ${opts.directory}.${opts.fezconfig.cssCompiler}     /*${opts.name}样式文件*/
-    └── views                  /*业务逻辑存放目录*/
+    └── views
         └── ${opts.directory}              /*${opts.name} 页面目录*/
             ├── index.html     /*${opts.name} HTML页面*/
             ├── index.js       /*${opts.name} 业务逻辑脚本文件*/

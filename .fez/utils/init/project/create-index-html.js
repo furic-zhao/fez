@@ -50,28 +50,28 @@ export default (opts) => {
     </ul>
   <h3>项目目录结构</h3>
   <pre>
-.
-├── fez.config.js              /*FEZ功能配置文件*/
-├── bower.json                 /*bower配置文件*/
-├── package.json               /*npm配置文件*/
-├── gulpfile.babel.js          /*gulp入口文件*/
-├── shim.js                    /*browserify-shim入口文件*/
-└── src                        /*源码目录*/
-    ├── custom                 /*自定义文件目录*/
-    ├── lib                    /*项目公共库文件目录*/
-    ├── static                 /*静态资源目录*/
-    │   ├── fonts              /*字体目录*/
-    │   ├── images             /*图片目录*/
-    │   └── styles             /*样式目录*/
-    │       └── index.less     /*首页样式文件*/
-    └── views                  /*业务逻辑存放目录*/
-        ├── index              /*首页目录*/
-        │   ├── index.html     /*首页Html文件*/
-        │   ├── index.js       /*首页业务逻辑脚本文件*/
-        │   └── module         /*首页模块目录*/
-        └── public             /*业务逻辑公共文件目录*/
-            ├── module         /*公共模块目录*/
-            └── utils          /*公共工具类目录*/
+${opts.directory}
+├── fez.config.js              /*FEZ功能配置 文件*/
+├── bower.json                 /*bower配置 文件*/
+├── package.json               /*npm配置 文件*/
+├── gulpfile.babel.js          /*gulp入口 文件*/
+├── shim.js                    /*browserify-shim入口 文件*/
+└── src                        /*源码 目录*/
+    ├── custom                 /*自定义文件 目录*/
+    ├── lib                    /*项目公共库 目录*/
+    ├── static                 /*静态资源 目录*/
+    │   ├── fonts              /*字体 目录*/
+    │   ├── images             /*图片 目录*/
+    │   └── styles             /*样式 目录*/
+    │       └── index.less     /*首页样式 文件*/
+    └── views                  /*业务逻辑 目录*/
+        ├── index              /*首页 目录*/
+        │   ├── index.html     /*首页Html 文件*/
+        │   ├── index.js       /*首页逻辑脚本 文件*/
+        │   └── module         /*首页模块 目录*/
+        └── public             /*业务逻辑公共文件 目录*/
+            ├── module         /*公共模块 目录*/
+            └── utils          /*公共工具类库 目录*/
     </pre>
 
     <!-- inject:bower:js -->
