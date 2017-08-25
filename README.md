@@ -1,8 +1,6 @@
 <p align="center"><a href="http://fez.jd.com" target="_blank"><img width="240"src="https://github.com/furic-zhao/fez-demo-handlebars/blob/master/src/static/images/fez-logo.png?raw=true"></a></p>
 
 # FEZ
-随着Web业务多元化及项目的日益迭代，Web应用的复杂程度与日俱增，随之而来的工程问题困扰着研发团队的效率和执行。
-
 [FEZ](http://fez.jd.com) 是面向 前端模块化工程 的开发框架。主要为解决 前端开发多人高效协作、提高开发质量、及项目功能扩展的快速迭代和可维护性等问题。核心包括功能模块化、结构规范化、及开发自动化。
 
 ## FEZ倡导的前端开发理念
@@ -30,7 +28,7 @@
 
 ### 结构规范化
 
-[FEZ](http://fez.jd.com) 将复杂的系统划分为功能页面，将复杂的页面划分为若干个模块，将模块分为：获取数据、渲染显示、交互操作，并且都有统一的文件结构。
+[FEZ](http://fez.jd.com) 将复杂的系统划分为功能页面(组件)，将复杂的页面(组件)划分为若干个模块，将模块分为：获取数据、渲染显示、交互操作，并且都有统一的文件结构。
 
 #### 统一的文件系统结构
 
@@ -39,25 +37,17 @@
 ````bash
 views
 └── page1
-    ├── index.html
-    ├── index.js
+    ├── index.html                 /*page1 Html页面*/
+    ├── index.js                   /*page1 页面入口脚本*/
     └── module
-        ├── module1
-        │   ├── index.js
-        │   ├── index.hbs
-        │   └── service.js
-        ├── module2
-        │   ├── index.vue
-        │   └── service.js
-        └── module3
-            ├── index.js
-            ├── module3-1
-            │   ├── index.js
-            │   ├── index.jade
-            │   └── service.js
-            └── module3-2
-                ├── index.vue
-                └── service.js
+        ├── module1                /*模块1 目录*/
+        │   ├── index.js           /*模块1 逻辑脚本*/
+        │   ├── index.hbs          /*模块1 handlebars模板*/
+        │   └── service.js         /*模块1 数据处理脚本*/
+        └── module2
+            ├── index.vue          /*模块2 基于Vue的单文件组件*/
+            └── service.js         /*模块2 数据处理脚本*/
+
 ````
 
 - 样式目录结构
@@ -128,6 +118,7 @@ static
 - 自动化搭建用于测试上线代码的多终端测试环境。
 - 自动化通过SFTP部署上线、或部署静态资源。
 - 自动化通过Mock方式构建随机数据，模拟研发和上线的数据环境。
+- 自动化创建统一结构化项目、及统一结构化的项目页面。
 
 ## FEZ安装使用
 
@@ -165,6 +156,8 @@ git clone https://github.com/furic-zhao/fez.git
 
 #### 全局安装 Gulp4.0
 
+- 任意目录执行
+
 ```bash
 npm install gulpjs/gulp#4.0 -g
 ```
@@ -175,6 +168,8 @@ npm install gulpjs/gulp#4.0 -g
 
 #### 全局安装 Bower (可选安装)
 
+- 任意目录执行
+
 ```bash
 npm install bower -g
 ```
@@ -182,22 +177,48 @@ npm install bower -g
 
 #### 安装 NPM 包
 
-- 在 FEZ 目录执行以下命令
+- 在 FEZ 工程目录执行
 
 ```bash
 npm install
 ```
 
-### 初始化项目
-- 在 FEZ 目录执行以下命令
+### 创建项目
+- 在 FEZ 工程目录执行
 
 ```bash
-gulp fezinit --dir=项目目录名
+gulp fezinit --dir=demozhj
+```
+在FEZ工程目录下会自动创建结构化的 `demozhj` 项目
+
+```bash
+demozhj
+├── fez.config.js              /*FEZ功能配置文件*/
+├── bower.json                 /*bower配置文件*/
+├── package.json               /*npm配置文件*/
+├── gulpfile.babel.js          /*gulp入口文件*/
+├── shim.js                    /*browserify-shim入口文件*/
+└── src                        /*源码目录*/
+    ├── custom                 /*自定义文件目录*/
+    ├── lib                    /*项目公共库文件目录*/
+    ├── static                 /*静态资源目录*/
+    │   ├── fonts              /*字体目录*/
+    │   ├── images             /*图片目录*/
+    │   └── styles             /*样式目录*/
+    │       └── index.less     /*首页样式文件*/
+    └── views                  /*业务逻辑存放目录*/
+        ├── index              /*首页目录*/
+        │   ├── index.html     /*首页Html文件*/
+        │   ├── index.js       /*首页业务逻辑脚本文件*/
+        │   └── module         /*首页模块目录*/
+        └── public             /*业务逻辑公共文件目录*/
+            ├── module         /*公共模块目录*/
+            └── utils          /*公共工具类库目录*/
 ```
 
-### 运行 初始化项目
+### 运行项目
 
-- 进入刚刚创建的 项目目录 执行以下命令
+- 进入 `demozhj` 项目目录 执行
 
 ```bash
 gulp
@@ -207,59 +228,79 @@ gulp
 
 ## 命令说明
 
-- 研发环境
+- 研发环境（在项目目录执行）
 
-````bash
+```bash
 gulp
-````
+```
 
 > FEZ 会自动打开系统默认浏览器进入研发环境，您可以打开多个不同终端和不同类型的浏览器访问同一开发页面，开发过程中任何文件的更改，或是在任何一个终端的浏览器中的操作行为，都会同步到每个终端界面，实时查看在每个终端的修改效果。
 
-- 生产部署
+- 生产部署（在项目目录执行）
 
-````bash
+```bash
 gulp dist
-````
+```
 
 > FEZ 会自动化编译源码目录中的所有文件(js、sass、less、html、图片、字体等)，自动化生成md5版本号，并将编译后的上线代码发布到`dist`目录。之后通过其它途径、或流程工具发布`dist`目录到线上服务器。
 
-- 本地测试上线代码
+- 本地测试上线代码（在项目目录执行）
 
-````bash
+```bash
 gulp test
-````
+```
 
 > FEZ 会自动化构建本地测试环境，并自动打开系统默认浏览器对`dist`上线目录中的代码真实性的模拟服务器上的操作效果，可以让测试人员打开多个不同终端和不同类型的浏览器一次性测试所有平台、所有浏览器中的最终产品的交互和操作。
 
-- SSH上传
+- SSH上传（在项目目录执行）
 
-````bash
+```bash
 gulp sftp
-````
+```
 
 > FEZ 会调用项目目录中`fez.config.js`的`sftp`配置信息，通过SSH方式快速部署`dist` 中的上线代码，或是部署`dist`目录中的静态资源。
 
-- 打包压缩
+- 打包压缩（在项目目录执行）
 
-````bash
+```bash
 gulp zip
-````
+```
 
 > FEZ 会自动化将`dist`目录中所有上线代码打包成`dist.zip`文件，用于通过其它流程工具部署上线。
 
-- svg => icon 转换
+- svg => icon 转换（在项目目录执行）
 
-````bash
+```bash
 gulp svg2icon
-````
+```
 > FEZ 会调用项目目录中`fez.config.js`的`svgIcons`配置信息，自动化转换svg图标为icon字体文件并生成对应的样式文件。
 
-- 合并雪碧图
+- 合并雪碧图（在项目目录执行）
 
-````bash
+```bash
 gulp sprite
-````
+```
 > FEZ 会调用项目目录中`fez.config.js`的`sprites`配置信息，自动化合并`slice`目录中的小图标为雪碧图并生成sprite.png图片到`images/sprite／`目录，同时生成对应的样式文件(可配置生成css/less/sass/scss)到`styles/sprite/`目录
+
+- 创建结构化模版页（在项目目录执行）
+
+```bash
+gulp page --dir=demopage
+```
+demopage 页面结构
+
+```bash
+.
+└── src                        
+    ├── static                 
+    │   └── styles             
+    │       └── demopage.less  /*demopage 页面样式文件*/
+    └── views                  
+        └── demopage           /*demopage 页面目录*/
+            ├── index.html     /*demopage HTML页面*/
+            ├── index.js       /*demopage 业务逻辑脚本文件*/
+            └── module         /*demopage 模块目录*/
+```
 
 ## FEZ升级
 
