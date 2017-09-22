@@ -109,6 +109,11 @@ import sass from 'gulp-sass';
 import postcss from 'gulp-postcss';
 
 /**
+ * 自动添加css前缀
+ */
+import postcssAutoprefixer from 'autoprefixer';
+
+/**
  * CSS 转换 `px` 为 `rem`
  * https://github.com/cuth/postcss-pxtorem
  */
@@ -234,630 +239,640 @@ import config from './utils/fezconfig';
 
 export default () => {
 
-    /**
-     * 调用browsersync自动刷新浏览器
-     */
-    function reloadHandler() {
-        config.browsersync.dev.available && bs.reload();
+  /**
+   * 调用browsersync自动刷新浏览器
+   */
+  function reloadHandler() {
+    config.browsersync.dev.available && bs.reload();
+  }
+
+  /**
+   * 删除开发目录
+   */
+  function delDev() {
+    return del([config.paths.dev.dir]);
+  }
+
+  /**
+   * 合并SVG图标
+   */
+  function svgSymbol(cb) {
+    if (!config.svgSymbol.available) return cb();
+
+    return gulp.src(config.paths.src.svg)
+      .pipe(svgSymbols(Object.assign({}, config.svgSymbol.options)))
+      .pipe(filter("**/*.svg"))
+      .pipe(gulpReplace(`<svg xmlns="http://www.w3.org/2000/svg"`, `<svg xmlns="http://www.w3.org/2000/svg" style="display:none"`))
+      .pipe(gulp.dest(config.paths.dev.svg));
+  }
+
+  /**
+   * 通用复制模块
+   */
+  function copyHandler(type, file = config.paths.src[type]) {
+
+    return gulp.src(file, {
+        base: config.paths.src.dir
+      })
+      .pipe(plumber({
+        errorHandler: notify.onError("Error: <%= error.message %>")
+      }))
+      .pipe(gulp.dest(config.paths.dev.dir))
+      .on('end', reloadHandler);
+  }
+
+  /**
+   * 复制图片到研发目录
+   */
+  function copyImg() {
+    return copyHandler('img');
+  }
+
+  /**
+   * 复制公共脚本到研发目录
+   */
+  function copyLib() {
+    return copyHandler("lib");
+  }
+
+  /**
+   * 复制字体到研发字体目录
+   */
+  function copyFonts() {
+    return copyHandler('fonts');
+  }
+
+  /**
+   * 复制自定义文件到研发目录
+   */
+  function copyCustom() {
+    return copyHandler('custom');
+  }
+
+  /**
+   * 编译css/less/sass
+   * 可以在 .fezrc 配置中任选其一
+   */
+  function compileCss() {
+    const lessCondition = config.cssCompiler === 'less';
+    const sassCondition = config.cssCompiler === ('sass' || 'scss');
+
+    function sourcePath() {
+      switch (config.cssCompiler) {
+        case 'sass':
+          return [`${config.paths.src.styles}/*.sass`, `${config.paths.src.styles}/*.scss`];
+          break;
+        case 'scss':
+          return [`${config.paths.src.styles}/*.sass`, `${config.paths.src.styles}/*.scss`];
+          break;
+        case 'less':
+          return [`${config.paths.src.styles}/*.less`];
+          break;
+        default:
+          return [`${config.paths.src.styles}/*.css`];
+      }
     }
 
     /**
-     * 删除开发目录
+     * "mobile": ["Android >= 4", "iOS >= 6"],
+     * "pc": ["last 3 versions", "Explorer >= 8", "Chrome >= 21", "Firefox >= 1", "Edge 13"],
+     * "all":["Android >= 4", "iOS >= 6", "last 3 versions", "Explorer >= 8", "Chrome >= 21", "Firefox >= 1", "Edge 13"]
      */
-    function delDev() {
-        return del([config.paths.dev.dir]);
-    }
+    const postcssOption = [postcssAutoprefixer({
+      browsers: ["Android >= 4", "iOS >= 6", "last 3 versions", "Explorer >= 8", "Chrome >= 21", "Firefox >= 1", "Edge 13"]
+    })];
+
+    return gulp.src(sourcePath())
+      .pipe(plumber({
+        errorHandler: notify.onError("Error: <%= error.message %>")
+      }))
+      .pipe(sourcemaps.init())
+      .pipe(gulpif(
+        sassCondition,
+        sass(Object.assign({
+          /**
+           * ------- outputStyle 取值 ------
+           * nested：嵌套缩进的css代码，它是默认值。
+           * expanded：没有缩进的、扩展的css代码。
+           * compact：简洁格式的css代码。
+           * compressed：压缩后的css代码
+           */
+          outputStyle: 'compact'
+        }, config.cssCompilerOptions))
+      ))
+      .pipe(gulpif(
+        lessCondition,
+        less(Object.assign({
+          relativeUrls: true //将网址编译成相对网址
+        }, config.cssCompilerOptions))
+      ))
+      .pipe(sourcemaps.write())
+      .on('error', (error) => {
+        gutil.log(error.message);
+      })
+      //css中的rem转换
+      .pipe(gulpif(
+        config.useREM.css.available,
+        postcss([
+          postcssPxtorem({
+            rootValue: 16, //相对于html根字体大小
+            unitPrecision: 5, //允许REM单位增长到的十进制数
+            propList: ['*'], //可以从px更改为rem的属性
+            selectorBlackList: [], //要忽略的选择器
+            replace: true, //替换包含rems的规则，而不是添加fallback
+            mediaQuery: false, //允许在媒体查询中转换px
+            minPixelValue: 0 //设置要替换的最小像素值
+          })
+        ])
+      ))
+      .pipe(postcss(postcssOption)) //添加CSS前缀
+      .pipe(gulp.dest(config.paths.dev.css))
+      .on('end', reloadHandler)
+  }
+
+  /**
+   * 使用 jshint 对脚本文件基本测试
+   * 只用在研发环境，提升代码质量
+   */
+  function jshintAppJs() {
+    return gulp.src(config.useJsHint.files)
+      .pipe(plumber({
+        errorHandler: notify.onError("Error: <%= error.message %>")
+      }))
+      .pipe(cache('linting')) //检测当前改动的文件
+      .pipe(jshint())
+      .pipe(jshint.reporter('default'))
+  }
+
+  /**
+   * 使用 browserify 编译 模块化 脚本代码
+   */
+  function compileAppJs(cb) {
+    //配置 handlebars 扩展名
+    hbsfy.configure({
+      extensions: ['hbs']
+    });
 
     /**
-     * 合并SVG图标
+     * browserify 处理多文件
+     * https://github.com/isaacs/node-glob
      */
-    function svgSymbol(cb) {
-        if (!config.svgSymbol.available) return cb();
+    glob(config.paths.src.appJs, (err, files) => {
+      const filesLength = files.length;
 
-        return gulp.src(config.paths.src.svg)
-            .pipe(svgSymbols(Object.assign({}, config.svgSymbol.options)))
-            .pipe(filter("**/*.svg"))
-            .pipe(gulpReplace(`<svg xmlns="http://www.w3.org/2000/svg"`, `<svg xmlns="http://www.w3.org/2000/svg" style="display:none"`))
-            .pipe(gulp.dest(config.paths.dev.svg));
-    }
+      let filesIndex = 0;
 
-    /**
-     * 通用复制模块
-     */
-    function copyHandler(type, file = config.paths.src[type]) {
+      files.map((file) => {
+        const source_name = file.match(/src[\/|\\]views[\/|\\](.*?)[\/|\\]/)[1];
 
-        return gulp.src(file, {
-                base: config.paths.src.dir
+        const b = watchify(browserify(Object.assign({}, config.browserify.options, watchify.args, {
+            entries: file,
+            debug: true,
+          }))
+          .transform(envify({
+            _: 'purge',
+            NODE_ENV: 'development'
+          }))
+          .transform(browserifyShim)
+          /**
+           * 用于区分 mock环境
+           */
+          .transform(preprocessify, {
+            context: {
+              MOCK: config.useMock.dev //dev是否打包mock数据
+            }
+          })
+          // .add(require.resolve('babel-polyfill'))
+          // 转换 es6
+          .transform(babelify.configure({
+            "compact": false,
+            "presets": [
+              "es2015", //转换es6
+              "stage-2", //ES7第三阶段语法提案的转码规
+              "react" //转换react的jsx
+            ],
+            "plugins": [
+              "transform-runtime",
+              "transform-object-assign", //Object.assign转换
+              ["transform-es2015-classes", { //转换es6 class插件
+                "loose": false
+              }],
+              ["transform-es2015-modules-commonjs", { //转换es6 module插件
+                "loose": false
+              }]
+            ]
+          }))
+          // 编译 module 中的less
+          .transform(lessify)
+          // 编译 module 中的 css
+          .transform(cssify, { autoInject: true })
+          // 编译 module 中的 handlebars 模板
+          .transform(hbsfy)
+          // 编译 module 中的 jade 模板
+          .transform(pugify.pug({
+            compileDebug: true,
+            pretty: true
+          }))
+          // 编译 module 中的 vue 模板
+          .transform(vueify));
+
+        function bandle(bUpdate = false) {
+
+          if (config.useJsHint.available) jshintAppJs(); //运行js代码检测
+
+          b.bundle()
+            .on('error', (err) => {
+              gutil.log(err.message);
+              bs.notify(err.message, 3000);
+              // this.emit('end');
             })
             .pipe(plumber({
-                errorHandler: notify.onError("Error: <%= error.message %>")
+              errorHandler: notify.onError("Error: <%= error.message %>")
             }))
-            .pipe(gulp.dest(config.paths.dev.dir))
-            .on('end', reloadHandler);
-    }
+            .pipe(source(source_name + '.js'))
+            .pipe(buffer())
+            .pipe(sourcemaps.init({
+              loadMaps: true //加载源文件的现有映射
+            }))
+            // Add transformation tasks to the pipeline here.
+            // .on('error', function(err) {
+            //     console.log('err:' + err);
+            //     gutil.log(err)
+            // })
+            .pipe(sourcemaps.write('.'))
+            .pipe(gulp.dest(config.paths.dev.appjs))
+            .on('end', () => {
+              filesIndex++;
 
-    /**
-     * 复制图片到研发目录
-     */
-    function copyImg() {
-        return copyHandler('img');
-    }
+              if (bUpdate) reloadHandler();
 
-    /**
-     * 复制公共脚本到研发目录
-     */
-    function copyLib() {
-        return copyHandler("lib");
-    }
-
-    /**
-     * 复制字体到研发字体目录
-     */
-    function copyFonts() {
-        return copyHandler('fonts');
-    }
-
-    /**
-     * 复制自定义文件到研发目录
-     */
-    function copyCustom() {
-        return copyHandler('custom');
-    }
-
-    /**
-     * 编译css/less/sass
-     * 可以在 .fezrc 配置中任选其一
-     */
-    function compileCss() {
-        const lessCondition = config.cssCompiler === 'less';
-        const sassCondition = config.cssCompiler === ('sass'||'scss');
-
-        function sourcePath() {
-            switch (config.cssCompiler) {
-                case 'sass':
-                    return [`${config.paths.src.styles}/*.sass`,`${config.paths.src.styles}/*.scss`];
-                    break;
-                case 'scss':
-                    return [`${config.paths.src.styles}/*.sass`,`${config.paths.src.styles}/*.scss`];
-                    break;
-                case 'less':
-                    return [`${config.paths.src.styles}/*.less`];
-                    break;
-                default:
-                    return [`${config.paths.src.styles}/*.css`];
-            }
+              /**
+               * 所有文件打包完成后
+               */
+              if (filesIndex === filesLength) cb();
+            });
         }
 
-        return gulp.src(sourcePath())
-            .pipe(plumber({
-                errorHandler: notify.onError("Error: <%= error.message %>")
-            }))
-            .pipe(sourcemaps.init())
-            .pipe(gulpif(
-                sassCondition,
-                sass(Object.assign({
-                    /**
-                     * ------- outputStyle 取值 ------
-                     * nested：嵌套缩进的css代码，它是默认值。
-                     * expanded：没有缩进的、扩展的css代码。
-                     * compact：简洁格式的css代码。
-                     * compressed：压缩后的css代码
-                     */
-                    outputStyle: 'compact'
-                }, config.cssCompilerOptions))
-            ))
-            .pipe(gulpif(
-                lessCondition,
-                less(Object.assign({
-                    relativeUrls: true //将网址编译成相对网址
-                }, config.cssCompilerOptions))
-            ))
-            .pipe(sourcemaps.write())
-            .on('error', (error) => {
-                gutil.log(error.message);
-            })
-            //css中的rem转换
-            .pipe(gulpif(
-                config.useREM.css.available,
-                postcss([
-                    postcssPxtorem({
-                        rootValue: 16, //相对于html根字体大小
-                        unitPrecision: 5, //允许REM单位增长到的十进制数
-                        propList: ['*'], //可以从px更改为rem的属性
-                        selectorBlackList: [], //要忽略的选择器
-                        replace: true, //替换包含rems的规则，而不是添加fallback
-                        mediaQuery: false, //允许在媒体查询中转换px
-                        minPixelValue: 0 //设置要替换的最小像素值
-                    })
-                ])
-            ))
-            .pipe(gulp.dest(config.paths.dev.css))
-            .on('end', reloadHandler)
-    }
-
-    /**
-     * 使用 jshint 对脚本文件基本测试
-     * 只用在研发环境，提升代码质量
-     */
-    function jshintAppJs() {
-        return gulp.src(config.useJsHint.files)
-            .pipe(plumber({
-                errorHandler: notify.onError("Error: <%= error.message %>")
-            }))
-            .pipe(cache('linting')) //检测当前改动的文件
-            .pipe(jshint())
-            .pipe(jshint.reporter('default'))
-    }
-
-    /**
-     * 使用 browserify 编译 模块化 脚本代码
-     */
-    function compileAppJs(cb) {
-        //配置 handlebars 扩展名
-        hbsfy.configure({
-            extensions: ['hbs']
-        });
+        bandle(); //编译打包
 
         /**
-         * browserify 处理多文件
-         * https://github.com/isaacs/node-glob
+         * 当任何依赖发生改变的时候，运行打包工具
          */
-        glob(config.paths.src.appJs, (err, files) => {
-            const filesLength = files.length;
-
-            let filesIndex = 0;
-
-            files.map((file) => {
-                const source_name = file.match(/src[\/|\\]views[\/|\\](.*?)[\/|\\]/)[1];
-
-                const b = watchify(browserify(Object.assign({}, config.browserify.options, watchify.args, {
-                        entries: file,
-                        debug: true,
-                    }))
-                    .transform(envify({
-                        _: 'purge',
-                        NODE_ENV: 'development'
-                    }))
-                    .transform(browserifyShim)
-                    /**
-                     * 用于区分 mock环境
-                     */
-                    .transform(preprocessify, {
-                        context: {
-                            MOCK: config.useMock.dev //dev是否打包mock数据
-                        }
-                    })
-                    // .add(require.resolve('babel-polyfill'))
-                    // 转换 es6
-                    .transform(babelify.configure({
-                        "compact": false,
-                        "presets": [
-                            "es2015", //转换es6
-                            "stage-2", //ES7第三阶段语法提案的转码规
-                            "react" //转换react的jsx
-                        ],
-                        "plugins": [
-                            "transform-runtime",
-                            "transform-object-assign", //Object.assign转换
-                            ["transform-es2015-classes", { //转换es6 class插件
-                                "loose": false
-                            }],
-                            ["transform-es2015-modules-commonjs", { //转换es6 module插件
-                                "loose": false
-                            }]
-                        ]
-                    }))
-                    // 编译 module 中的less
-                    .transform(lessify)
-                    // 编译 module 中的 css
-                    .transform(cssify, { autoInject: true })
-                    // 编译 module 中的 handlebars 模板
-                    .transform(hbsfy)
-                    // 编译 module 中的 jade 模板
-                    .transform(pugify.pug({
-                        compileDebug: true,
-                        pretty: true
-                    }))
-                    // 编译 module 中的 vue 模板
-                    .transform(vueify));
-
-                function bandle(bUpdate = false) {
-
-                    if (config.useJsHint.available) jshintAppJs(); //运行js代码检测
-
-                    b.bundle()
-                        .on('error', (err) => {
-                            gutil.log(err.message);
-                            bs.notify(err.message, 3000);
-                            // this.emit('end');
-                        })
-                        .pipe(plumber({
-                            errorHandler: notify.onError("Error: <%= error.message %>")
-                        }))
-                        .pipe(source(source_name + '.js'))
-                        .pipe(buffer())
-                        .pipe(sourcemaps.init({
-                            loadMaps: true //加载源文件的现有映射
-                        }))
-                        // Add transformation tasks to the pipeline here.
-                        // .on('error', function(err) {
-                        //     console.log('err:' + err);
-                        //     gutil.log(err)
-                        // })
-                        .pipe(sourcemaps.write('.'))
-                        .pipe(gulp.dest(config.paths.dev.appjs))
-                        .on('end', () => {
-                            filesIndex++;
-
-                            if (bUpdate) reloadHandler();
-
-                            /**
-                             * 所有文件打包完成后
-                             */
-                            if (filesIndex === filesLength) cb();
-                        });
-                }
-
-                bandle(); //编译打包
-
-                /**
-                 * 当任何依赖发生改变的时候，运行打包工具
-                 */
-                b.on('update', (ids) => {
-                    bandle(true);
-                });
-
-                b.on('log', gutil.log);
-            });
-        });
-    }
-
-    /**
-     * 复制bower文件到dev目录
-     * 研发环境直接使用 bower 路径 不对文件作任何处理
-     */
-    function copyBowerFiles(cb) {
-        if (!config.useInject.bower.available) return cb();
-
-        const cssFilter = filter('**/*.css', {
-            restore: true
+        b.on('update', (ids) => {
+          bandle(true);
         });
 
-        return gulp.src(mainBowerFiles(), {
-                base: './'
-            })
-            .pipe(cssFilter)
-            //css中的rem转换
-            .pipe(gulpif(
-                config.useREM.css.available,
-                postcss([
-                    postcssPxtorem(Object.assign({
-                        rootValue: 16, //相对于html根字体大小
-                        unitPrecision: 5, //允许REM单位增长到的十进制数
-                        propList: ['*'], //可以从px更改为rem的属性
-                        selectorBlackList: [], //要忽略的选择器
-                        replace: true, //替换包含rems的规则，而不是添加fallback
-                        mediaQuery: false, //允许在媒体查询中转换px
-                        minPixelValue: 0 //设置要替换的最小像素值
-                    }, config.useREM.css.options))
-                ])
-            ))
+        b.on('log', gutil.log);
+      });
+    });
+  }
+
+  /**
+   * 复制bower文件到dev目录
+   * 研发环境直接使用 bower 路径 不对文件作任何处理
+   */
+  function copyBowerFiles(cb) {
+    if (!config.useInject.bower.available) return cb();
+
+    const cssFilter = filter('**/*.css', {
+      restore: true
+    });
+
+    return gulp.src(mainBowerFiles(), {
+        base: './'
+      })
+      .pipe(cssFilter)
+      //css中的rem转换
+      .pipe(gulpif(
+        config.useREM.css.available,
+        postcss([
+          postcssPxtorem(Object.assign({
+            rootValue: 16, //相对于html根字体大小
+            unitPrecision: 5, //允许REM单位增长到的十进制数
+            propList: ['*'], //可以从px更改为rem的属性
+            selectorBlackList: [], //要忽略的选择器
+            replace: true, //替换包含rems的规则，而不是添加fallback
+            mediaQuery: false, //允许在媒体查询中转换px
+            minPixelValue: 0 //设置要替换的最小像素值
+          }, config.useREM.css.options))
+        ])
+      ))
+      .pipe(plumber({
+        errorHandler: notify.onError("Error: <%= error.message %>")
+      }))
+      .pipe(cssFilter.restore)
+      .pipe(gulp.dest(config.paths.dev.dir));
+  }
+
+  function injectHtmlFiles(htmlPath = config.paths.src.html) {
+    return new Promise((resolve, reject) => {
+      /**
+       * 自动注入Bower库文件到html页面中
+       */
+      const injectBower = lazypipe()
+        .pipe(() => {
+          if (!config.useInject.bower.available) return buffer();
+
+          return inject(gulp.src(mainBowerFiles(), {
+            read: false
+          }), {
+            starttag: '<!-- inject:bower:{{ext}} -->',
+            name: "bower",
+            relative: true,
+            ignorePath: '../../../',
+            // addRootSlash: true
+          })
+        });
+
+      /**
+       * 自动注入项目公共库文件到html页面中
+       */
+      const injectLib = lazypipe()
+        .pipe(() => {
+          return inject(gulp.src([`./dev/static/css/**/${config.useInject.lib.css}.css`, `./dev/lib/**/*.js`, `!./dev/lib/**/assign-*.js`], {
+            read: false
+          }), {
+            starttag: '<!-- inject:lib:{{ext}} -->',
+            relative: true,
+            ignorePath: '../../../dev/',
+            // addRootSlash: true
+          })
+        });
+
+      /**
+       * 将symbol后的svg内容自动注入到html中
+       */
+      const injectSvg = lazypipe()
+        .pipe(() => {
+          if (config.svgSymbol.available && config.svgSymbol.autoInject) {
+            return injectString.after('<body>', fs.readFileSync(`${config.paths.dev.svg}/svg-symbols.svg`).toString('utf-8'))
+          } else {
+            return buffer();
+          }
+        });
+
+      const injectHtml = (es) => {
+        return es.map((file, cb) => {
+          const cateName = file.path.match(/((.*?)[\/|\\])*([^.]+).*/)[2];
+
+          gulp.src(file.path)
             .pipe(plumber({
-                errorHandler: notify.onError("Error: <%= error.message %>")
+              errorHandler: notify.onError("Error: <%= error.message %>")
             }))
-            .pipe(cssFilter.restore)
-            .pipe(gulp.dest(config.paths.dev.dir));
-    }
-
-    function injectHtmlFiles(htmlPath = config.paths.src.html) {
-        return new Promise((resolve, reject) => {
-            /**
-             * 自动注入Bower库文件到html页面中
-             */
-            const injectBower = lazypipe()
-                .pipe(() => {
-                    if (!config.useInject.bower.available) return buffer();
-
-                    return inject(gulp.src(mainBowerFiles(), {
-                        read: false
-                    }), {
-                        starttag: '<!-- inject:bower:{{ext}} -->',
-                        name: "bower",
-                        relative: true,
-                        ignorePath: '../../../',
-                        // addRootSlash: true
-                    })
-                });
-
-            /**
-             * 自动注入项目公共库文件到html页面中
-             */
-            const injectLib = lazypipe()
-                .pipe(() => {
-                    return inject(gulp.src([`./dev/static/css/**/${config.useInject.lib.css}.css`, `./dev/lib/**/*.js`, `!./dev/lib/**/assign-*.js`], {
-                        read: false
-                    }), {
-                        starttag: '<!-- inject:lib:{{ext}} -->',
-                        relative: true,
-                        ignorePath: '../../../dev/',
-                        // addRootSlash: true
-                    })
-                });
-
-            /**
-             * 将symbol后的svg内容自动注入到html中
-             */
-            const injectSvg = lazypipe()
-                .pipe(() => {
-                    if (config.svgSymbol.available && config.svgSymbol.autoInject) {
-                        return injectString.after('<body>', fs.readFileSync(`${config.paths.dev.svg}/svg-symbols.svg`).toString('utf-8'))
-                    } else {
-                        return buffer();
-                    }
-                });
-
-            const injectHtml = (es) => {
-                return es.map((file, cb) => {
-                    const cateName = file.path.match(/((.*?)[\/|\\])*([^.]+).*/)[2];
-
-                    gulp.src(file.path)
-                        .pipe(plumber({
-                            errorHandler: notify.onError("Error: <%= error.message %>")
-                        }))
-                        .pipe(rename(cateName + '.html'))
-                        .pipe(gulpif(
-                            config.useInject.bower.available,
-                            injectBower()
-                        ))
-                        .pipe(gulpif(
-                            config.useInject.lib.available,
-                            injectLib()
-                        ))
-                        .pipe(gulpif(
-                            config.useInject.views,
-                            inject(gulp.src([`./dev/lib/**/assign*-${cateName}*.js`, `./dev/static/css/**/${cateName}.css`, `./dev/static/js/**/${cateName}.js`], {
-                                read: false
-                            }), {
-                                starttag: '<!-- inject:views:{{ext}} -->',
-                                relative: true,
-                                ignorePath: '../../../dev/',
-                                // addRootSlash: true
-                            })
-                        ))
-                        .pipe(gulpif(
-                            (config.svgSymbol.available && config.svgSymbol.autoInject),
-                            injectSvg()
-                        ))
-                        .pipe(gulp.dest(config.paths.dev.html))
-                        .on("end", () => {
-                            cb();
-                        });
-                });
-            };
-
-            /**
-             * 入口页面
-             */
-            const indexHtmlFilter = filter(`**/index.html`, {
-                restore: true
+            .pipe(rename(cateName + '.html'))
+            .pipe(gulpif(
+              config.useInject.bower.available,
+              injectBower()
+            ))
+            .pipe(gulpif(
+              config.useInject.lib.available,
+              injectLib()
+            ))
+            .pipe(gulpif(
+              config.useInject.views,
+              inject(gulp.src([`./dev/lib/**/assign*-${cateName}*.js`, `./dev/static/css/**/${cateName}.css`, `./dev/static/js/**/${cateName}.js`], {
+                read: false
+              }), {
+                starttag: '<!-- inject:views:{{ext}} -->',
+                relative: true,
+                ignorePath: '../../../dev/',
+                // addRootSlash: true
+              })
+            ))
+            .pipe(gulpif(
+              (config.svgSymbol.available && config.svgSymbol.autoInject),
+              injectSvg()
+            ))
+            .pipe(gulp.dest(config.paths.dev.html))
+            .on("end", () => {
+              cb();
             });
-
-            return gulp.src(htmlPath)
-                .pipe(plumber({
-                    errorHandler: notify.onError("Error: <%= error.message %>")
-                }))
-                .pipe(indexHtmlFilter)
-                .pipe(injectHtml(es))
-                .pipe(indexHtmlFilter.restore)
-                .pipe(gulp.dest(config.paths.dev.html))
-                .on('end', () => {
-                    resolve();
-                    reloadHandler();
-                })
         });
-    }
+      };
 
-    /**
-     * 编译 html 文件
-     */
-    function compileHtml(cb) {
-        injectHtmlFiles().then(() => {
-            cb();
-        });
-    }
+      /**
+       * 入口页面
+       */
+      const indexHtmlFilter = filter(`**/index.html`, {
+        restore: true
+      });
 
-    /**
-     * 启动 browsersync
-     * 配置参考：http://www.browsersync.cn/docs/options/
-     */
-    function startServer() {
-        bs.init(Object.assign({
-            //在Chrome浏览器中打开网站
-            // open: "external",
-            // browser: "google chrome",
-            socket: {
-                namespace: '/fez'
-            },
-            server: config.paths.dev.dir,
-            ui: {
-                port: 5050
-            },
-            port: 8080,
-            startPath: '/',
-            notify: { //自定制livereload 提醒条
-                styles: [
-                    "margin: 0",
-                    "padding: 5px 10px",
-                    "position: fixed",
-                    "font-size: 14px",
-                    "z-index: 9999",
-                    "bottom: 0px",
-                    "right: 0px",
-                    "border-radius: 0",
-                    "border-top-left-radius: 8px",
-                    "background-color: rgba(0,0,0,0.5)",
-                    "color: white",
-                    "text-align: center"
-                ]
-            }
-        }, config.browsersync.dev.options));
-    }
+      return gulp.src(htmlPath)
+        .pipe(plumber({
+          errorHandler: notify.onError("Error: <%= error.message %>")
+        }))
+        .pipe(indexHtmlFilter)
+        .pipe(injectHtml(es))
+        .pipe(indexHtmlFilter.restore)
+        .pipe(gulp.dest(config.paths.dev.html))
+        .on('end', () => {
+          resolve();
+          reloadHandler();
+        })
+    });
+  }
 
-    /**
-     * 通用处理文件改动
-     */
-    function watchHandler(type, file) {
-        const target = file.match(/^src[\/|\\](.*?)[\/|\\]/)[1];
-        const pathParse = path.parse(file);
-        if (target === "views") {
-            if (pathParse.ext === '.html') {
-                const removeFiles = file.match(/^src[\/|\\]views[\/|\\](.*?)[\/|\\]/)[1];
-                /*监视页面*/
-                if (type === 'removed') {
-                    del([`${config.paths.dev.dir}/**/${removeFiles}.html`, `${config.paths.dev.dir}/**/${removeFiles}.js`]).then(() => {
-                        setTimeout(function() {
-                            qrcodeViewHtml();
-                        }, 500);
-                    });
-                } else if (type === 'add') {
-                    injectHtmlFiles(file).then(() => {
-                        setTimeout(function() {
-                            qrcodeViewHtml();
-                        }, 500);
-                    });
-                } else {
-                    injectHtmlFiles(file);
-                }
-            }
+  /**
+   * 编译 html 文件
+   */
+  function compileHtml(cb) {
+    injectHtmlFiles().then(() => {
+      cb();
+    });
+  }
 
-        } else if (target === "lib") {
-            copyLib();
-        } else if (target === "custom") {
-            copyCustom();
-        } else if (target === "static") {
-            /*监视静态资源*/
-            const staticFile = file.match(/^src[\/|\\]static[\/|\\](.*?)[\/|\\]/)[1];
+  /**
+   * 启动 browsersync
+   * 配置参考：http://www.browsersync.cn/docs/options/
+   */
+  function startServer() {
+    bs.init(Object.assign({
+      //在Chrome浏览器中打开网站
+      // open: "external",
+      // browser: "google chrome",
+      socket: {
+        namespace: '/fez'
+      },
+      server: config.paths.dev.dir,
+      ui: {
+        port: 5050
+      },
+      port: 8080,
+      startPath: '/',
+      notify: { //自定制livereload 提醒条
+        styles: [
+          "margin: 0",
+          "padding: 5px 10px",
+          "position: fixed",
+          "font-size: 14px",
+          "z-index: 9999",
+          "bottom: 0px",
+          "right: 0px",
+          "border-radius: 0",
+          "border-top-left-radius: 8px",
+          "background-color: rgba(0,0,0,0.5)",
+          "color: white",
+          "text-align: center"
+        ]
+      }
+    }, config.browsersync.dev.options));
+  }
 
-            switch (staticFile) {
-                case 'images':
-                    if (type === 'removed') {
-                        const tmp = `${config.paths.dev.img}/**/${pathParse.base}`;
-
-                        del([tmp]);
-                    } else {
-                        copyHandler('img', file);
-                    }
-                    break;
-
-                case 'fonts':
-                    if (type === 'removed') {
-                        const tmp = `${config.paths.dev.fonts}/**/${pathParse.base}`;
-
-                        del([tmp]);
-                    } else {
-                        copyHandler('fonts', file);
-                    }
-                    break;
-                    /**
-                     * 此处注释掉
-                     * 公共脚本放入lib目录
-                     * 业务脚本放在views目录
-                     */
-                    // case 'js':
-                    //     if (type === 'removed') {
-                    //         const tmp = file.replace('src/', 'dev/');
-                    //         del([tmp]);
-                    //     } else {
-                    //         copyHandler('js', file);
-                    //     }
-                    //     break;
-
-                case 'styles':
-
-                    if (type === 'removed') {
-                        const tmp = `${config.paths.dev.css}/**/${pathParse.name}`;
-
-                        del([tmp]);
-                    } else {
-                        compileCss();
-                    }
-                    break;
-            }
-        }
-
-
-    }
-
-    /**
-     * 使用 gulp 监听文件 改动
-     */
-    function watch(cb) {
-        const watcher = gulp.watch([
-            config.paths.src.dir + '/**/*'
-            // config.paths.src.img,
-            // config.paths.src.lib,
-            // config.paths.src.cssAll,
-            // config.paths.src.lessAll,
-            // config.paths.src.sassAll,
-            // config.paths.src.htmlAll,
-            // config.paths.src.appJsALL //注释掉(交给watchify处理)
-        ], {
-            ignored: /[\/\\]\./
-        });
-
-        watcher
-            .on('change', (file) => {
-                gutil.log(`${file} 已被修改`);
-                watchHandler('changed', file);
-            })
-            .on('add', (file) => {
-                gutil.log(`${file} 新文件已被添加`);
-                watchHandler('add', file);
-            })
-            .on('unlink', (file) => {
-                gutil.log(`${file} 已被删除`);
-                watchHandler('removed', file);
-            });
-
-        cb();
-    }
-
-    /**
-     * 研发环境生成二维码方便在移动端浏览测试
-     */
-    function qrcodeViewHtml(cb) {
-        if (config.useQrCodeHtml) {
-            qrCode(cb);
+  /**
+   * 通用处理文件改动
+   */
+  function watchHandler(type, file) {
+    const target = file.match(/^src[\/|\\](.*?)[\/|\\]/)[1];
+    const pathParse = path.parse(file);
+    if (target === "views") {
+      if (pathParse.ext === '.html') {
+        const removeFiles = file.match(/^src[\/|\\]views[\/|\\](.*?)[\/|\\]/)[1];
+        /*监视页面*/
+        if (type === 'removed') {
+          del([`${config.paths.dev.dir}/**/${removeFiles}.html`, `${config.paths.dev.dir}/**/${removeFiles}.js`]).then(() => {
+            setTimeout(function() {
+              qrcodeViewHtml();
+            }, 500);
+          });
+        } else if (type === 'add') {
+          injectHtmlFiles(file).then(() => {
+            setTimeout(function() {
+              qrcodeViewHtml();
+            }, 500);
+          });
         } else {
-            cb();
+          injectHtmlFiles(file);
         }
+      }
+
+    } else if (target === "lib") {
+      copyLib();
+    } else if (target === "custom") {
+      copyCustom();
+    } else if (target === "static") {
+      /*监视静态资源*/
+      const staticFile = file.match(/^src[\/|\\]static[\/|\\](.*?)[\/|\\]/)[1];
+
+      switch (staticFile) {
+        case 'images':
+          if (type === 'removed') {
+            const tmp = `${config.paths.dev.img}/**/${pathParse.base}`;
+
+            del([tmp]);
+          } else {
+            copyHandler('img', file);
+          }
+          break;
+
+        case 'fonts':
+          if (type === 'removed') {
+            const tmp = `${config.paths.dev.fonts}/**/${pathParse.base}`;
+
+            del([tmp]);
+          } else {
+            copyHandler('fonts', file);
+          }
+          break;
+          /**
+           * 此处注释掉
+           * 公共脚本放入lib目录
+           * 业务脚本放在views目录
+           */
+          // case 'js':
+          //     if (type === 'removed') {
+          //         const tmp = file.replace('src/', 'dev/');
+          //         del([tmp]);
+          //     } else {
+          //         copyHandler('js', file);
+          //     }
+          //     break;
+
+        case 'styles':
+
+          if (type === 'removed') {
+            const tmp = `${config.paths.dev.css}/**/${pathParse.name}`;
+
+            del([tmp]);
+          } else {
+            compileCss();
+          }
+          break;
+      }
     }
 
-    /**
-     * 研发 任务
-     * series 中的任务同步执行
-     * parallel 中的任务异步执行
-     */
-    gulp.task('dev', gulp.series(
-        delDev,
-        gulp.parallel(
-            copyImg,
-            svgSymbol,
-            copyFonts,
-            copyLib,
-            copyCustom,
-            compileCss,
-            compileAppJs
-        ),
-        gulp.parallel(
-            copyBowerFiles,
-            compileHtml
-        ),
-        gulp.parallel(
-            watch,
-            qrcodeViewHtml,
-            startServer
-        )
-    ));
+
+  }
+
+  /**
+   * 使用 gulp 监听文件 改动
+   */
+  function watch(cb) {
+    const watcher = gulp.watch([
+      config.paths.src.dir + '/**/*'
+      // config.paths.src.img,
+      // config.paths.src.lib,
+      // config.paths.src.cssAll,
+      // config.paths.src.lessAll,
+      // config.paths.src.sassAll,
+      // config.paths.src.htmlAll,
+      // config.paths.src.appJsALL //注释掉(交给watchify处理)
+    ], {
+      ignored: /[\/\\]\./
+    });
+
+    watcher
+      .on('change', (file) => {
+        gutil.log(`${file} 已被修改`);
+        watchHandler('changed', file);
+      })
+      .on('add', (file) => {
+        gutil.log(`${file} 新文件已被添加`);
+        watchHandler('add', file);
+      })
+      .on('unlink', (file) => {
+        gutil.log(`${file} 已被删除`);
+        watchHandler('removed', file);
+      });
+
+    cb();
+  }
+
+  /**
+   * 研发环境生成二维码方便在移动端浏览测试
+   */
+  function qrcodeViewHtml(cb) {
+    if (config.useQrCodeHtml) {
+      qrCode(cb);
+    } else {
+      cb();
+    }
+  }
+
+  /**
+   * 研发 任务
+   * series 中的任务同步执行
+   * parallel 中的任务异步执行
+   */
+  gulp.task('dev', gulp.series(
+    delDev,
+    gulp.parallel(
+      copyImg,
+      svgSymbol,
+      copyFonts,
+      copyLib,
+      copyCustom,
+      compileCss,
+      compileAppJs
+    ),
+    gulp.parallel(
+      copyBowerFiles,
+      compileHtml
+    ),
+    gulp.parallel(
+      watch,
+      qrcodeViewHtml,
+      startServer
+    )
+  ));
 
 }
