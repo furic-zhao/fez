@@ -11,9 +11,9 @@ import config from './fezconfig';
 const shim = {};
 
 for (let v of config.browserify.shim) {
-    shim[v.from] = {
-        exports: `global:${v.import}`
-    };
+  shim[v.from] = {
+    exports: `global:${v.import}`
+  };
 }
 
 module.exports = shim;

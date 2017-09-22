@@ -69,16 +69,16 @@ import initPage from './page';
 import gulpDefault from './default';
 
 export default () => {
-    gutil.log("---------------------------------------");
-    gutil.log(gutil.colors.cyan("* 欢迎使用 FEZ 前端模块化工程开发框架 *"));
-    gutil.log("---------------------------------------");
-    gulpDev();
-    gulpDist();
-    gulpDefault();
-    gulpSftp();
-    gulpZip();
-    gulpSvg2Icon();
-    gulpTest();
-    gulpSprite();
-    initPage();
+  gutil.log("---------------------------------------");
+  gutil.log(gutil.colors.cyan("* 欢迎使用 FEZ 前端模块化工程开发框架 *"));
+  gutil.log("---------------------------------------");
+  gulpDev();
+  gulpDist();
+  gulpDefault();
+  gulpSftp();
+  gulpZip();
+  gulpSvg2Icon();
+  gulpTest();
+  gulpSprite();
+  initPage();
 };

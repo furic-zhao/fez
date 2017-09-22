@@ -34,77 +34,77 @@ let htmlPages = []; //所有html页面
  * http://nodejs.cn/api/fs.html#fs_fs_readdirsync_path_options
  */
 function dirAllFiles(dir) {
-    const devPathLen = dir.length; //研发目录路径字符长度
+  const devPathLen = dir.length; //研发目录路径字符长度
 
-    const collector = {
-        'name': dir,
-        'type': 'dir',
-        'url': '',
-        'child': []
-    };
+  const collector = {
+    'name': dir,
+    'type': 'dir',
+    'url': '',
+    'child': []
+  };
 
-    const files = fs.readdirSync(dir); //
+  const files = fs.readdirSync(dir); //
 
-    files.forEach((file) => {
-        const absolutePath = dir + '/' + file; //文件绝对地址
+  files.forEach((file) => {
+    const absolutePath = dir + '/' + file; //文件绝对地址
 
-        /**
-         * 返回一个stats 实例
-         * http://nodejs.cn/api/fs.html#fs_class_fs_stats
-         */
-        const stats = fs.statSync(absolutePath);
+    /**
+     * 返回一个stats 实例
+     * http://nodejs.cn/api/fs.html#fs_class_fs_stats
+     */
+    const stats = fs.statSync(absolutePath);
 
-        const url = absolutePath.substring(devPathLen + 1); //截取开发目录路径
+    const url = absolutePath.substring(devPathLen + 1); //截取开发目录路径
 
-        if (stats.isDirectory() && (stats.isDirectory() !== '.' || stats.isDirectory() !== '..')) {
-            //如果是目录 继续遍历
-            collector['child'].push(dirAllFiles(absolutePath));
-        } else {
-            collector['child'].push({
-                'name': path.basename(absolutePath),
-                'type': 'file',
-                'url': url
-            });
-        }
-    });
-    return collector;
+    if (stats.isDirectory() && (stats.isDirectory() !== '.' || stats.isDirectory() !== '..')) {
+      //如果是目录 继续遍历
+      collector['child'].push(dirAllFiles(absolutePath));
+    } else {
+      collector['child'].push({
+        'name': path.basename(absolutePath),
+        'type': 'file',
+        'url': url
+      });
+    }
+  });
+  return collector;
 }
 
 /**
  * 遍历出所有的html文件
  */
 function showdir(collector, level) {
-    const file = collector['name'];
-    const basename = path.basename(file);
+  const file = collector['name'];
+  const basename = path.basename(file);
 
-    if (collector['type'] == 'dir') {
-        collector['child'].forEach((item) => {
-            showdir(item, level + 1);
-        });
+  if (collector['type'] == 'dir') {
+    collector['child'].forEach((item) => {
+      showdir(item, level + 1);
+    });
+  }
+
+  if (collector['type'] == 'file') {
+    if (path.extname(file) === '.html' && basename !== 'zindex.html') {
+      let pageItem = {};
+
+      pageItem.name = collector['name'];
+      pageItem.url = collector['url'];
+      htmlPages.push(pageItem);
+
     }
-
-    if (collector['type'] == 'file') {
-        if (path.extname(file) === '.html' && basename !== 'zindex.html') {
-            let pageItem = {};
-
-            pageItem.name = collector['name'];
-            pageItem.url = collector['url'];
-            htmlPages.push(pageItem);
-
-        }
-    }
+  }
 }
 
 export default (cb = () => {}, applyDir = config.paths.dev.html) => {
-    htmlPages = [];
+  htmlPages = [];
 
-    const ip = localIp.getLocalIP4();
+  const ip = localIp.getLocalIP4();
 
-    const collector = dirAllFiles(applyDir);
+  const collector = dirAllFiles(applyDir);
 
-    showdir(collector, 0);
+  showdir(collector, 0);
 
-    const zindexHtml = `<!DOCTYPE html>
+  const zindexHtml = `<!DOCTYPE html>
 <html>
 
 <head>
@@ -227,18 +227,18 @@ export default (cb = () => {}, applyDir = config.paths.dev.html) => {
 </html>
 `;
 
-    const out = fs.createWriteStream(applyDir + '/zindex.html', {
-        encoding: "utf8"
-    });
+  const out = fs.createWriteStream(applyDir + '/zindex.html', {
+    encoding: "utf8"
+  });
 
-    out.write(zindexHtml, (err) => {
-        if (err) console.log(err);
-    });
+  out.write(zindexHtml, (err) => {
+    if (err) console.log(err);
+  });
 
-    out.end();
+  out.end();
 
-    // 复制目录
-    common.exists(path.resolve(__dirname, './zindex'), applyDir + '/zindex', common.copy);
+  // 复制目录
+  common.exists(path.resolve(__dirname, './zindex'), applyDir + '/zindex', common.copy);
 
-    cb();
+  cb();
 }

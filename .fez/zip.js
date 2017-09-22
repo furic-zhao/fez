@@ -28,31 +28,31 @@ import config from './utils/fezconfig';
 
 export default () => {
 
-    function distZip() {
-        return gulp.src(`${config.paths.dist.dir}/**/*`)
-            .pipe(zip('dist.zip'))
-            .pipe(gulp.dest('./'));
+  function distZip() {
+    return gulp.src(`${config.paths.dist.dir}/**/*`)
+      .pipe(zip('dist.zip'))
+      .pipe(gulp.dest('./'));
+  }
+
+  function gulpSeries() {
+    const distDir = fs.existsSync(config.paths.dist.dir);
+
+    if (distDir) {
+      return gulp.series(
+        distZip
+      );
+    } else {
+      return gulp.series(
+        'dist',
+        distZip
+      );
     }
+  }
 
-    function gulpSeries() {
-        const distDir = fs.existsSync(config.paths.dist.dir);
-
-        if (distDir) {
-            return gulp.series(
-                distZip
-            );
-        } else {
-            return gulp.series(
-                'dist',
-                distZip
-            );
-        }
-    }
-
-    /**
-     * 压缩 dist 目录为 .zip 包
-     */
-    gulp.task('zip', gulp.series(
-        gulpSeries()
-    ));
+  /**
+   * 压缩 dist 目录为 .zip 包
+   */
+  gulp.task('zip', gulp.series(
+    gulpSeries()
+  ));
 }

@@ -26,40 +26,40 @@ import config from './utils/fezconfig';
 
 export default () => {
 
-    function svg2icon() {
-        const runTimestamp = Math.round(Date.now() / 1000);
+  function svg2icon() {
+    const runTimestamp = Math.round(Date.now() / 1000);
 
-        return gulp.src(`${config.svgIcons.src}**/*.svg`)
-            .pipe(iconfontCss({
-                fontName: config.svgIcons.fontName,
-                path: `${config.svgIcons.src}templates/_icons.css`,
-                targetPath: config.svgIcons.targetPath,
-                fontPath: config.svgIcons.fontPath
-            }))
-            .pipe(iconfont({
-                fontName: config.svgIcons.fontName,
-                /**
-                 * normalize和fontheight用于解决生成的图表变形问题，网上的土方法，但是好使
-                 */
-                // normalize: true,
-                // fontHeight:1001,
-                // fixedWidth: true,
-                // centerHorizontally: true,
-                prependUnicode: true,
-                formats: ['svg', 'ttf', 'eot', 'woff', 'woff2'],
-                timestamp: runTimestamp,
-            }))
-            .on('glyphs', (glyphs, options) => {
-                // CSS templating, e.g.
-                gutil.log(glyphs, options);
-            })
-            .pipe(gulp.dest(config.svgIcons.dist));
-    }
+    return gulp.src(`${config.svgIcons.src}**/*.svg`)
+      .pipe(iconfontCss({
+        fontName: config.svgIcons.fontName,
+        path: `${config.svgIcons.src}templates/_icons.css`,
+        targetPath: config.svgIcons.targetPath,
+        fontPath: config.svgIcons.fontPath
+      }))
+      .pipe(iconfont({
+        fontName: config.svgIcons.fontName,
+        /**
+         * normalize和fontheight用于解决生成的图表变形问题，网上的土方法，但是好使
+         */
+        // normalize: true,
+        // fontHeight:1001,
+        // fixedWidth: true,
+        // centerHorizontally: true,
+        prependUnicode: true,
+        formats: ['svg', 'ttf', 'eot', 'woff', 'woff2'],
+        timestamp: runTimestamp,
+      }))
+      .on('glyphs', (glyphs, options) => {
+        // CSS templating, e.g.
+        gutil.log(glyphs, options);
+      })
+      .pipe(gulp.dest(config.svgIcons.dist));
+  }
 
-    /******************
-     * SVG 转换 字体文件
-     ******************/
-    gulp.task('svg2icon', gulp.series(
-        svg2icon
-    ));
+  /******************
+   * SVG 转换 字体文件
+   ******************/
+  gulp.task('svg2icon', gulp.series(
+    svg2icon
+  ));
 };

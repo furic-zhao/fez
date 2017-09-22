@@ -33,41 +33,41 @@ import config from './utils/fezconfig';
 
 export default () => {
 
-    function sftpUpload() {
-        const sftpConfig = Object.assign({
-            "host": "xxx.xxx.xxx.xxx",
-            "port": "22",
-            "user": "user",
-            "password": "pass",
-            "remotePath": ""
-        }, config.sftp);
+  function sftpUpload() {
+    const sftpConfig = Object.assign({
+      "host": "xxx.xxx.xxx.xxx",
+      "port": "22",
+      "user": "user",
+      "password": "pass",
+      "remotePath": ""
+    }, config.sftp);
 
-        const distPath = config.sftp.includeHtml ? `${config.paths.dist.dir}/**/*` : [`${config.paths.dist.dir}/**/*`, `!${config.paths.dist.dir}/**/*.html`];
+    const distPath = config.sftp.includeHtml ? `${config.paths.dist.dir}/**/*` : [`${config.paths.dist.dir}/**/*`, `!${config.paths.dist.dir}/**/*.html`];
 
-        return gulp.src(distPath, { base: config.paths.dist.dir })
-            // .pipe(notify("Found file: <%= file.relative %>!"))
-            .pipe(sftp(sftpConfig));
+    return gulp.src(distPath, { base: config.paths.dist.dir })
+      // .pipe(notify("Found file: <%= file.relative %>!"))
+      .pipe(sftp(sftpConfig));
+  }
+
+  function gulpSeries() {
+    const distDir = fs.existsSync(config.paths.dist.dir);
+
+    if (distDir) {
+      return gulp.series(
+        sftpUpload
+      );
+    } else {
+      return gulp.series(
+        'dist',
+        sftpUpload
+      );
     }
+  }
 
-    function gulpSeries() {
-        const distDir = fs.existsSync(config.paths.dist.dir);
-
-        if (distDir) {
-            return gulp.series(
-                sftpUpload
-            );
-        } else {
-            return gulp.series(
-                'dist',
-                sftpUpload
-            );
-        }
-    }
-
-    /*****************************
-     * 使用gulp 通过 SFTP 上传文件
-     *****************************/
-    gulp.task('sftp', gulp.series(
-        gulpSeries()
-    ));
+  /*****************************
+   * 使用gulp 通过 SFTP 上传文件
+   *****************************/
+  gulp.task('sftp', gulp.series(
+    gulpSeries()
+  ));
 };

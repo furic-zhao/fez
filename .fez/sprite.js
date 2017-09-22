@@ -41,33 +41,33 @@ import config from './utils/fezconfig';
 
 export default () => {
 
-    function sprite() {
+  function sprite() {
 
-        const spriteData = gulp.src(config.sprites.src)
-            .pipe(spritesmith(Object.assign({}, config.sprites.options)));
+    const spriteData = gulp.src(config.sprites.src)
+      .pipe(spritesmith(Object.assign({}, config.sprites.options)));
 
-        const imgStream = spriteData.img
-            .pipe(buffer())
-            .pipe(gulp.dest(config.sprites.dest.image))
-            .on('end', () => {
-                gutil.log(gutil.colors.green("已完成雪碧图合并，雪碧图保存目录："));
-                gutil.log(gutil.colors.yellow(config.sprites.dest.image));
-            });
+    const imgStream = spriteData.img
+      .pipe(buffer())
+      .pipe(gulp.dest(config.sprites.dest.image))
+      .on('end', () => {
+        gutil.log(gutil.colors.green("已完成雪碧图合并，雪碧图保存目录："));
+        gutil.log(gutil.colors.yellow(config.sprites.dest.image));
+      });
 
-        const cssStream = spriteData.css
-            .pipe(gulp.dest(config.sprites.dest.css))
-            .on('end', () => {
-                gutil.log(gutil.colors.green("已生成雪碧图样式，雪碧图样式保存目录："));
-                gutil.log(gutil.colors.yellow(config.sprites.dest.css));
-            });
+    const cssStream = spriteData.css
+      .pipe(gulp.dest(config.sprites.dest.css))
+      .on('end', () => {
+        gutil.log(gutil.colors.green("已生成雪碧图样式，雪碧图样式保存目录："));
+        gutil.log(gutil.colors.yellow(config.sprites.dest.css));
+      });
 
-        return merge(imgStream, cssStream);
-    }
+    return merge(imgStream, cssStream);
+  }
 
-    /**
-     * 自动化合并雪碧图并生成样式
-     */
-    gulp.task('sprite', gulp.series(
-        sprite
-    ));
+  /**
+   * 自动化合并雪碧图并生成样式
+   */
+  gulp.task('sprite', gulp.series(
+    sprite
+  ));
 }

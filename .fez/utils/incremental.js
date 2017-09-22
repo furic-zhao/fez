@@ -52,80 +52,80 @@ import config from './fezconfig';
 
 
 function changed(dir) {
-    const manifestPath = path.resolve(`${config.paths.src.dir}/manifest.json`);
+  const manifestPath = path.resolve(`${config.paths.src.dir}/manifest.json`);
 
-    const originManifest = {};
+  const originManifest = {};
 
-    const dealManifest = {};
+  const dealManifest = {};
 
-    const diffManifest = {};
+  const diffManifest = {};
 
-    //如果存在 manifest.json, 则加载保存
-    if (fs.existsSync(manifestPath)) Object.assign(originManifest, require(manifestPath));
+  //如果存在 manifest.json, 则加载保存
+  if (fs.existsSync(manifestPath)) Object.assign(originManifest, require(manifestPath));
 
-    //遍历目录, 根据内容 md5 加密
-    rd.eachFileFilterSync(dir, (file) => {
-        const relativeFile = path.relative(dir, file);
-        //过滤掉 隐藏文件 和 manifest.json
-        if (path.extname(file) && relativeFile !== 'manifest.json' && fs.existsSync(file)) {
+  //遍历目录, 根据内容 md5 加密
+  rd.eachFileFilterSync(dir, (file) => {
+    const relativeFile = path.relative(dir, file);
+    //过滤掉 隐藏文件 和 manifest.json
+    if (path.extname(file) && relativeFile !== 'manifest.json' && fs.existsSync(file)) {
 
-            let fileData = fs.readFileSync(file);
+      let fileData = fs.readFileSync(file);
 
-            if (fileData) {
-                Object.assign(dealManifest, {
-                    [relativeFile]: md5(fileData, 'hex')
-                })
-            }
-        }
-
-    });
-
-    //将新的 manifest.json 保存
-    fs.writeFile(manifestPath, JSON.stringify(dealManifest), (err) => {
-        if (err) throw err;
-    });
-
-    //找出有变动的文件
-    if (originManifest) {
-
-        _.forEach(dealManifest, (item, index) => {
-            if (originManifest[index] !== item) {
-                Object.assign(diffManifest, {
-                    [index]: item
-                });
-            }
-        });
+      if (fileData) {
+        Object.assign(dealManifest, {
+          [relativeFile]: md5(fileData, 'hex')
+        })
+      }
     }
-    return diffManifest;
+
+  });
+
+  //将新的 manifest.json 保存
+  fs.writeFile(manifestPath, JSON.stringify(dealManifest), (err) => {
+    if (err) throw err;
+  });
+
+  //找出有变动的文件
+  if (originManifest) {
+
+    _.forEach(dealManifest, (item, index) => {
+      if (originManifest[index] !== item) {
+        Object.assign(diffManifest, {
+          [index]: item
+        });
+      }
+    });
+  }
+  return diffManifest;
 }
 
 export default (cb, delTmp) => {
 
-    const diffManifest = changed(config.paths.tmp.dir);
+  const diffManifest = changed(config.paths.tmp.dir);
 
-    let changedFiles = [];
+  let changedFiles = [];
 
-    gutil.log(gutil.colors.yellow('您已启用增量编译...'));
+  gutil.log(gutil.colors.yellow('您已启用增量编译...'));
 
-    if (!_.isEmpty(diffManifest)) {
+  if (!_.isEmpty(diffManifest)) {
 
-        _.forEach(diffManifest, (item, index) => {
-            changedFiles.push(`${config.paths.tmp.dir}/${index}`);
+    _.forEach(diffManifest, (item, index) => {
+      changedFiles.push(`${config.paths.tmp.dir}/${index}`);
 
-            gutil.log(`已改动 ${gutil.colors.yellow(index)}`);
-        });
+      gutil.log(`已改动 ${gutil.colors.yellow(index)}`);
+    });
 
-        return gulp.src(changedFiles, {
-                base: config.paths.tmp.dir
-            })
-            .pipe(gulp.dest(config.paths.dist.dir))
-            .on('end', () => {
-                delTmp();
-            });
-
-    } else {
-        gutil.log(gutil.colors.yellow('没有文件发生改动!'));
+    return gulp.src(changedFiles, {
+        base: config.paths.tmp.dir
+      })
+      .pipe(gulp.dest(config.paths.dist.dir))
+      .on('end', () => {
         delTmp();
-        cb();
-    }
+      });
+
+  } else {
+    gutil.log(gutil.colors.yellow('没有文件发生改动!'));
+    delTmp();
+    cb();
+  }
 }

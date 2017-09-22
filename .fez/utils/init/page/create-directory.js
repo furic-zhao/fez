@@ -9,7 +9,7 @@
  */
 import gutil from 'gulp-util';
 
-import writeFile from'../write';
+import writeFile from '../write';
 
 export default (opts) => {
 

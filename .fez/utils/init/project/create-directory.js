@@ -9,11 +9,11 @@
  */
 import gutil from 'gulp-util';
 
-import writeFile from'../write';
+import writeFile from '../write';
 
 export default (opts) => {
 
-   writeFile({
+  writeFile({
     directory: `${opts.directory}`,
     success() {
       gutil.log(`创建 ${opts.directory} 成功`);
