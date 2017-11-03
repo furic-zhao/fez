@@ -53,7 +53,7 @@
     "gulp-iconfont": "^8.0.1",
     "gulp-iconfont-css": "^2.1.0",
     "gulp-if": "^2.0.2",
-    "gulp-imagemin": "^3.1.1",
+    "gulp-imagemin": "^3.4.0",
     "gulp-inject": "^4.2.0",
     "gulp-inject-string": "^1.1.0",
     "gulp-jshint": "^2.0.4",
