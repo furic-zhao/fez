@@ -648,7 +648,7 @@ export default () => {
         .pipe(concatCss(elem.target, { rebaseUrls: false }))
         .pipe(gulpif(
           config.useCssMin.available,
-          minifyCSS(config.useCssMin.options)
+          minifyCSS()
         ))
         .pipe(flatten())
         .pipe(gulp.dest(config.paths.tmp.css))
@@ -677,7 +677,7 @@ export default () => {
       .pipe(concatCss('vendor.css', { rebaseUrls: false }))
       .pipe(gulpif(
         config.useCssMin.available,
-        minifyCSS(config.useCssMin.options)
+        minifyCSS()
       ))
       .pipe(flatten())
       .pipe(gulp.dest(config.paths.tmp.css))
