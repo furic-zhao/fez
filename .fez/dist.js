@@ -585,6 +585,7 @@ export default () => {
       .pipe(override())
       .pipe(gulp.dest(config.paths.tmp.fonts))
       .pipe(RevAll.manifest({
+        path: 'rev-manifest-bower.json',
         merge: true
       }))
       .pipe(gulp.dest(config.paths.tmp.fonts));
