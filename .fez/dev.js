@@ -315,7 +315,7 @@ export default () => {
    */
   function compileCss() {
     const lessCondition = config.cssCompiler === 'less';
-    const sassCondition = config.cssCompiler === ('sass' || 'scss');
+    const sassCondition = (config.cssCompiler === 'sass' || config.cssCompiler === 'scss');
 
     function sourcePath() {
       switch (config.cssCompiler) {
