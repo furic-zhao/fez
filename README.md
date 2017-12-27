@@ -4,17 +4,16 @@
 [FEZ](http://fez.jd.com) 是面向 前端模块化工程 的开发框架。主要目的是统一前端开发模式和项目开发结构，自动化前端工作流，提高开发效率和开发质量，引入持续集成等软件工程的标准流程，集成众多业界先进的解决方案，让研发人员更专注于业务逻辑的实现。核心包括功能模块化、结构规范化、及开发自动化。
 
 ## FEZ倡导的前端开发理念
-- 一份代码各种终端设备兼容，自动化适配PC端、手机端、Pad端及各种大小的屏幕，可以内嵌到手机端任何APP中使用，做产品APP只需要IOS端或Android端做个壳引入页面，为产品的多元化几何倍的提高开发效率。
-- 模块式开发、将复杂的系统细分为模块，分治管理，并有统一的文件结构，兼顾模块的通用和复用原则，极大提高研发效率及产品迭代的可维护性。
-- 积木式、组件化快速构建页面，使用API接口/Mock数据前后端分离、并在流程上让研发、设计、测试团队、并行工作。
+- 采用响应式界面布局，一份代码各种终端设备兼容，自动适配PC端、手机端、PAD端、及各种大小的屏幕，并可以嵌入任何APP中使用。为产品的多元化几何倍的提高开发效率，极大降低多平台项目的开发成本。
+- 模块式开发，将复杂的系统细分为模块，分治管理，并有统一的文件结构，兼顾模块的通用和复用原则，极大提高项目的功能扩展和可维护性。
+- 积木式、组件化快速构建页面，使用API接口/Mock数据前后端分离、并在流程上让研发、设计、测试团队、并行工作，极大提高团队研发效率。
 - 使用国际前沿的前端工程自动化技术解决项目的资源管理和大量重复的代码编译工作。
 
 ## FEZ使用场景
 - 【一份代码支持多终端响应式WEB应用】参考示例：[fez-demo-handlebars](https://github.com/furic-zhao/fez-demo-handlebars)
-- 【基于Vue的高性能大中型WEBAPP应用】参考示例：[fez-demo-vue](https://github.com/furic-zhao/fez-demo-vue)
-- 【基于React的高性能大中型WEBAPP应用】参考示例：[fez-demo-react](https://github.com/furic-zhao/fez-demo-react)
-- 【基于Framework7和Vue的高性能移动端混合APP及H5应用】参考示例：[fez-demo-framework7](https://github.com/furic-zhao/fez-demo-framework7)
-- 【整合PHP/Java后端渲染的大中型WEBAPP应用及网站】
+- 【基于Vue的高性能大中型WEB应用】参考示例：[fez-demo-vue](https://github.com/furic-zhao/fez-demo-vue)
+- 【基于React的高性能大中型WEB应用】参考示例：[fez-demo-react](https://github.com/furic-zhao/fez-demo-react)
+- 【高性能移动端混合APP及H5应用】参考示例：[fez-demo-framework7](https://github.com/furic-zhao/fez-demo-framework7)
 - 【快速构建中小型官方网站、活动、专题、宣传页面】参考示例：[fez-demo-75team](https://github.com/furic-zhao/fez-demo-75team)  [fez-web](https://github.com/furic-zhao/fez-web)
 
 ## FEZ核心特性
@@ -37,16 +36,16 @@
 ````bash
 views
 └── page1
-    ├── index.html                 /*page1 Html页面*/
-    ├── index.js                   /*page1 页面入口脚本*/
+    ├── index.html          /*page1 Html页面*/
+    ├── index.js            /*page1 页面入口脚本*/
     └── module
-        ├── module1                /*模块1 目录*/
-        │   ├── index.js           /*模块1 逻辑脚本*/
-        │   ├── index.hbs          /*模块1 handlebars模板*/
-        │   └── service.js         /*模块1 数据处理脚本*/
+        ├── module1         /*模块1 目录*/
+        │   ├── index.js    /*模块1 逻辑脚本*/
+        │   ├── index.hbs   /*模块1 handlebars模板*/
+        │   └── service.js  /*模块1 数据处理脚本*/
         └── module2
-            ├── index.vue          /*模块2 基于Vue的单文件组件*/
-            └── service.js         /*模块2 数据处理脚本*/
+            ├── index.vue   /*模块2 基于Vue的单文件组件*/
+            └── service.js  /*模块2 数据处理脚本*/
 
 ````
 
@@ -193,27 +192,27 @@ gulp fezinit --dir=demozhj
 
 ```bash
 demozhj
-├── fez.config.js              /*FEZ功能配置文件*/
-├── bower.json                 /*bower配置文件*/
-├── package.json               /*npm配置文件*/
-├── gulpfile.babel.js          /*gulp入口文件*/
-├── shim.js                    /*browserify-shim入口文件*/
-└── src                        /*源码目录*/
-    ├── custom                 /*自定义文件目录*/
-    ├── lib                    /*项目公共库文件目录*/
-    ├── static                 /*静态资源目录*/
-    │   ├── fonts              /*字体目录*/
-    │   ├── images             /*图片目录*/
-    │   └── styles             /*样式目录*/
-    │       └── index.less     /*首页样式文件*/
-    └── views                  /*业务逻辑存放目录*/
-        ├── index              /*首页目录*/
-        │   ├── index.html     /*首页Html文件*/
-        │   ├── index.js       /*首页业务逻辑脚本文件*/
-        │   └── module         /*首页模块目录*/
-        └── public             /*业务逻辑公共文件目录*/
-            ├── module         /*公共模块目录*/
-            └── utils          /*公共工具类库目录*/
+├── fez.config.js            /*FEZ功能配置文件*/
+├── bower.json               /*bower配置文件*/
+├── package.json             /*npm配置文件*/
+├── gulpfile.babel.js        /*gulp入口文件*/
+├── shim.js                  /*browserify-shim入口文件*/
+└── src                      /*源码目录*/
+    ├── custom               /*自定义文件目录*/
+    ├── lib                  /*项目公共库文件目录*/
+    ├── static               /*静态资源目录*/
+    │   ├── fonts            /*字体目录*/
+    │   ├── images           /*图片目录*/
+    │   └── styles           /*样式目录*/
+    │       └── index.less   /*首页样式文件*/
+    └── views                /*业务逻辑存放目录*/
+        ├── index            /*首页目录*/
+        │   ├── index.html   /*首页Html文件*/
+        │   ├── index.js     /*首页业务逻辑脚本文件*/
+        │   └── module       /*首页模块目录*/
+        └── public           /*业务逻辑公共文件目录*/
+            ├── module       /*公共模块目录*/
+            └── utils        /*公共工具类库目录*/
 ```
 
 ### 运行项目
@@ -291,11 +290,11 @@ demopage 页面结构
 
 ```bash
 .
-└── src                        
-    ├── static                 
-    │   └── styles             
+└── src
+    ├── static
+    │   └── styles
     │       └── demopage.less  /*demopage 页面样式文件*/
-    └── views                  
+    └── views
         └── demopage           /*demopage 页面目录*/
             ├── index.html     /*demopage HTML页面*/
             ├── index.js       /*demopage 业务逻辑脚本文件*/
