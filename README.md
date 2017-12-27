@@ -1,7 +1,7 @@
 <p align="center"><a href="http://fez.jd.com" target="_blank"><img width="240"src="https://github.com/furic-zhao/fez-demo-handlebars/blob/master/src/static/images/fez-logo.png?raw=true"></a></p>
 
 # FEZ
-[FEZ](http://fez.jd.com) 是面向 前端模块化工程 的开发框架。主要为解决 前端开发多人高效协作、提高开发质量、及项目功能扩展的快速迭代和可维护性等问题。核心包括功能模块化、结构规范化、及开发自动化。
+[FEZ](http://fez.jd.com) 是面向 前端模块化工程 的开发框架。主要目的是统一前端开发模式和项目开发结构，自动化前端工作流，提高开发效率和开发质量，引入持续集成等软件工程的标准流程，集成众多业界先进的解决方案，让研发人员更专注于业务逻辑的实现。核心包括功能模块化、结构规范化、及开发自动化。
 
 ## FEZ倡导的前端开发理念
 - 一份代码各种终端设备兼容，自动化适配PC端、手机端、Pad端及各种大小的屏幕，可以内嵌到手机端任何APP中使用，做产品APP只需要IOS端或Android端做个壳引入页面，为产品的多元化几何倍的提高开发效率。
