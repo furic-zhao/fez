@@ -11,10 +11,16 @@
 import gulp from 'gulp';
 
 /**
- * gulp插件的实用函数
- * https://github.com/gulpjs/gulp-util
+ * 命令行日志
+ * https://www.npmjs.com/package/fancy-log
  */
-import gutil from 'gulp-util';
+import fancyLog from 'fancy-log';
+
+/**
+ * 命令行颜色
+ * https://github.com/doowb/ansi-colors
+ */
+import ansiColors from 'ansi-colors';
 
 /**
  * 转换为数据流
@@ -50,15 +56,15 @@ export default () => {
       .pipe(buffer())
       .pipe(gulp.dest(config.sprites.dest.image))
       .on('end', () => {
-        gutil.log(gutil.colors.green("已完成雪碧图合并，雪碧图保存目录："));
-        gutil.log(gutil.colors.yellow(config.sprites.dest.image));
+        fancyLog(ansiColors.green("已完成雪碧图合并，雪碧图保存目录："));
+        fancyLog(ansiColors.yellow(config.sprites.dest.image));
       });
 
     const cssStream = spriteData.css
       .pipe(gulp.dest(config.sprites.dest.css))
       .on('end', () => {
-        gutil.log(gutil.colors.green("已生成雪碧图样式，雪碧图样式保存目录："));
-        gutil.log(gutil.colors.yellow(config.sprites.dest.css));
+        fancyLog(ansiColors.green("已生成雪碧图样式，雪碧图样式保存目录："));
+        fancyLog(ansiColors.yellow(config.sprites.dest.css));
       });
 
     return merge(imgStream, cssStream);

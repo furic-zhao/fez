@@ -34,10 +34,16 @@ import path from 'path';
 import _ from 'lodash';
 
 /**
- * gulp插件的实用函数
- * https://github.com/gulpjs/gulp-util
+ * 命令行日志
+ * https://www.npmjs.com/package/fancy-log
  */
-import gutil from 'gulp-util';
+import fancyLog from 'fancy-log';
+
+/**
+ * 命令行颜色
+ * https://github.com/doowb/ansi-colors
+ */
+import ansiColors from 'ansi-colors';
 
 /**
  * 引入gulp
@@ -105,14 +111,14 @@ export default (cb, delTmp) => {
 
   let changedFiles = [];
 
-  gutil.log(gutil.colors.yellow('您已启用增量编译...'));
+  fancyLog(ansiColors.yellow('您已启用增量编译...'));
 
   if (!_.isEmpty(diffManifest)) {
 
     _.forEach(diffManifest, (item, index) => {
       changedFiles.push(`${config.paths.tmp.dir}/${index}`);
 
-      gutil.log(`已改动 ${gutil.colors.yellow(index)}`);
+      fancyLog(`已改动 ${ansiColors.yellow(index)}`);
     });
 
     return gulp.src(changedFiles, {
@@ -124,7 +130,7 @@ export default (cb, delTmp) => {
       });
 
   } else {
-    gutil.log(gutil.colors.yellow('没有文件发生改动!'));
+    fancyLog(ansiColors.yellow('没有文件发生改动!'));
     delTmp();
     cb();
   }

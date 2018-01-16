@@ -4,10 +4,10 @@
  * ================================== */
 
 /**
- * gulp插件的实用函数
- * https://github.com/gulpjs/gulp-util
+ * 命令行日志
+ * https://www.npmjs.com/package/fancy-log
  */
-import gutil from 'gulp-util';
+import fancyLog from 'fancy-log';
 
 import writeFile from '../write';
 
@@ -26,10 +26,10 @@ export default (opts) => {
     fileName: 'index.js',
     data: file,
     success() {
-      gutil.log(`创建 src/views/${opts.directory}/index.js 成功`);
+      fancyLog(`创建 src/views/${opts.directory}/index.js 成功`);
     },
     error() {
-      gutil.log(`创建 src/views/${opts.directory}/index.js 失败`);
+      fancyLog(`创建 src/views/${opts.directory}/index.js 失败`);
     }
   });
 }

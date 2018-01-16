@@ -33,10 +33,10 @@ import gulpReplace from 'gulp-replace';
 import fs from 'fs';
 
 /**
- * gulp插件的实用函数
- * https://github.com/gulpjs/gulp-util
+ * 命令行日志
+ * https://www.npmjs.com/package/fancy-log
  */
-import gutil from 'gulp-util';
+import fancyLog from 'fancy-log';
 
 /**
  * 获取bower.json中的文件
@@ -368,7 +368,7 @@ export default () => {
       ))
       .pipe(sourcemaps.write())
       .on('error', (error) => {
-        gutil.log(error.message);
+        fancyLog(error.message);
       })
       //css中的rem转换
       .pipe(gulpif(
@@ -482,7 +482,7 @@ export default () => {
 
           b.bundle()
             .on('error', (err) => {
-              gutil.log(err.message);
+              fancyLog(err.message);
               bs.notify(err.message, 3000);
               // this.emit('end');
             })
@@ -497,7 +497,7 @@ export default () => {
             // Add transformation tasks to the pipeline here.
             // .on('error', function(err) {
             //     console.log('err:' + err);
-            //     gutil.log(err)
+            //     fancyLog(err)
             // })
             .pipe(sourcemaps.write('.'))
             .pipe(gulp.dest(config.paths.dev.appjs))
@@ -522,7 +522,7 @@ export default () => {
           bandle(true);
         });
 
-        b.on('log', gutil.log);
+        b.on('log', fancyLog);
       });
     });
   }
@@ -822,15 +822,15 @@ export default () => {
 
     watcher
       .on('change', (file) => {
-        gutil.log(`${file} 已被修改`);
+        fancyLog(`${file} 已被修改`);
         watchHandler('changed', file);
       })
       .on('add', (file) => {
-        gutil.log(`${file} 新文件已被添加`);
+        fancyLog(`${file} 新文件已被添加`);
         watchHandler('add', file);
       })
       .on('unlink', (file) => {
-        gutil.log(`${file} 已被删除`);
+        fancyLog(`${file} 已被删除`);
         watchHandler('removed', file);
       });
 

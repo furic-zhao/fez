@@ -27,10 +27,10 @@ import gulpReplace from 'gulp-replace';
 import fs from 'fs';
 
 /**
- * gulp插件的实用函数
- * https://github.com/gulpjs/gulp-util
+ * 命令行日志
+ * https://www.npmjs.com/package/fancy-log
  */
-import gutil from 'gulp-util';
+import fancyLog from 'fancy-log';
 
 /**
  * 获取bower.json中的文件
@@ -519,7 +519,7 @@ export default () => {
           .pipe(source(`${source_name}.js`))
           .pipe(buffer())
           .on('error', (err) => {
-            gutil.log(err);
+            fancyLog(err);
           })
           .pipe(stripDebug())
           .pipe(gulpif(

@@ -13,8 +13,13 @@ import path from 'path';
  * gulp插件的实用函数
  * https://github.com/gulpjs/gulp-util
  */
-import gutil from 'gulp-util';
+import fancyLog from 'fancy-log';
 
+/**
+ * 命令行颜色
+ * https://github.com/doowb/ansi-colors
+ */
+import ansiColors from 'ansi-colors';
 
 /**
  * 研发任务
@@ -69,9 +74,9 @@ import initPage from './page';
 import gulpDefault from './default';
 
 export default () => {
-  gutil.log("---------------------------------------");
-  gutil.log(gutil.colors.cyan("* 欢迎使用 FEZ 前端模块化工程开发框架 *"));
-  gutil.log("---------------------------------------");
+  fancyLog("---------------------------------------");
+  fancyLog(ansiColors.cyan("* 欢迎使用 FEZ 前端模块化工程开发框架 *"));
+  fancyLog("---------------------------------------");
   gulpDev();
   gulpDist();
   gulpDefault();

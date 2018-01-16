@@ -4,10 +4,10 @@
  * ================================== */
 
 /**
- * gulp插件的实用函数
- * https://github.com/gulpjs/gulp-util
+ * 命令行日志
+ * https://www.npmjs.com/package/fancy-log
  */
-import gutil from 'gulp-util';
+import fancyLog from 'fancy-log';
 
 import iconfont from 'gulp-iconfont';
 
@@ -51,7 +51,7 @@ export default () => {
       }))
       .on('glyphs', (glyphs, options) => {
         // CSS templating, e.g.
-        gutil.log(glyphs, options);
+        fancyLog(glyphs, options);
       })
       .pipe(gulp.dest(config.svgIcons.dist));
   }

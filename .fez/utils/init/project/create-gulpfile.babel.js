@@ -4,10 +4,10 @@
  * ================================== */
 
 /**
- * gulp插件的实用函数
- * https://github.com/gulpjs/gulp-util
+ * 命令行日志
+ * https://www.npmjs.com/package/fancy-log
  */
-import gutil from 'gulp-util';
+import fancyLog from 'fancy-log';
 
 import writeFile from '../write';
 
@@ -31,10 +31,16 @@ import fs from 'fs';
 import path from 'path';
 
 /**
- * gulp插件的实用函数
- * https://github.com/gulpjs/gulp-util
+ * 命令行日志
+ * https://www.npmjs.com/package/fancy-log
  */
-import gutil from 'gulp-util';
+import fancyLog from 'fancy-log';
+
+/**
+ * 命令行颜色
+ * https://github.com/doowb/ansi-colors
+ */
+import ansiColors from 'ansi-colors';
 
 /**
  * 如果您的项目目录相对于fez工程目录层级太深
@@ -44,8 +50,8 @@ let fezDeep = 3;
 
 const fez = (fezDirectory) => {
     if (--fezDeep < 0) {
-        gutil.log(gutil.colors.cyan("您的项目目录层级太深"));
-        gutil.log(gutil.colors.cyan("请修改 gulpfile 文件中的 fezDeep 为更大的数值"));
+        fancyLog(ansiColors.cyan("您的项目目录层级太深"));
+        fancyLog(ansiColors.cyan("请修改 gulpfile 文件中的 fezDeep 为更大的数值"));
         return;
     }
 
@@ -66,10 +72,10 @@ fez('.fez');
     fileName: 'gulpfile.babel.js',
     data: file,
     success() {
-      gutil.log(`创建 ${opts.directory}/gulpfile.babel.js 成功`);
+      fancyLog(`创建 ${opts.directory}/gulpfile.babel.js 成功`);
     },
     error() {
-      gutil.log(`创建 ${opts.directory}/gulpfile.babel.js 失败`);
+      fancyLog(`创建 ${opts.directory}/gulpfile.babel.js 失败`);
     }
   });
 }
