@@ -267,7 +267,7 @@ export default {
      */
     options: {
       id: 'fez-%f',
-      className: '.fez-%f'
+      class: '.fez-%f'
     }
   },
 
