@@ -147,15 +147,6 @@ export default (cb) => {
     });
   }
 
-
-  /**
-   * 将 编译过的 sprite 目录下的图片转换成 .webp 格式
-   */
-  function compileWebpSprite() {
-    return gulp.src(`${config.paths.tmp.sprite}/**/*`)
-      .pipe(gulpWebp())
-      .pipe(gulp.dest(config.paths.tmp.sprite));
-  }
   /**
    * 将 编译过的 images 目录下的图片转换成 .webp 格式
    */
@@ -208,7 +199,6 @@ export default (cb) => {
 
   return function() {
     return gulp.series(
-      compileWebpSprite,
       compileWebpImg,
       webpImgNames,
       compileWebpCss,

@@ -57,6 +57,8 @@ const fezConfigDefault = {
     }
   },
 
+  minFonts: ``,
+
   /**
    * 研发环境 使用二维码在移动端扫描测试页面
    * 研发环境输入http://xxxx/zindex.html访问

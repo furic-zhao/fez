@@ -66,6 +66,11 @@ import gulpSprite from './sprite';
  */
 import initPage from './page';
 
+/**
+ * 压缩字体
+ */
+import fontMin from './fontmin';
+
 
 /**
  * 默认任务(执行研发任务)
@@ -86,4 +91,5 @@ export default () => {
   gulpTest();
   gulpSprite();
   initPage();
+  fontMin();
 };

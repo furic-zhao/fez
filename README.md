@@ -15,6 +15,7 @@
 - 【基于React的高性能大中型WEB应用】参考示例：[fez-demo-react](https://github.com/furic-zhao/fez-demo-react)
 - 【高性能移动端混合APP及H5应用】参考示例：[fez-demo-framework7](https://github.com/furic-zhao/fez-demo-framework7)
 - 【快速构建中小型官方网站、活动、专题、宣传页面】参考示例：[fez-demo-75team](https://github.com/furic-zhao/fez-demo-75team)  [fez-web](https://github.com/furic-zhao/fez-web)
+- 【网页中需要现实艺术/特殊字体的官网网站、活动专题】参考示例：[fez-demo-fontmin](https://github.com/furic-zhao/fez-demo-fontmin)
 
 ## FEZ核心特性
 
@@ -118,6 +119,7 @@ static
 - 自动化通过SFTP部署上线、或部署静态资源。
 - 自动化通过Mock方式构建随机数据，模拟研发和上线的数据环境。
 - 自动化创建统一结构化项目、及统一结构化的项目页面。
+- 自动化转换TTF为网页字体(eot,svg,ttf,woff,woff2)并生成font-face样式文件。
 
 ## FEZ安装使用
 
@@ -127,7 +129,7 @@ static
 
 ### 下载
 
-#### 使用Git下载
+#### 使用Git下载(推荐)
 - 如果已经安装[git](http://git-scm.com/)，打开终端命令行进入要存放FEZ的目录，执行以下命令
 
 ```bash
@@ -300,6 +302,17 @@ demopage 页面结构
             ├── index.js       /*demopage 业务逻辑脚本文件*/
             └── module         /*demopage 模块目录*/
 ```
+
+- 压缩ttf字体（在项目目录执行）
+
+```
+gulp fontmin
+```
+
+> FEZ 会调用项目目录中`fez.config.js`的`minfonts`设置的网页中要显示的文本信息，将`src/static/ttf/`目录中存放的普通大文件ttf字体生成网页字体(eot,svg,ttf,woff,woff2)，并将生成后的小文件网页字体格式存放在`src/static/fonts/`目录下，同时生成对应的`@font-face`样式文件(css,less,sass,scss)，可在页面样式中直接引用。FEZ让你在网页中大量的使用特殊字体成为可能，请尽情发挥设计师的想象力。
+
+- 示例：[fez-demo-fontmin](https://github.com/furic-zhao/fez-demo-fontmin)
+
 
 ## FEZ升级
 

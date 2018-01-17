@@ -13,7 +13,7 @@ import fs from 'fs';
  * 使用gulp通过sftp上传文件
  * https://github.com/gtg092x/gulp-sftp
  */
-import sftp from 'gulp-sftp';
+import sftp from 'gulp-fez-sftp';
 
 /**
  * 捕获错误，返回错误信息
