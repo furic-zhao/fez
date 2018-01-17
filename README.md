@@ -15,7 +15,7 @@
 - 【基于React的高性能大中型WEB应用】参考示例：[fez-demo-react](https://github.com/furic-zhao/fez-demo-react)
 - 【高性能移动端混合APP及H5应用】参考示例：[fez-demo-framework7](https://github.com/furic-zhao/fez-demo-framework7)
 - 【快速构建中小型官方网站、活动、专题、宣传页面】参考示例：[fez-demo-75team](https://github.com/furic-zhao/fez-demo-75team)  [fez-web](https://github.com/furic-zhao/fez-web)
-- 【网页中需要现实艺术/特殊字体的官网网站、活动专题】参考示例：[fez-demo-fontmin](https://github.com/furic-zhao/fez-demo-fontmin)
+- 【网页中显示艺术/特殊字体的官网网站、活动专题】参考示例：[fez-demo-fontmin](https://github.com/furic-zhao/fez-demo-fontmin)
 
 ## FEZ核心特性
 
