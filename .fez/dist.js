@@ -288,9 +288,9 @@ import incremental from './utils/incremental';
 
 /**
  * CDN地址替换
- * https://github.com/kaiqigong/gulp-cdnify
+ * https://github.com/furic-zhao/gulp-fez-cdn
  */
-import cdnify from 'gulp-cdnify';
+import cdnify from 'gulp-fez-cdn';
 
 /**
  * 引入gulp
@@ -917,14 +917,16 @@ export default () => {
         rewriter: (url, process) => {
           if (/http|https|^(\/\/)/.test(url)) {
             return process(url);
-          } else if (/eot|ttf|woff|woff2/.test(url)) {
-            return `${config.useCdn.fonts}${url}`;
+          } else if (/eot|ttf|woff|woff2|svg/.test(url)) {
+            url = url.replace(/..\/fonts/, 'static/fonts');
+            return `${config.useCdn.fonts||config.useCdn.base}${url}`;
           } else if (/(png|jpg|gif)$/.test(url)) {
-            return `${config.useCdn.images}${url}`;
+            url = url.replace(/..\/images/, 'static/images');
+            return `${config.useCdn.images||config.useCdn.base}${url}`;
           } else if (/(js)$/.test(url)) {
-            return `${config.useCdn.js}${url}`;
+            return `${config.useCdn.js||config.useCdn.base}${url}`;
           } else if (/(css)$/.test(url)) {
-            return `${config.useCdn.css}${url}`;
+            return `${config.useCdn.css||config.useCdn.base}${url}`;
           } else {
             return process(url);
           }

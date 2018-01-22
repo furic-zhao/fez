@@ -1,6 +1,12 @@
 /* ==================================
  * @ 2017 FEZ 前端模块化工程开发框架
  * https://github.com/furic-zhao/fez
+ * ----------------------------------
+ * 《笑傲江湖》
+ * 岁月匆匆争浮名
+ * 笑傲天际踏前程
+ * 何惧千里路遥遥
+ * 独留沧桑续柔情
  * ================================== */
 
 /*****************************************
@@ -206,11 +212,11 @@ const fezConfigDefault = {
   useCdn: {
     available: false,
     extFile: 'css,html', //可以替换CDN地址的文件扩展名
-    base: "http://fezcdn.com/", //默认CDN地址
-    js: "http://js.fezcdn.com/", //脚本CDN地址
-    css: "http://css.fezcdn.com/", //样式CDN地址
-    images: "http://img.fezcdn.com/", //图片CDN地址
-    fonts: "http://fonts.fezcdn.com/" //字体CDN地址
+    base: "//fezcdn.com/cdndemo/" //默认CDN地址
+    // js: "http://js.fezcdn.com/", //脚本CDN地址
+    // css: "http://css.fezcdn.com/", //样式CDN地址
+    // images: "http://img.fezcdn.com/", //图片CDN地址
+    // fonts: "http://fonts.fezcdn.com/" //字体CDN地址
   },
 
   /**html自动化注入文件*
