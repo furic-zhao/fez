@@ -493,7 +493,7 @@ export default () => {
           // 编译 module 中的 jade 模板
           .transform(pugify)
           // 编译 module 中的 vue 模板
-          .transform(vueify)
+          .transform(vueify, { babel: babelrc })
           // 打包
           .bundle()
           .pipe(source(`${source_name}.js`))

@@ -462,7 +462,7 @@ export default () => {
             pretty: true
           }))
           // 编译 module 中的 vue 模板
-          .transform(vueify));
+          .transform(vueify, { babel: babelrc }));
 
         function bandle(bUpdate = false) {
 
