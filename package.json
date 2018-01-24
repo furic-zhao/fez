@@ -51,7 +51,7 @@
     "gulp-concat": "^2.6.1",
     "gulp-concat-css": "^3.0.0",
     "gulp-fez-cdn": "^1.0.1",
-    "gulp-fez-fontmin": "^1.0.0",
+    "gulp-fez-fontmin": "^1.0.2",
     "gulp-fez-order": "^1.0.1",
     "gulp-fez-sftp": "^1.0.0",
     "gulp-fez-tinypic": "^1.0.0",
