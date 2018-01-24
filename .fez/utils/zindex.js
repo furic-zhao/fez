@@ -26,9 +26,9 @@ import path from 'path';
 
 /**
  * 获取本地IP地址
- * https://github.com/aloksguha/myip
+ * https://github.com/furic-zhao/fez-local-ip
  */
-import localIp from 'quick-local-ip';
+import localIp from 'fez-local-ip';
 
 /**
  * 引入 .fezconfig 配置
