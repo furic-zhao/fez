@@ -268,7 +268,7 @@ import stripDebug from 'gulp-strip-debug';
 /**
  * 顺序合并脚本和样式
  */
-import concatOrder from "gulp-order";
+import concatOrder from "gulp-fez-order";
 
 /**
  * 引入webp模块

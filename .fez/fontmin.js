@@ -11,9 +11,9 @@ import path from 'path';
 
 /**
  * 压缩ttf
- * https://github.com/ecomfe/gulp-fontmin
+ * https://github.com/furic-zhao/gulp-fez-fontmin
  */
-import fontMin from 'gulp-fontmin';
+import fontMin from 'gulp-fez-fontmin';
 
 /**
  * 压缩ttf 生成woff2
