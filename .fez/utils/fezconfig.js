@@ -349,6 +349,15 @@ const fezConfigDefault = {
   },
 
   /**
+   * 使用tinypic做图片无损压缩配置
+   */
+
+  tinypic: {
+    apikey: '',
+    keep: false
+  },
+
+  /**
    * 路径配置
    */
   paths: {

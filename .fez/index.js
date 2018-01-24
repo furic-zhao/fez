@@ -71,6 +71,11 @@ import initPage from './page';
  */
 import fontMin from './fontmin';
 
+/**
+ * 整合tinypng无损压缩图片
+ */
+import tinyPic from './tinypic';
+
 
 /**
  * 默认任务(执行研发任务)
@@ -92,4 +97,5 @@ export default () => {
   gulpSprite();
   initPage();
   fontMin();
+  tinyPic();
 };
