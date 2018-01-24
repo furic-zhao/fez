@@ -32,7 +32,7 @@
 
 #### 统一的文件系统结构
 
-- 页面模块结构
+- 页面目录模块化结构
 
 ````bash
 views
@@ -42,15 +42,17 @@ views
     └── module
         ├── module1         /*模块1 目录*/
         │   ├── index.js    /*模块1 逻辑脚本*/
-        │   ├── index.hbs   /*模块1 handlebars模板*/
+        │   ├── index.hbs   /*模块1 handlebars模板(可选)*/
         │   └── service.js  /*模块1 数据处理脚本*/
         └── module2
-            ├── index.vue   /*模块2 基于Vue的单文件组件*/
+            ├── index.vue   /*模块2 基于Vue的单文件组件(可选)*/
             └── service.js  /*模块2 数据处理脚本*/
 
 ````
 
-- 样式目录结构
+> `service.js`也可以放在页面根目录。
+
+- 样式目录模块化结构
 
 ````bash
 static
@@ -80,12 +82,6 @@ static
             ├── 2.png
             └── 3.png
 ````
-
-#### 统一的职责划分
-
-- Service.js `专职提供各种方法处理API数据`
-- .hbs 或 .jade `负责页面的html模板`
-- index.js 或 index.vue `负责数据展现和交互操作`
 
 #### 规范化
 
@@ -129,20 +125,18 @@ static
 
 ### 下载
 
-#### 使用Git下载(推荐)
-- 如果已经安装[git](http://git-scm.com/)，打开终端命令行进入要存放FEZ的目录，执行以下命令
+- 使用Git下载(推荐)
 
 ```bash
 git clone git@github.com:furic-zhao/fez.git
-```
-或者
-```bash
+
+//或者
+
 git clone https://github.com/furic-zhao/fez.git
 ```
-#### 使用浏览器下载
-- 下载以下链接解压到本地目录即可
 
-`https://github.com/furic-zhao/fez/archive/master.zip`
+- 使用浏览器下载
+将`https://github.com/furic-zhao/fez/archive/master.zip`下载解压到任意目录。
 
 ### 安装
 
@@ -176,7 +170,7 @@ npm install bower -g
 ```
 > 使用Bower主要是为了方便管理基于浏览器的第三方框架库，通过页面自动化注入技术解决页面框架库的引入和管理问题，如果想用固定的CDN资源、及手动在页面引入第三方框架库，可以选择不安装。
 
-#### 安装 NPM 包
+#### 安装FEZ的NPM依赖包
 
 - 在 FEZ 工程目录执行
 
@@ -311,7 +305,15 @@ gulp fontmin
 
 > FEZ 会调用项目目录中`fez.config.js`的`minfonts`设置的网页中要显示的文本信息，将`src/static/ttf/`目录中存放的普通大文件ttf字体生成网页字体(eot,svg,ttf,woff,woff2)，并将生成后的小文件网页字体格式存放在`src/static/fonts/`目录下，同时生成对应的`@font-face`样式文件(css,less,sass,scss)，可在页面样式中直接引用。FEZ让你在网页中大量的使用特殊字体成为可能，请尽情发挥设计师的想象力。
 
-- 示例：[fez-demo-fontmin](https://github.com/furic-zhao/fez-demo-fontmin)
+> 示例：[fez-demo-fontmin](https://github.com/furic-zhao/fez-demo-fontmin)
+
+- 深度图片压缩（在项目目录执行）
+
+```
+gulp tinypic
+```
+
+> FEZ将调用[tinypng.com](https://tinypng.com/)提供的API对本地项目图片深度无损压缩，压缩率达到50%以上，压缩前后的图片质量几乎看不出来差别，请尽情享用FEZ为你带来的项目图片极致性能优化。具体使用请参考:[图片无损压缩wiki](https://github.com/furic-zhao/fez/wiki/深度无损压缩图片)
 
 
 ## FEZ升级
@@ -322,7 +324,5 @@ gulp fontmin
 > 每次升级请确保在FEZ工程目录执行`npm install`
 
 ## 待续...
-
-
 
 
