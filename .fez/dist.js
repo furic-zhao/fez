@@ -249,12 +249,6 @@ import RevReplace from 'gulp-rev-replace';
 import revDel from 'gulp-rev-delete-original';
 
 /**
- * 提取样式中的相对路径
- * https://www.npmjs.com/package/gulp-rev-css-url
- */
-import override from 'gulp-rev-css-url';
-
-/**
  * 合并JS
  * https://github.com/contra/gulp-concat
  */
@@ -395,7 +389,6 @@ export default () => {
         use: [pngquant()]
       }))
       .pipe(RevAll())
-      .pipe(override())
       .pipe(gulp.dest(config.paths.tmp.img))
       .pipe(RevAll.manifest({
         merge: true
@@ -410,7 +403,6 @@ export default () => {
     return gulp.src(config.paths.src.fonts)
       .pipe(size())
       .pipe(RevAll())
-      .pipe(override())
       .pipe(gulp.dest(config.paths.tmp.fonts))
       .pipe(RevAll.manifest({
         merge: true
@@ -582,7 +574,6 @@ export default () => {
       .pipe(flatten())
       .pipe(size())
       .pipe(RevAll())
-      .pipe(override())
       .pipe(gulp.dest(config.paths.tmp.fonts))
       .pipe(RevAll.manifest({
         path: 'rev-manifest-bower.json',
@@ -958,7 +949,6 @@ export default () => {
 
     return gulp.src([`${config.paths.tmp.dir}/**/*`, `!${config.paths.tmp.dir}/**/*.html`, `!${config.paths.tmp.dir}/**/images/**/*`, `!${config.paths.tmp.dir}/**/fonts/**/*`])
       .pipe(RevAll())
-      .pipe(override())
       .pipe(revDel())
       .pipe(gulp.dest(config.paths.tmp.dir))
       .pipe(RevAll.manifest({
