@@ -897,10 +897,10 @@ export default () => {
           if (/http|https|^(\/\/)/.test(url)) {
             return process(url);
           } else if (/eot|ttf|woff|woff2|svg/.test(url)) {
-            url = url.replace(/..\/fonts/, 'static/fonts');
+            url = url.replace(/(\.\.\/fonts)|(\/static\/fonts)/, 'static/fonts');
             return `${config.useCdn.fonts||config.useCdn.base}${url}`;
           } else if (/(png|jpg|gif)$/.test(url)) {
-            url = url.replace(/..\/images/, 'static/images');
+            url = url.replace(/(\.\.\/images)|(\/static\/images)/, 'static/images');
             return `${config.useCdn.images||config.useCdn.base}${url}`;
           } else if (/(js)$/.test(url)) {
             return `${config.useCdn.js||config.useCdn.base}${url}`;
