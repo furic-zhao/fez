@@ -313,7 +313,7 @@ gulp fontmin
 gulp tinypic
 ```
 
-> FEZ将调用[tinypng.com](https://tinypng.com/)提供的API对本地项目图片深度无损压缩，压缩率达到50%以上，压缩前后的图片质量几乎看不出来差别，请尽情享用FEZ为你带来的项目图片极致性能优化。具体使用请参考:[图片无损压缩wiki](https://github.com/furic-zhao/fez/wiki/深度无损压缩图片)
+> FEZ 会对`src/static/tinypic`目录中的图片深度无损压缩，压缩率达到50%以上，压缩前后的图片质量几乎看不出来差别，请尽情享用FEZ为你带来的图片极致性能优化。具体使用请参考:[图片无损压缩wiki](https://github.com/furic-zhao/fez/wiki/深度无损压缩图片)
 
 
 ## FEZ升级
