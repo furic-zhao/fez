@@ -45,12 +45,12 @@ export default (opts) => {
 └── src
     ├── static
     │   └── styles
-    │       └── ${opts.directory}.${opts.fezconfig.cssCompiler}     /*${opts.name}样式文件*/
+    │       └── ${opts.directory}.${opts.fezconfig.cssCompiler}  //${opts.name}样式文件
     └── views
-        └── ${opts.directory}              /*${opts.name} 页面目录*/
-            ├── index.html     /*${opts.name} HTML页面*/
-            ├── index.js       /*${opts.name} 业务逻辑脚本文件*/
-            └── module         /*${opts.name} 模块目录*/
+        └── ${opts.directory}  //${opts.name} 页面目录
+            ├── index.html  //${opts.name} HTML页面
+            ├── index.js  //${opts.name} 业务逻辑脚本文件
+            └── module  //${opts.name} 模块目录
 
     </pre>
 

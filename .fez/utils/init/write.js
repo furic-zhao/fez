@@ -9,6 +9,8 @@
  */
 import fs from 'fs';
 
+import mkdirp from './mkdirp';
+
 const beauty = require('js-beautify').js_beautify;
 const beautyHtml = require('js-beautify').html;
 const beautyCss = require('js-beautify').css;
@@ -19,7 +21,7 @@ export default (opts) => {
 
 
   if (!fs.existsSync(opts.directory)) {
-    fs.mkdir(opts.directory, (err) => {
+    mkdirp(opts.directory, (err) => {
       if (err) {
         if (opts.error) opts.error(err);
         return false;

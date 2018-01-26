@@ -39,12 +39,8 @@ export default (opts) => {
     "test",
     "tests"
   ],
-  "dependencies": {
-
-  },
-  "overrides": {
-
-  }
+  "dependencies": {},
+  "overrides": {}
 }
     `;
   writeFile({
