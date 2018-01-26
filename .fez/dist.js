@@ -460,7 +460,7 @@ export default () => {
       let filesIndex = 0;
 
       files.map((file) => {
-        const source_name = file.match(/src[\/|\\]views[\/|\\](.*?)[\/|\\]/)[1];
+        const source_name = path.dirname(file).split(path.sep).pop();
 
         const b = browserify(Object.assign({}, config.browserify.options, {
             entries: file,
