@@ -27,13 +27,13 @@ export default (opts) => {
     <meta name="keywords" content="" />
     <meta name="description" content="" />
     <!-- inject:bower:css -->
-    <!-- bower框架库样式 -->
+    <!-- 使用bower安装的框架库CSS文件会被自动插入到此处 -->
     <!-- endinject -->
     <!-- inject:lib:css -->
-    <!-- 项目通用样式 -->
+    <!-- 样式目录所有包含common命名的编译后的CSS文件会被自动插入到此处 -->
     <!-- endinject -->
     <!-- inject:views:css -->
-    <!-- 页面样式 -->
+    <!-- 本页面对应的编译后的css文件会被自动插入到此处 -->
     <!-- endinject -->
 </head>
 
@@ -55,13 +55,13 @@ export default (opts) => {
     </pre>
 
     <!-- inject:bower:js -->
-    <!-- bower框架库脚本 -->
+    <!-- 使用bower安装的框架库JS文件会被自动插入到此处 -->
     <!-- endinject -->
     <!-- inject:lib:js -->
-    <!-- 项目通用脚本 -->
+    <!-- 项目src/lib目录中所有的JS文件会被自动插入到此处 -->
     <!-- endinject -->
     <!-- inject:views:js -->
-    <!-- 页面脚本 -->
+    <!-- 本页面对应的编译后的JS文件会被自动插入到此处 -->
     <!-- endinject -->
 </body>
 

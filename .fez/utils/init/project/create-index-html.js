@@ -35,13 +35,13 @@ export default (opts) => {
     <meta name="keywords" content="" />
     <meta name="description" content="" />
     <!-- inject:bower:css -->
-    <!-- bower框架库样式 -->
+    <!-- 使用bower安装的框架库CSS文件会被自动插入到此处 -->
     <!-- endinject -->
     <!-- inject:lib:css -->
-    <!-- 项目通用样式 -->
+    <!-- 样式目录所有包含common命名的编译后的CSS文件会被自动插入到此处 -->
     <!-- endinject -->
     <!-- inject:views:css -->
-    <!-- 页面样式 -->
+    <!-- 本页面对应的编译后的css文件会被自动插入到此处 -->
     <!-- endinject -->
 </head>
 
@@ -50,8 +50,7 @@ export default (opts) => {
   <h3>默认已启用的功能</h3>
     <ul>
       <li>构建本地研发环境，快速响应文件更改并自动刷新浏览器。</li>
-      <li>在开发过程中，自动同步浏览器中滚动页面、点击等行为，到其他浏览器和设备中</li>
-      <li>编译ES6或CommonJS标准的JS代码，并生成source map便于浏览器端调试。</li>
+      <li>编译ES6/ES7/CommonJS标准的代码，并生成source map便于浏览器端调试。</li>
       <li>编译LESS(默认使用less) => CSS文件，添加CSS3的各种浏览器（默认支持到IE8兼容模式）前缀。</li>
       <li>压缩JS、CSS、HTML、图片、字体等静态资源。</li>
       <li>发布项目生成所有静态资源的MD5版本号。</li>
@@ -60,13 +59,11 @@ export default (opts) => {
   <pre>
 ${opts.directory}
 ├── fez.config.js              // FEZ功能配置 文件
-├── bower.json                 // bower配置 文件
 ├── package.json               // npm配置 文件
 ├── gulpfile.babel.js          // gulp入口 文件
 ├── shim.js                    // browserify-shim入口 文件
 └── src                        // 源码 目录
-    ├── custom                 // 自定义文件 目录
-    ├── lib                    // 项目公共库 目录
+    ├── lib                    // 公共Javascript 目录
     ├── static                 // 静态资源 目录
     │   ├── fonts              // 字体 目录
     │   ├── images             // 图片 目录
@@ -83,13 +80,13 @@ ${opts.directory}
     </pre>
 
     <!-- inject:bower:js -->
-    <!-- bower框架库脚本 -->
+    <!-- 使用bower安装的框架库JS文件会被自动插入到此处 -->
     <!-- endinject -->
     <!-- inject:lib:js -->
-    <!-- 项目通用脚本 -->
+    <!-- 项目src/lib目录中所有的JS文件会被自动插入到此处 -->
     <!-- endinject -->
     <!-- inject:views:js -->
-    <!-- 页面脚本 -->
+    <!-- 本页面对应的编译后的JS文件会被自动插入到此处 -->
     <!-- endinject -->
 </body>
 
