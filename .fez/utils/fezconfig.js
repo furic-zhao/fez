@@ -236,13 +236,13 @@ const fezConfigDefault = {
      * }
      */
     bower: {
-      available: false, //启用 bower 文件自动化注入
+      available: true, //启用 bower 文件自动化注入
       js: [],
       css: []
     },
 
     lib: {
-      available: false, //启用 公共 文件自动化注入
+      available: true, //启用 公共 文件自动化注入
       css: "*common*", //以common命名的样式文件会注入到所有的页面
       /*
        * ---------- 公共脚本打包格式 仅对 生产环境------------

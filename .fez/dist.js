@@ -523,10 +523,22 @@ export default () => {
   }
 
   /**
+   * 检测bower是否可用
+   */
+  function bowerAvailable() {
+
+    if (!config.useInject.bower.available) return false;
+    if (!fs.existsSync(path.join(process.cwd(), 'bower_components'))) return false;
+    if (mainBowerFiles().length <= 0) return false;
+
+    return true;
+  }
+
+  /**
    * 复制bower文件到缓存目录等待处理
    **/
   function copyBowerFiles(cb) {
-    if (!config.useInject.bower.available) return cb();
+    if (!bowerAvailable()) return cb();
 
     const jsFilter = filter('**/*.js', {
       restore: true
@@ -571,7 +583,7 @@ export default () => {
   }
 
   function bowerCustomJs(cb) {
-    if (!config.useInject.bower.available || config.useInject.bower.js.length === 0) return cb();
+    if (!bowerAvailable() || config.useInject.bower.js.length === 0) return cb();
 
     let fileIndex = 0;
 
@@ -604,7 +616,7 @@ export default () => {
   }
 
   function bowerVendorJs(cb) {
-    if (!config.useInject.bower.available) return cb();
+    if (!bowerAvailable()) return cb();
 
     return gulp.src('./tmp/bower/**/*.js')
       .pipe(filter('**/*.js'))
@@ -617,7 +629,7 @@ export default () => {
   }
 
   function bowerCustomCss(cb) {
-    if (!config.useInject.bower.available || config.useInject.bower.css.length === 0) return cb();
+    if (!bowerAvailable() || config.useInject.bower.css.length === 0) return cb();
 
     let fileIndex = 0;
 
@@ -650,7 +662,7 @@ export default () => {
   }
 
   function bowerVendorCss(cb) {
-    if (!config.useInject.bower.available) return cb();
+    if (!bowerAvailable()) return cb();
 
     return gulp.src('./tmp/bower/**/*.css')
       .pipe(filter('**/*.css'))
@@ -812,7 +824,7 @@ export default () => {
         gulp.src(file.path)
           .pipe(rename(cateName + '.html'))
           .pipe(gulpif(
-            config.useInject.bower.available,
+            bowerAvailable(),
             injectBowerFiles()
           ))
           .pipe(gulpif(
