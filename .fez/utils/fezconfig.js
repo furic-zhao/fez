@@ -378,6 +378,8 @@ const fezConfigDefault = {
 
       custom: "./src/custom/**/*", //自定义文件目录
 
+      vendor: "./src/vendor/**/*", //第三方公共文件库目录
+
       appJs: "./src/views/*/index.js", //每个页面目录下的index.js 入口文件
       appJsALL: "./src/views/**/*.js", //所有业务层js文件，用于监视改动自动刷新
 

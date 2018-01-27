@@ -310,6 +310,13 @@ export default () => {
   }
 
   /**
+   * 复制自定义文件到研发目录
+   */
+  function copyVendor() {
+    return copyHandler('vendor');
+  }
+
+  /**
    * 编译css/less/sass
    * 可以在 .fezrc 配置中任选其一
    */
@@ -749,6 +756,8 @@ export default () => {
       copyLib();
     } else if (target === "custom") {
       copyCustom();
+    } else if (target === "vendor") {
+      copyVendor();
     } else if (target === "static") {
       /*监视静态资源*/
       const staticFile = file.match(/^src[\/|\\]static[\/|\\](.*?)[\/|\\]/)[1];
@@ -861,6 +870,7 @@ export default () => {
       copyFonts,
       copyLib,
       copyCustom,
+      copyVendor,
       compileCss,
       compileAppJs
     ),
