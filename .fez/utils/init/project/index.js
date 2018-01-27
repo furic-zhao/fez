@@ -18,7 +18,6 @@ import createDirectory from './create-directory';
 
 import createGulpfileBabel from './create-gulpfile.babel';
 import createFezConfig from './create-fez.config';
-import createBower from './create-bower';
 import createPackage from './create-package';
 import createShim from './create-shim';
 
@@ -31,7 +30,6 @@ export default (opts) => {
 
   createGulpfileBabel(opts);
   createFezConfig(opts);
-  createBower(opts);
   createPackage(opts);
   createShim(opts);
 
