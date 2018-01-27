@@ -150,14 +150,4 @@ export default (opts) => {
       fancyLog(`创建 ${opts.directory}/src/views/public/utils 失败`);
     }
   });
-
-  writeFile({
-    directory: `${opts.directory}/src/custom`,
-    success() {
-      fancyLog(`创建 ${opts.directory}/src/custom 成功`);
-    },
-    error() {
-      fancyLog(`创建 ${opts.directory}/src/custom 失败`);
-    }
-  });
 }
