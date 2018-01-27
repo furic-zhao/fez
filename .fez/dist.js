@@ -208,7 +208,7 @@ import htmlmin from 'gulp-htmlmin';
 
 /**
  * 合并压缩html中的JS或CSS文件
- * https://github.com/pursual/gulp-usemin
+ * https://github.com/zont/gulp-usemin
  */
 import usemin from 'gulp-usemin';
 
@@ -763,6 +763,7 @@ export default () => {
     const htmlMinPipe = lazypipe()
       .pipe(() => {
         return usemin({
+          css: [minifyCSS()],
           html: [() => {
             let options = config.useHtmlMin.options || {
               removeComments: true, //清除HTML注释
@@ -776,7 +777,8 @@ export default () => {
             };
             return htmlmin(options);
           }],
-          js: [uglify]
+          js: [uglify],
+          assetsDir: './src/'
         })
       });
 
