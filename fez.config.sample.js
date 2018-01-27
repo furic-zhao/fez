@@ -24,6 +24,14 @@ export default {
     }
   },
 
+  minFonts: ``,
+
+  /**
+   * 研发环境 使用二维码在移动端扫描测试页面
+   * 研发环境输入http://xxxx/zindex.html访问
+   */
+  useQrCodeHtml: true,
+
   /**
    * mock配置
    * @if MOCK
@@ -42,53 +50,6 @@ export default {
   useJsHint: {
     available: false, //启用 jshint 自动化测试
     files: "./src/views/**/*.js" //检测文件
-  },
-
-  /**html自动化注入文件*
-   * 【支持自定义打包多个文件到一个文件】
-   * 【支持自定义打包单个文件】
-   * 【未配置的文件自动打包成一个文件】
-   * 【插入页面顺序以字母或数字降序排列-解决插入页面的脚本文件依赖关系】
-   * 【打包顺序以文件配置先后降序排列-解决打包文件间的依赖关系】
-   */
-  useInject: {
-    /**
-     * ---------- bower打包格式 仅对 生产环境------------
-     * 打包文件支持 gulp格式的正则文件名
-     * {
-     *     "target": "{排序序号}-vendor-{打包名称}.js",
-     *     "contain": ["{文件1}", "{文件2}", "{文件3}"]
-     * }
-     */
-    bower: {
-      available: false, //启用 bower 文件自动化注入
-      js: [],
-      css: []
-    },
-
-    lib: {
-      available: false, //启用 公共 文件自动化注入
-      css: "*common*", //以common命名的样式文件会注入到所有的页面
-      /*
-       * ---------- 公共脚本打包格式 仅对 生产环境------------
-       * 打包文件支持 gulp格式的正则文件名
-       * {
-       *     "target": "{排序序号}-common-{打包名称}.js",
-       *     "contain": ["{文件1}", "{文件2}", "{文件3}"]
-       * }
-       *
-       * 【支持单个文件指定注入到某些页面】
-       * （命名规则：assign-{页面名}-{页面名}-{other}
-       */
-      js: []
-    },
-
-    /**
-     * 【支持src目录中的样式及编译后的逻辑脚本自动化注入到对应的页面】
-     * style 目录中的样式命名规则必须为：
-     * {页面名}.{css,less,scss} 或者 {other}-{页面名}.{css,less,scss}
-     */
-    views: false //启用 业务目录 文件自动化注入
   },
 
   /**
@@ -153,6 +114,11 @@ export default {
   },
 
   /**
+   * 生产环境 启用增量编译
+   */
+  compileChanged: false,
+
+  /**
    * 生产环境 启用js压缩
    */
   useJsMin: true,
@@ -166,7 +132,7 @@ export default {
       safe: true,
       reduceTransforms: false,
       advanced: false, //类型：Boolean 默认：true [是否开启高级优化（合并选择器等）]
-      compatibility: "ie7", //保留ie7及以下兼容写法(hack写法) 类型：String 默认：''or'*' [启用兼容模式； 'ie7'：IE7兼容模式，'ie8'：IE8兼容模式，'*'：IE9+兼容模式]
+      compatibility: "ie8", //保留ie7及以下兼容写法(hack写法) 类型：String 默认：''or'*' [启用兼容模式； 'ie7'：IE7兼容模式，'ie8'：IE8兼容模式，'*'：IE9+兼容模式]
       keepSpecialComments: 0 //保留所有特殊前缀 当你用autoprefixer生成的浏览器前缀，如果不加这个参数，有可能将会删除你的部分前缀
     }
   },
@@ -190,11 +156,6 @@ export default {
   },
 
   /**
-   * 生产环境 启用增量编译
-   */
-  compileChanged: false,
-
-  /**
    * 生产环境 上传sftp服务器配置信息
    */
   sftp: {
@@ -212,11 +173,58 @@ export default {
   useCdn: {
     available: false,
     extFile: 'css,html', //可以替换CDN地址的文件扩展名
-    base: "http://fezcdn.com/", //默认CDN地址
-    js: "http://js.fezcdn.com/", //脚本CDN地址
-    css: "http://css.fezcdn.com/", //样式CDN地址
-    images: "http://img.fezcdn.com/", //图片CDN地址
-    fonts: "http://fonts.fezcdn.com/" //字体CDN地址
+    base: "//fezcdn.com/cdndemo/" //默认CDN地址
+    // js: "http://js.fezcdn.com/", //脚本CDN地址
+    // css: "http://css.fezcdn.com/", //样式CDN地址
+    // images: "http://img.fezcdn.com/", //图片CDN地址
+    // fonts: "http://fonts.fezcdn.com/" //字体CDN地址
+  },
+
+  /**html自动化注入文件*
+   * 【支持自定义打包多个文件到一个文件】
+   * 【支持自定义打包单个文件】
+   * 【未配置的文件自动打包成一个文件】
+   * 【插入页面顺序以字母或数字降序排列-解决插入页面的脚本文件依赖关系】
+   * 【打包顺序以文件配置先后降序排列-解决打包文件间的依赖关系】
+   */
+  useInject: {
+    /**
+     * ---------- bower打包格式 仅对 生产环境------------
+     * 打包文件支持 gulp格式的正则文件名
+     * {
+     *     "target": "{排序序号}-vendor-{打包名称}.js",
+     *     "contain": ["{文件1}", "{文件2}", "{文件3}"]
+     * }
+     */
+    bower: {
+      available: true, //启用 bower 文件自动化注入
+      js: [],
+      css: []
+    },
+
+    lib: {
+      available: true, //启用 公共 文件自动化注入
+      css: "*common*", //以common命名的样式文件会注入到所有的页面
+      /*
+       * ---------- 公共脚本打包格式 仅对 生产环境------------
+       * 打包文件支持 gulp格式的正则文件名
+       * {
+       *     "target": "{排序序号}-common-{打包名称}.js",
+       *     "contain": ["{文件1}", "{文件2}", "{文件3}"]
+       * }
+       *
+       * 【支持单个文件指定注入到某些页面】
+       * （命名规则：assign-{页面名}-{页面名}-{other}
+       */
+      js: []
+    },
+
+    /**
+     * 【支持src目录中的样式及编译后的逻辑脚本自动化注入到对应的页面】
+     * style 目录中的样式命名规则必须为：
+     * {页面名}.{css,less,scss} 或者 {other}-{页面名}.{css,less,scss}
+     */
+    views: true //启用 业务目录 文件自动化注入
   },
 
   /**
@@ -260,9 +268,8 @@ export default {
   svgSymbol: {
     available: false, //启用svg图标自动化symbol合并
     autoInject: false, //启用将合并后的symbol.svg自动化注入到页面
-
     /**
-     * symblo配置参考：
+     * 配置参考
      * https://github.com/Hiswe/gulp-svg-symbols#options
      */
     options: {
@@ -273,8 +280,6 @@ export default {
 
   /**
    * 雪碧图配置
-   * 执行`gulp sprite`自动合并雪碧图并生成对应的样式文件
-   * 配置参考：https://github.com/twolfson/gulp.spritesmith
    */
   sprites: {
     src: './src/static/slice/**/*.png',
@@ -302,5 +307,14 @@ export default {
       retinaSrcFilter: ['./src/static/slice/**/*@2x.png'],
       retinaImgName: 'sprite@2x.png'
     }
+  },
+
+  /**
+   * 使用tinypic做图片无损压缩配置
+   */
+
+  tinypic: {
+    apikey: '',
+    keep: false
   }
 }
