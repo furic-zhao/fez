@@ -1,7 +1,7 @@
-<p align="center"><a href="http://fez.jd.com" target="_blank"><img width="240"src="https://github.com/furic-zhao/fez-demo-handlebars/blob/master/src/static/images/fez-logo.png?raw=true"></a></p>
+<p align="center"><a href="http://fez.hestudy.com" target="_blank"><img width="240"src="https://github.com/furic-zhao/fez-demo-handlebars/blob/master/src/static/images/fez-logo.png?raw=true"></a></p>
 
 # FEZ
-[FEZ](http://fez.jd.com) 是面向 前端模块化工程 的开发框架。主要目的是统一前端开发模式和项目开发结构，自动化前端工作流，提高开发效率和开发质量，使用持续集成等软件工程的架构模式，集成众多业界先进的解决方案，让研发人员更专注于业务逻辑的实现。核心包括功能模块化、结构规范化、及开发自动化。
+[FEZ](http://fez.hestudy.com) 是面向 前端模块化工程 的开发框架。主要目的是统一前端开发模式和项目开发结构，自动化前端工作流，提高开发效率和开发质量，使用持续集成等软件工程的架构模式，集成众多业界先进的解决方案，让研发人员更专注于业务逻辑的实现。核心包括功能模块化、结构规范化、及开发自动化。
 
 ## FEZ倡导的前端开发理念
 - 采用响应式界面布局，一份代码各种终端设备兼容，自动适配PC端、手机端、PAD端、及各种大小的屏幕，并可以嵌入任何APP中使用。为产品的多元化几何倍的提高开发效率，极大降低多平台项目的开发成本。
@@ -21,14 +21,14 @@
 
 ### 功能模块化
 
-[FEZ](http://fez.jd.com) 支持使用[ES6 Module](http://es6.ruanyifeng.com/#docs/module)来组织前端代码，支持使用ES5/ES6/ES7等标准特性开发项目，通过[Babel](http://babeljs.cn/)编译完美运行在浏览器中。可以整合如[Vue](https://cn.vuejs.org/)、[React](https://github.com/facebook/react)等MVVM框架实现[单文件组件](https://cn.vuejs.org/v2/guide/single-file-components.html)形式的高效开发体验。
+[FEZ](http://fez.hestudy.com) 支持使用[ES6 Module](http://es6.ruanyifeng.com/#docs/module)来组织前端代码，支持使用ES5/ES6/ES7等标准特性开发项目，通过[Babel](http://babeljs.cn/)编译完美运行在浏览器中。可以整合如[Vue](https://cn.vuejs.org/)、[React](https://github.com/facebook/react)等MVVM框架实现[单文件组件](https://cn.vuejs.org/v2/guide/single-file-components.html)形式的高效开发体验。
 
 > 模块化是一种处理复杂系统分解为更好的可管理模块的方式。每个模块完成一个特定的子功能，所有的模块再进行统一的拼装和加载，成为一个整体，完成整个系统所要求的功能。
 > 有关模块化的更多知识请参考：【[https://github.com/fouber/blog](https://github.com/fouber/blog)】【[https://www.zhihu.com/question/37011441](https://www.zhihu.com/question/37011441)】
 
 ### 结构规范化
 
-[FEZ](http://fez.jd.com) 将复杂的系统划分为功能页面(组件)，将复杂的页面(组件)划分为若干个模块，将模块分为：获取数据、渲染显示、交互操作，并且都有统一的文件结构。
+[FEZ](http://fez.hestudy.com) 将复杂的系统划分为功能页面(组件)，将复杂的页面(组件)划分为若干个模块，将模块分为：获取数据、渲染显示、交互操作，并且都有统一的文件结构。
 
 **统一的项目开发结构**
 
