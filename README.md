@@ -162,25 +162,25 @@ gulp fezinit --dir=demozhj
 
 ```bash
 demozhj
-├── fez.config.js            /*FEZ功能配置文件*/
-├── package.json             /*npm配置文件*/
-├── gulpfile.babel.js        /*gulp入口文件*/
-├── shim.js                  /*browserify-shim入口文件*/
-└── src                      /*源码目录*/
-    ├── lib                  /*JS公共库文件目录*/
-    ├── static               /*静态资源目录*/
-    │   ├── fonts            /*字体目录*/
-    │   ├── images           /*图片目录*/
-    │   └── styles           /*样式目录*/
-    │       └── index.less   /*首页样式文件*/
-    └── views                /*业务逻辑存放目录*/
-        ├── index            /*首页目录*/
-        │   ├── index.html   /*首页Html文件*/
-        │   ├── index.js     /*首页业务逻辑脚本文件*/
-        │   └── module       /*首页模块目录*/
-        └── public           /*业务逻辑公共文件目录*/
-            ├── module       /*公共模块目录*/
-            └── utils        /*公共工具类库目录*/
+├── fez.config.js            /／ FEZ功能配置文件
+├── package.json             /／ npm配置文件
+├── gulpfile.babel.js        /／ gulp入口文件
+├── shim.js                  /／ browserify-shim入口文件
+└── src                      /／ 源码目录
+    ├── lib                  /／ JS公共库文件目录
+    ├── static               /／ 静态资源目录
+    │   ├── fonts            /／ 字体目录
+    │   ├── images           /／ 图片目录
+    │   └── styles           /／ 样式目录
+    │       └── index.less   /／ 首页样式文件
+    └── views                /／ 业务逻辑存放目录
+        ├── index            /／ 首页目录
+        │   ├── index.html   /／ 首页Html文件
+        │   ├── index.js     /／ 首页业务逻辑脚本文件
+        │   └── module       /／ 首页模块目录
+        └── public           /／ 业务逻辑公共文件目录
+            ├── module       /／ 公共模块目录
+            └── utils        /／ 公共工具类库目录
 ```
 
 **3. 运行项目**
@@ -261,12 +261,12 @@ demopage 页面结构
 └── src
     ├── static
     │   └── styles
-    │       └── demopage.less  /*demopage 页面样式文件*/
+    │       └── demopage.less  /／ demopage 页面样式文件
     └── views
-        └── demopage           /*demopage 页面目录*/
-            ├── index.html     /*demopage HTML页面*/
-            ├── index.js       /*demopage 业务逻辑脚本文件*/
-            └── module         /*demopage 模块目录*/
+        └── demopage           /／ demopage 页面目录
+            ├── index.html     /／ demopage HTML页面
+            ├── index.js       /／ demopage 业务逻辑脚本文件
+            └── module         /／ demopage 模块目录
 ```
 
 - **压缩ttf字体**（在项目目录执行）
