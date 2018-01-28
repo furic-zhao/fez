@@ -4,6 +4,12 @@
  * ================================== */
 
 export default {
+
+  /**
+   * 项目目录名称
+   */
+  projectName: process.cwd().split(path.sep).pop(),
+
   /**
    * browsersync配置信息
    * 配置参考【仅对optons】 http://www.browsersync.cn/docs/options/
@@ -24,6 +30,10 @@ export default {
     }
   },
 
+  /**
+   * 页面特殊字体文本内容
+   * 用于gulp fontmin字体压缩
+   */
   minFonts: ``,
 
   /**
@@ -52,19 +62,41 @@ export default {
     files: "./src/views/**/*.js" //检测文件
   },
 
-  /**
-   * 选择css编译器【取值:less/sass/css】
-   */
-  cssCompiler: "less",
+  style: {
+    /**
+     * 选择css编译器【取值:less/sass/scss/styl/css】
+     * 自动化创建样式文件的扩展名
+     */
+    compiler: 'scss',
 
-  /**
-   * CSS 编译器配置项
-   * 请根据 cssCompiler 配置的编译器设置此项
-   * 配置参考：
-   * https://www.npmjs.com/package/gulp-sass
-   * https://www.npmjs.com/package/gulp-less
-   */
-  cssCompilerOptions: {},
+    /**
+     * less配置
+     * https://www.npmjs.com/package/gulp-less
+     */
+    lessOptions: {},
+
+    /**
+     * sass配置
+     * https://www.npmjs.com/package/gulp-sass
+     */
+    sassOptions: {},
+
+    /**
+     * stylus配置
+     * https://github.com/stevelacy/gulp-stylus
+     */
+    stylusOptions: {},
+
+    /**
+     * autoprefixer配置
+     * "mobile": ["Android >= 4", "iOS >= 6"],
+     * "pc": ["last 3 versions", "Explorer >= 8", "Chrome >= 21", "Firefox >= 1", "Edge 13"],
+     * "all":["Android >= 4", "iOS >= 6", "last 3 versions", "Explorer >= 8", "Chrome >= 21", "Firefox >= 1", "Edge 13"]
+     */
+    autoprefixerOptions: {
+      browsers: ["Android >= 4", "iOS >= 6", "last 3 versions", "Explorer >= 8", "Chrome >= 21", "Firefox >= 1", "Edge 13"]
+    }
+  },
 
   /**
    * 启用 PX => REM 自动化转换
