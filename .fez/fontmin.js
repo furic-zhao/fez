@@ -79,11 +79,11 @@ export default () => {
       }))
       .pipe(ttf2woff2({ clone: true }))
       .pipe(cssFilter)
-      .pipe(rename({ extname: `.${config.cssCompiler}` }))
+      .pipe(rename({ extname: `.${config.style.compiler}` }))
       .pipe(cssFilter.restore)
       .pipe(gulp.dest('./src/static/fonts/'))
       .on('data', (file) => {
-        creatFiles.push(path.basename(file.history[1].replace('.css', `.${config.cssCompiler}`)));
+        creatFiles.push(path.basename(file.history[1].replace('.css', `.${config.style.compiler}`)));
       })
       .on('end', () => {
         for (let item of creatFiles) {

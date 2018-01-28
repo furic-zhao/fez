@@ -88,13 +88,21 @@ import gulpif from 'gulp-if';
 
 /**
  * 编译less
+ * https://github.com/stevelacy/gulp-less
  */
 import less from 'gulp-less';
 
 /**
  * 编译sass
+ * https://github.com/dlmanning/gulp-sass
  */
 import sass from 'gulp-sass';
+
+/**
+ * 编译stylus
+ * https://github.com/stevelacy/gulp-stylus
+ */
+import stylus from 'gulp-stylus';
 
 /**
  * css 预处理 css中的 rem/autoprefixer等
@@ -104,6 +112,7 @@ import postcss from 'gulp-postcss';
 
 /**
  * 自动添加css前缀
+ * https://github.com/postcss/autoprefixer
  */
 import postcssAutoprefixer from 'autoprefixer';
 
@@ -320,48 +329,97 @@ export default () => {
   }
 
   /**
-   * 编译css/less/sass
+   * 编译css
    **/
   function compileCss() {
-    const lessCondition = config.cssCompiler === 'less';
-    const sassCondition = (config.cssCompiler === 'sass' || config.cssCompiler === 'scss');
 
-    function sourcePath() {
-      switch (config.cssCompiler) {
-        case 'sass':
-          return [`${config.paths.src.styles}/*.sass`, `${config.paths.src.styles}/*.scss`];
-          break;
-        case 'scss':
-          return [`${config.paths.src.styles}/*.sass`, `${config.paths.src.styles}/*.scss`];
-          break;
-        case 'less':
-          return [`${config.paths.src.styles}/*.less`];
-          break;
-        default:
-          return [`${config.paths.src.styles}/*.css`];
-      }
-    }
+    return gulp.src(`${config.paths.src.styles}/*.css`)
+      //css中的rem转换
+      .pipe(gulpif(
+        config.useREM.css.available,
+        postcss([
+          postcssPxtorem(Object.assign({
+            rootValue: 16, //相对于html根字体大小
+            unitPrecision: 5, //允许REM单位增长到的十进制数
+            propList: ['*'], //可以从px更改为rem的属性
+            selectorBlackList: [], //要忽略的选择器
+            replace: true, //替换包含rems的规则，而不是添加fallback
+            mediaQuery: false, //允许在媒体查询中转换px
+            minPixelValue: 0 //设置要替换的最小像素值
+          }, config.useREM.css.options))
+        ])
+      ))
+      .pipe(gulp.dest(config.paths.tmp.css));
+  }
 
-    return gulp.src(sourcePath())
+  /**
+   * 编译less
+   **/
+  function compileLess() {
+
+    return gulp.src(`${config.paths.src.styles}/*.less`)
+      .pipe(less(Object.assign({
+        relativeUrls: true //将网址编译成相对网址
+      }, config.style.lessOptions)))
+      //css中的rem转换
       .pipe(gulpif(
-        sassCondition,
-        sass(Object.assign({
-          /**
-           * ------- outputStyle 取值 ------
-           * nested：嵌套缩进的css代码，它是默认值。
-           * expanded：没有缩进的、扩展的css代码。
-           * compact：简洁格式的css代码。
-           * compressed：压缩后的css代码
-           */
-          outputStyle: 'compact'
-        }, config.cssCompilerOptions))
+        config.useREM.css.available,
+        postcss([
+          postcssPxtorem(Object.assign({
+            rootValue: 16, //相对于html根字体大小
+            unitPrecision: 5, //允许REM单位增长到的十进制数
+            propList: ['*'], //可以从px更改为rem的属性
+            selectorBlackList: [], //要忽略的选择器
+            replace: true, //替换包含rems的规则，而不是添加fallback
+            mediaQuery: false, //允许在媒体查询中转换px
+            minPixelValue: 0 //设置要替换的最小像素值
+          }, config.useREM.css.options))
+        ])
       ))
+      .pipe(gulp.dest(config.paths.tmp.css));
+  }
+
+  /**
+   * 编译sass
+   **/
+  function compileSass() {
+
+    return gulp.src(`${config.paths.src.styles}/*.{scss,sass}`)
+      .pipe(sass(Object.assign({
+        /**
+         * ------- outputStyle 取值 ------
+         * nested：嵌套缩进的css代码，它是默认值。
+         * expanded：没有缩进的、扩展的css代码。
+         * compact：简洁格式的css代码。
+         * compressed：压缩后的css代码
+         */
+        outputStyle: 'compact'
+      }, config.style.sassOptions)))
+      //css中的rem转换
       .pipe(gulpif(
-        lessCondition,
-        less(Object.assign({
-          relativeUrls: true //将网址编译成相对网址
-        }, config.cssCompilerOptions))
+        config.useREM.css.available,
+        postcss([
+          postcssPxtorem(Object.assign({
+            rootValue: 16, //相对于html根字体大小
+            unitPrecision: 5, //允许REM单位增长到的十进制数
+            propList: ['*'], //可以从px更改为rem的属性
+            selectorBlackList: [], //要忽略的选择器
+            replace: true, //替换包含rems的规则，而不是添加fallback
+            mediaQuery: false, //允许在媒体查询中转换px
+            minPixelValue: 0 //设置要替换的最小像素值
+          }, config.useREM.css.options))
+        ])
       ))
+      .pipe(gulp.dest(config.paths.tmp.css));
+  }
+
+  /**
+   * 编译stylus
+   **/
+  function compileStylus() {
+
+    return gulp.src(`${config.paths.src.styles}/*.styl`)
+      .pipe(stylus(Object.assign({}, config.style.stylusOptions)))
       //css中的rem转换
       .pipe(gulpif(
         config.useREM.css.available,
@@ -422,14 +480,7 @@ export default () => {
    * 自动添加css前缀
    **/
   function compileAutoprefixer() {
-    /**
-     * "mobile": ["Android >= 4", "iOS >= 6"],
-     * "pc": ["last 3 versions", "Explorer >= 8", "Chrome >= 21", "Firefox >= 1", "Edge 13"],
-     * "all":["Android >= 4", "iOS >= 6", "last 3 versions", "Explorer >= 8", "Chrome >= 21", "Firefox >= 1", "Edge 13"]
-     */
-    const postcssOption = [postcssAutoprefixer({
-      browsers: ["Android >= 4", "iOS >= 6", "last 3 versions", "Explorer >= 8", "Chrome >= 21", "Firefox >= 1", "Edge 13"]
-    })];
+    const postcssOption = [postcssAutoprefixer(Object.assign({}, config.style.autoprefixerOptions))];
 
     return gulp.src(`${config.paths.tmp.css}/*.css`)
       .pipe(postcss(postcssOption))
@@ -687,7 +738,7 @@ export default () => {
   }
 
   /**
-   * 根据 .fezrc 配置项合并公共脚本
+   * 根据 fez.config.js 配置项合并公共脚本
    **/
   function libCustomJs(cb) {
     if (!config.useInject.lib.available || config.useInject.lib.js.length === 0) return cb();
@@ -739,7 +790,7 @@ export default () => {
   }
 
   /**
-   * 合并 .fezrc 中未配置的剩下的所有公共脚本
+   * 合并 fez.config.js 中未配置的剩下的所有公共脚本
    **/
   function libVendorJs() {
     return gulp.src('./tmp/lib/**/*.js')
@@ -1001,7 +1052,12 @@ export default () => {
    */
   gulp.task('dist', gulp.series(
     delDist,
-    compileCss, //编译css
+    gulp.parallel(
+      compileCss, //编译css
+      compileLess, //编译less
+      compileSass, //编译sass
+      compileStylus //编译stylus
+    ),
     gulp.parallel(
       compileAutoprefixer, //自动添加前缀
       imageminImg, //图片压缩
@@ -1033,7 +1089,7 @@ export default () => {
     reversion, //给静态资源添加版本号
     reversionRepalce, //替换版本号的静态资源
     compileWebp(), //编译webp
-    cdnReplace,
+    cdnReplace, //添加cdn地址
     compileChanged //只编译改动过的文件
   ));
 }

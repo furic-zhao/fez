@@ -94,13 +94,21 @@ import gulpif from 'gulp-if';
 
 /**
  * 编译less
+ * https://github.com/stevelacy/gulp-less
  */
 import less from 'gulp-less';
 
 /**
  * 编译sass
+ * https://github.com/dlmanning/gulp-sass
  */
 import sass from 'gulp-sass';
+
+/**
+ * 编译stylus
+ * https://github.com/stevelacy/gulp-stylus
+ */
+import stylus from 'gulp-stylus';
 
 /**
  * css 预处理 css中的 rem/autoprefixer等
@@ -110,6 +118,7 @@ import postcss from 'gulp-postcss';
 
 /**
  * 自动添加css前缀
+ * https://github.com/postcss/autoprefixer
  */
 import postcssAutoprefixer from 'autoprefixer';
 
@@ -317,63 +326,49 @@ export default () => {
   }
 
   /**
-   * 编译css/less/sass
-   * 可以在 .fezrc 配置中任选其一
+   * 编译css
    */
   function compileCss() {
-    const lessCondition = config.cssCompiler === 'less';
-    const sassCondition = (config.cssCompiler === 'sass' || config.cssCompiler === 'scss');
+    const postcssOption = [postcssAutoprefixer(Object.assign({}, config.style.autoprefixerOptions))];
 
-    function sourcePath() {
-      switch (config.cssCompiler) {
-        case 'sass':
-          return [`${config.paths.src.styles}/*.sass`, `${config.paths.src.styles}/*.scss`];
-          break;
-        case 'scss':
-          return [`${config.paths.src.styles}/*.sass`, `${config.paths.src.styles}/*.scss`];
-          break;
-        case 'less':
-          return [`${config.paths.src.styles}/*.less`];
-          break;
-        default:
-          return [`${config.paths.src.styles}/*.css`];
-      }
-    }
+    return gulp.src(`${config.paths.src.styles}/*.css`)
+      .pipe(plumber({
+        errorHandler: notify.onError("Error: <%= error.message %>")
+      }))
+      //css中的rem转换
+      .pipe(gulpif(
+        config.useREM.css.available,
+        postcss([
+          postcssPxtorem({
+            rootValue: 16, //相对于html根字体大小
+            unitPrecision: 5, //允许REM单位增长到的十进制数
+            propList: ['*'], //可以从px更改为rem的属性
+            selectorBlackList: [], //要忽略的选择器
+            replace: true, //替换包含rems的规则，而不是添加fallback
+            mediaQuery: false, //允许在媒体查询中转换px
+            minPixelValue: 0 //设置要替换的最小像素值
+          })
+        ])
+      ))
+      .pipe(postcss(postcssOption)) //添加CSS前缀
+      .pipe(gulp.dest(config.paths.dev.css))
+      .on('end', reloadHandler)
+  }
 
-    /**
-     * "mobile": ["Android >= 4", "iOS >= 6"],
-     * "pc": ["last 3 versions", "Explorer >= 8", "Chrome >= 21", "Firefox >= 1", "Edge 13"],
-     * "all":["Android >= 4", "iOS >= 6", "last 3 versions", "Explorer >= 8", "Chrome >= 21", "Firefox >= 1", "Edge 13"]
-     */
-    const postcssOption = [postcssAutoprefixer({
-      browsers: ["Android >= 4", "iOS >= 6", "last 3 versions", "Explorer >= 8", "Chrome >= 21", "Firefox >= 1", "Edge 13"]
-    })];
+  /**
+   * 编译less
+   */
+  function compileLess() {
+    const postcssOption = [postcssAutoprefixer(Object.assign({}, config.style.autoprefixerOptions))];
 
-    return gulp.src(sourcePath())
+    return gulp.src(`${config.paths.src.styles}/*.less`)
       .pipe(plumber({
         errorHandler: notify.onError("Error: <%= error.message %>")
       }))
       .pipe(sourcemaps.init())
-      .pipe(gulpif(
-        sassCondition,
-        sass(Object.assign({
-          /**
-           * ------- outputStyle 取值 ------
-           * nested：嵌套缩进的css代码，它是默认值。
-           * expanded：没有缩进的、扩展的css代码。
-           * compact：简洁格式的css代码。
-           * compressed：压缩后的css代码
-           */
-          outputStyle: 'compact'
-        }, config.cssCompilerOptions))
-      ))
-      .pipe(gulpif(
-        lessCondition,
-        less(Object.assign({
-          relativeUrls: true //将网址编译成相对网址
-        }, config.cssCompilerOptions))
-      ))
-      .pipe(sourcemaps.write())
+      .pipe(less(Object.assign({
+        relativeUrls: true //将网址编译成相对网址
+      }, config.style.lessOptions)))
       .on('error', (error) => {
         fancyLog(error.message);
       })
@@ -393,6 +388,94 @@ export default () => {
         ])
       ))
       .pipe(postcss(postcssOption)) //添加CSS前缀
+      .pipe(sourcemaps.write())
+      .pipe(gulp.dest(config.paths.dev.css))
+      .on('end', reloadHandler)
+  }
+
+  /**
+   * 编译sass
+   */
+  function compileSass() {
+    const postcssOption = [postcssAutoprefixer(Object.assign({}, config.style.autoprefixerOptions))];
+
+    return gulp.src(`${config.paths.src.styles}/*.{scss,sass}`)
+      .pipe(plumber({
+        errorHandler: notify.onError("Error: <%= error.message %>")
+      }))
+      .pipe(sourcemaps.init())
+      .pipe(sass(Object.assign({
+        /**
+         * ------- outputStyle 取值 ------
+         * nested：嵌套缩进的css代码，它是默认值。
+         * expanded：没有缩进的、扩展的css代码。
+         * compact：简洁格式的css代码。
+         * compressed：压缩后的css代码
+         */
+        outputStyle: 'compact'
+      }, config.style.sassOptions)))
+      .on('error', (error) => {
+        fancyLog(error.message);
+      })
+      //css中的rem转换
+      .pipe(gulpif(
+        config.useREM.css.available,
+        postcss([
+          postcssPxtorem({
+            rootValue: 16, //相对于html根字体大小
+            unitPrecision: 5, //允许REM单位增长到的十进制数
+            propList: ['*'], //可以从px更改为rem的属性
+            selectorBlackList: [], //要忽略的选择器
+            replace: true, //替换包含rems的规则，而不是添加fallback
+            mediaQuery: false, //允许在媒体查询中转换px
+            minPixelValue: 0 //设置要替换的最小像素值
+          })
+        ])
+      ))
+      .pipe(postcss(postcssOption)) //添加CSS前缀
+      .pipe(sourcemaps.write('.'))
+      .pipe(gulp.dest(config.paths.dev.css))
+      .on('end', reloadHandler)
+  }
+
+  /**
+   * 编译stylus
+   */
+  function compileStylus() {
+
+    /**
+     * "mobile": ["Android >= 4", "iOS >= 6"],
+     * "pc": ["last 3 versions", "Explorer >= 8", "Chrome >= 21", "Firefox >= 1", "Edge 13"],
+     * "all":["Android >= 4", "iOS >= 6", "last 3 versions", "Explorer >= 8", "Chrome >= 21", "Firefox >= 1", "Edge 13"]
+     */
+    const postcssOption = [postcssAutoprefixer(Object.assign({}, config.style.autoprefixerOptions))];
+
+    return gulp.src(`${config.paths.src.styles}/*.styl`)
+      .pipe(plumber({
+        errorHandler: notify.onError("Error: <%= error.message %>")
+      }))
+      .pipe(sourcemaps.init())
+      .pipe(stylus(Object.assign({}, config.style.stylusOptions)))
+      .on('error', (error) => {
+        fancyLog(error.message);
+      })
+      //css中的rem转换
+      .pipe(gulpif(
+        config.useREM.css.available,
+        postcss([
+          postcssPxtorem({
+            rootValue: 16, //相对于html根字体大小
+            unitPrecision: 5, //允许REM单位增长到的十进制数
+            propList: ['*'], //可以从px更改为rem的属性
+            selectorBlackList: [], //要忽略的选择器
+            replace: true, //替换包含rems的规则，而不是添加fallback
+            mediaQuery: false, //允许在媒体查询中转换px
+            minPixelValue: 0 //设置要替换的最小像素值
+          })
+        ])
+      ))
+      .pipe(postcss(postcssOption)) //添加CSS前缀
+      .pipe(sourcemaps.write('.'))
       .pipe(gulp.dest(config.paths.dev.css))
       .on('end', reloadHandler)
   }
@@ -706,7 +789,7 @@ export default () => {
       },
       port: 8080,
       startPath: '/',
-      notify: { //自定制livereload 提醒条
+      notify: { //提醒条样式
         styles: [
           "margin: 0",
           "padding: 5px 10px",
@@ -872,6 +955,9 @@ export default () => {
       copyCustom,
       copyVendor,
       compileCss,
+      compileLess,
+      compileSass,
+      compileStylus,
       compileAppJs
     ),
     gulp.parallel(

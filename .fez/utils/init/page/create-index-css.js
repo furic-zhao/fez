@@ -23,14 +23,14 @@ export default (opts) => {
     `;
   writeFile({
     directory: `src/static/styles/`,
-    fileName: `${opts.directory}.${opts.fezconfig.cssCompiler}`,
+    fileName: `${opts.directory}.${opts.fezconfig.style.compiler}`,
     data: file,
     codeType: 'css',
     success() {
-      fancyLog(`创建 src/static/styles/${opts.directory}.${opts.fezconfig.cssCompiler} 成功`);
+      fancyLog(`创建 src/static/styles/${opts.directory}.${opts.fezconfig.style.compiler} 成功`);
     },
     error() {
-      fancyLog(`创建 src/static/styles/${opts.directory}.${opts.fezconfig.cssCompiler} 失败`);
+      fancyLog(`创建 src/static/styles/${opts.directory}.${opts.fezconfig.style.compiler} 失败`);
     }
   });
 }
