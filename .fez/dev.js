@@ -388,7 +388,7 @@ export default () => {
         ])
       ))
       .pipe(postcss(postcssOption)) //添加CSS前缀
-      .pipe(sourcemaps.write())
+      .pipe(sourcemaps.write('.'))
       .pipe(gulp.dest(config.paths.dev.css))
       .on('end', reloadHandler)
   }
