@@ -301,8 +301,34 @@ gulp tinypic
 
 > 每次升级请确保在FEZ工程目录执行`npm install`。
 
-## FEZ使用详细文档
+## FEZ使用文档
 
 WIKI:[https://github.com/furic-zhao/fez/wiki](https://github.com/furic-zhao/fez/wiki)
+
+## FEZ生态圈
+
+- **FEZUI**
+
+[http://fezui.hestudy.com/](http://fezui.hestudy.com/)
+
+> FEZUI 是一套基于 Vue 的支持多终端的用户界面交互组件库，致力于积木式的快速构建项目，自动适配PC端、手机端、Ipad端以及微信端，或内嵌各种第三方Android、IOS的APP中使用，提升产品体验和开发效率、降低开发和维护成本。
+
+- **FEZ Layout**
+
+[http://fezlayout.hestudy.com/](http://fezlayout.hestudy.com/)
+
+> 是基于vue、vuex、vue-router的现代响应式多终端UI布局开发框架，旨在帮助团队快于构建多终端兼容的中后台产品的界面布局。
+
+- **FEZMOCK**
+
+[http://fezmock.hestudy.com/](http://fezmock.hestudy.com/)
+
+> FEZMOCK是一套前端数据模拟开发框架，让前端工程师不再依赖服务端环境和接口数据而独立进行开发。增加单元测试的真实性，通过随机数据，模拟各种数据场景。
+
+- **FEZ ApiDoc平台**
+
+[http://apidoc.hestudy.com/](http://apidoc.hestudy.com/)
+
+> API文档、技术文档协作开发平台。帮助团队前后端分离并行工作，提高团队研发效率。
 
 
