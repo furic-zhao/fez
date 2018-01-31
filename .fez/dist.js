@@ -4,6 +4,12 @@
  * ================================== */
 
 /**
+ * nodejs中的路径处理模块
+ * http://javascript.ruanyifeng.com/nodejs/path.html
+ */
+import path from 'path';
+
+/**
  * 合并SVG图标
  * https://github.com/Hiswe/gulp-svg-symbols
  */
@@ -128,57 +134,8 @@ import postcssPxtorem from 'postcss-pxtorem';
  */
 import posthtml from 'gulp-posthtml';
 
-/***************************
-    browserify 相关处理模块
- ***************************/
-import browserify from 'browserify';
-import envify from 'envify/custom';
-import browserifyShim from 'browserify-shim';
-import source from 'vinyl-source-stream';
+
 import buffer from 'vinyl-buffer';
-import sourcemaps from 'gulp-sourcemaps';
-
-/*加入对es6的支持*/
-import babelify from 'babelify';
-
-/**
- * browserify 处理多文件
- * https://github.com/isaacs/node-glob
- */
-import glob from "glob";
-
-/**
- * borwserify 支持 require handlebars模板
- * https://github.com/epeli/node-hbsfy
- */
-import hbsfy from 'hbsfy';
-
-/**
- * borwserify 支持 require jade 模板
- * https://github.com/domenic/jadeify
- */
-import pugify from 'pugify';
-
-/*borwserify 支持 require css样式
-https://github.com/davidguttman/cssify
-*/
-import cssify from 'browserify-css';
-
-/**
- * borwserify 支持 require less样式
- * https://github.com/dstokes/lessify
- */
-import lessify from 'lessify';
-
-/**
- * 条件注释/主要区分开发和上线环境，是否加载mock数据
- */
-import preprocessify from 'preprocessify';
-
-/**
- * 在browserify中编辑vue代码
- */
-import vueify from 'vueify';
 
 
 /***************************
@@ -190,18 +147,6 @@ import vueify from 'vueify';
  * https://lodash.com/
  */
 import _ from 'lodash';
-
-/**
- * nodejs中的路径处理模块
- * http://javascript.ruanyifeng.com/nodejs/path.html
- */
-import path from 'path';
-
-/**
- * 压缩字体
- * https://github.com/sindresorhus/gulp-size
- */
-import size from 'gulp-size';
 
 /**
  * 压缩js
@@ -305,6 +250,8 @@ import gulp from 'gulp';
  * 引入 .fezconfig 配置
  */
 import config from './utils/fezconfig';
+
+import browserify from './utils/browserify';
 
 export default () => {
 
@@ -459,7 +406,6 @@ export default () => {
    **/
   function fontsSize() {
     return gulp.src(config.paths.src.fonts)
-      .pipe(size())
       .pipe(RevAll())
       .pipe(gulp.dest(config.paths.tmp.fonts))
       .pipe(RevAll.manifest({
@@ -495,82 +441,7 @@ export default () => {
    * 编译业务层js
    **/
   function compileAppJs(cb) {
-    //handlebars 扩展名配置
-    hbsfy.configure({
-      extensions: ['hbs']
-    });
-
-    let babelrc = require('rc')('babel', {});
-    delete babelrc._;
-    delete babelrc.config;
-    delete babelrc.configs;
-
-    glob(config.paths.src.appJs, (err, files) => {
-      const filesLength = files.length;
-
-      let filesIndex = 0;
-
-      files.map((file) => {
-        const source_name = path.dirname(file).split(path.sep).pop();
-
-        const b = browserify(Object.assign({}, config.browserify.options, {
-            entries: file,
-            debug: false,
-          }))
-          .transform(envify({
-            _: 'purge',
-            NODE_ENV: 'production'
-          }))
-          .transform(browserifyShim)
-          // 处理条件打包
-          .transform(preprocessify, {
-            context: {
-              MOCK: config.useMock.dist //dist是否打包mock数据
-            }
-          })
-          /**
-           * 全局对象方法转码
-           * http://babeljs.cn/docs/usage/polyfill/
-           */
-          // .add(require.resolve('babel-polyfill'))
-          // 转换 es6
-          .transform(babelify.configure(babelrc))
-          // 编译 module 中的less
-          .transform(lessify)
-          // 编译 module 中的 css
-          .transform(cssify, { autoInject: true })
-          // 编译 module 中的 handlebars 模板
-          .transform(hbsfy)
-          // 编译 module 中的 jade 模板
-          .transform(pugify)
-          // 编译 module 中的 vue 模板
-          .transform(vueify, { babel: babelrc })
-          // 打包
-          .bundle()
-          .pipe(source(`${source_name}.js`))
-          .pipe(buffer())
-          .on('error', (err) => {
-            fancyLog(err);
-          })
-          .pipe(stripDebug())
-          .pipe(gulpif(
-            config.useJsMin,
-            uglify()
-          ))
-          .pipe(gulp.dest(config.paths.tmp.appjs))
-          .on('end', () => {
-            filesIndex++;
-
-            /**
-             * 所有文件打包完成后
-             */
-            if (filesIndex === filesLength) {
-              cb();
-            }
-          });
-
-      });
-    });
+    browserify.dist(cb);
   }
 
   /**
@@ -623,7 +494,6 @@ export default () => {
       .pipe(cssFilter.restore)
       .pipe(fontFilter)
       .pipe(flatten())
-      .pipe(size())
       .pipe(RevAll())
       .pipe(gulp.dest(config.paths.tmp.fonts))
       .pipe(RevAll.manifest({
