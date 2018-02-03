@@ -25,6 +25,7 @@ export default {
     delete babelrc.configs;
 
     const webpackConfig = {
+      watch: true,
       // context: './src',
       entry: {
         // 'index': './js/index.js',
@@ -42,12 +43,13 @@ export default {
         rules: [{
           test: /\.hbs$/,
           loader: "handlebars-loader"
-        }],
-        loaders: [{
+        }, {
           test: /\.js$/,
           exclude: /(node_modules|bower_components)/,
-          loader: 'babel-loader',
-          query: babelrc
+          use: {
+            loader: 'babel-loader',
+            options: babelrc
+          }
         }]
       },
       devtool: 'cheap-module-eval-source-map',
