@@ -52,17 +52,21 @@
         │   ├── index.js
         │   └── module
         │         ├── mod1
-        │         │    └── index.js
+        │         │    ├── index.js
+        │         │    └── service.js
         │         └── mod2
-        │              └── index.js
+        │              ├── index.js
+        │              └── service.js
         ├── page2
         │   ├── index.html
         │   ├── index.js
         │   └── module
         │         ├── mod1
-        │         │    └── index.js
+        │         │    ├── index.js
+        │         │    └── service.js
         │         └── mod2
-        │              └── index.js
+        │              ├── index.js
+        │              └── service.js
         └── public
             ├── module
             └── utils
