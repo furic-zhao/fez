@@ -156,11 +156,6 @@ import buffer from 'vinyl-buffer';
  */
 import sourcemaps from 'gulp-sourcemaps';
 
-
-/*****************************
- * 以下为研发环境单独使用模块
- *****************************/
-
 /**
  * 多终端测试
  * https://browsersync.io/docs/gulp
@@ -185,7 +180,10 @@ import gulp from 'gulp';
  */
 import config from './utils/fezconfig';
 
-import browserify from './utils/webpack';
+/**
+ * 打包编译器
+ */
+import packCompiler from './utils/webpack';
 
 export default () => {
 
@@ -418,10 +416,10 @@ export default () => {
 
 
   /**
-   * 使用 browserify 编译 模块化 脚本代码
+   * 使用 packCompiler 编译 模块化 脚本代码
    */
   function compileAppJs(cb) {
-    browserify.dev(cb, reloadHandler);
+    packCompiler.dev(cb, reloadHandler);
   }
 
   /**

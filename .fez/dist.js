@@ -215,11 +215,6 @@ import concatJs from 'gulp-concat';
 import concatCss from 'gulp-concat-css';
 
 /**
- * 去掉console代码
- */
-import stripDebug from 'gulp-strip-debug';
-
-/**
  * 顺序合并脚本和样式
  */
 import concatOrder from "gulp-fez-order";
@@ -251,7 +246,7 @@ import gulp from 'gulp';
  */
 import config from './utils/fezconfig';
 
-import browserify from './utils/browserify';
+import packCompiler from './utils/webpack';
 
 export default () => {
 
@@ -441,7 +436,7 @@ export default () => {
    * 编译业务层js
    **/
   function compileAppJs(cb) {
-    browserify.dist(cb);
+    packCompiler.dist(cb);
   }
 
   /**
@@ -718,7 +713,7 @@ export default () => {
     //公共文件注入
     const injectLibFiles = lazypipe()
       .pipe(() => {
-        return inject(gulp.src([`./tmp/static/css/**/${config.useInject.lib.css}.css`, `./tmp/static/js/**/*common*.js`, `!./tmp/static/js/**/assign-*.js`], {
+        return inject(gulp.src([`./tmp/static/css/**/${config.useInject.lib.css}.css`, `./tmp/static/js/**/*manifest*.js`, `./tmp/static/js/**/*common*.js`, `!./tmp/static/js/**/assign-*.js`], {
           read: false
         }), {
           starttag: '<!-- inject:lib:{{ext}} -->',
@@ -810,7 +805,6 @@ export default () => {
   //JS 压缩(为提高编译速度分散到其它任务异步处理)
   // function miniJS() {
   //     return gulp.src(`${config.paths.tmp.appjs}/**/*.js`)
-  //         .pipe(stripDebug())
   //         .pipe(gulpif(
   //             config.useJsMin,
   //             uglify()

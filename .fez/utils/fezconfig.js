@@ -43,6 +43,14 @@ const fezConfigDefault = {
    */
   projectName: process.cwd().split(path.sep).pop(),
 
+  webpack: {
+    config: {
+      module: {
+        rules: []
+      }
+    }
+  },
+
   /**
    * browsersync配置信息
    * 配置参考【仅对optons】 http://www.browsersync.cn/docs/options/
