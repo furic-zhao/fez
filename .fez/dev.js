@@ -886,7 +886,21 @@ export default () => {
 
             del([tmp]);
           } else {
-            compileCss();
+            switch (pathParse.ext) {
+              case '.css':
+                compileCss()
+                break
+              case '.less':
+                compileLess()
+                break
+              case '.scss':
+              case '.sass':
+                compileSass()
+                break
+              case '.styl':
+                compileStylus()
+                break
+            }
           }
           break;
       }
