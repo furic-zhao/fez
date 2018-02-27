@@ -3,7 +3,10 @@
  * https://github.com/furic-zhao/fez
  * ================================== */
 
-import init from './.fez/utils/init';
+/* -------------------------
+ *      创建统一结构化项目
+ * ------------------------- */
 
-init();
+import project from './.fez/project';
 
+project();

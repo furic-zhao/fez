@@ -7,58 +7,52 @@
  * 多终端测试
  * https://browsersync.io/docs/gulp
  */
-import bs from 'browser-sync';
-bs.create();
-
-/**
- * 引入开发环境生成二维码页面模块
- */
-import qrCode from './utils/zindex';
+import bs from 'browser-sync'
+bs.create()
 
 /**
  * Nodejs处理文件
  * http://nodejs.cn/api/fs
  */
-import fs from 'fs';
+import fs from 'fs'
 
 /**
  * 用于删除文件或目录
  * https://github.com/sindresorhus/del
  */
-import del from 'del';
+import del from 'del'
 
 /**
  * 引入gulp
  * https://github.com/gulpjs/gulp
  */
-import gulp from 'gulp';
+import gulp from 'gulp'
 
 /**
- * 引入 .fezconfig 配置
+ * 引入 fez.config.js 配置
  */
-import config from './utils/fezconfig';
+import config from './utils/fezconfig'
+
+/**
+ * 引入开发环境生成二维码页面模块
+ */
+import qrCode from './utils/zindex'
 
 export default () => {
-
-
   /**
    * 清除 test 目录
    **/
   function delTest(cb) {
     del([config.paths.test.dir]).then(() => {
-      cb();
-    });
+      cb()
+    })
   }
 
   /**
    * 测试环境生成二维码方便在移动端浏览测试
    */
   function qrcodeViewHtml(cb) {
-    if (config.useQrCodeHtml) {
-      qrCode(cb, config.paths.test.html);
-    } else {
-      cb();
-    }
+    return qrCode(cb, config.paths.test.html)
   }
 
   /**
@@ -69,7 +63,7 @@ export default () => {
     return gulp.src(`${config.paths.dist.dir}/**/*`, {
         base: config.paths.dist.dir
       })
-      .pipe(gulp.dest(config.paths.test.dir));
+      .pipe(gulp.dest(config.paths.test.dir))
   }
 
   /**
@@ -106,11 +100,11 @@ export default () => {
           "text-align: center"
         ]
       }
-    }, config.browsersync.test.options));
+    }, config.browsersync.test.options))
   }
 
   function gulpSeries() {
-    const distDir = fs.existsSync(config.paths.dist.dir);
+    const distDir = fs.existsSync(config.paths.dist.dir)
 
     if (distDir) {
       return gulp.series(
@@ -118,7 +112,7 @@ export default () => {
         copyDistToTest,
         qrcodeViewHtml,
         startServer
-      );
+      )
     } else {
       return gulp.series(
         'dist',
@@ -126,14 +120,14 @@ export default () => {
         copyDistToTest,
         qrcodeViewHtml,
         startServer
-      );
+      )
     }
   }
 
-  /**
+  /***************************
    * 启动本地服务 测试 dist 目录
-   */
+   ***************************/
   gulp.task('test', gulp.series(
     gulpSeries()
-  ));
+  ))
 }

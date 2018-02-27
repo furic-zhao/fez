@@ -3,9 +3,6 @@
  * https://github.com/furic-zhao/fez
  * ================================== */
 
-let babelrc = require('rc')('babel', {})
-delete babelrc._
-delete babelrc.config
-delete babelrc.configs
+import write from '../common/write'
 
-export default babelrc
+export default write

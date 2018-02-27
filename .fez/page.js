@@ -7,30 +7,31 @@
  * 解析参数
  * https://www.npmjs.com/package/minimist
  */
-import minimist from 'minimist';
-const argv = minimist(process.argv.slice(2));
+import minimist from 'minimist'
 
 /**
  * Nodejs处理文件
  * http://nodejs.cn/api/fs
  */
-import fs from 'fs';
+import fs from 'fs'
 
 /**
  * 引入gulp
  * https://github.com/gulpjs/gulp
  */
-import gulp from 'gulp';
+import gulp from 'gulp'
 
 /**
  * 引入 .fezconfig 配置
  */
-import config from './utils/fezconfig';
+import config from './utils/fezconfig'
 
 /**
  * 创建初始化相关文件和目录
  */
-import createPage from './utils/init/page';
+import createPage from './utils/page'
+
+const argv = minimist(process.argv.slice(2))
 
 export default () => {
 
@@ -41,13 +42,13 @@ export default () => {
       path: argv.path,
       cb: cb,
       fezconfig: config
-    });
+    })
   }
 
-  /*****************************
-   * 自动化创建新项目
-   *****************************/
+  /*****************
+   * 自动化创建新页面
+   *****************/
   gulp.task('page', gulp.series(
     initPage
-  ));
+  ))
 }

@@ -1,9 +1,14 @@
-import ExtractTextPlugin from 'extract-text-webpack-plugin';
+/* ==================================
+ * @ 2017 FEZ 前端模块化工程开发框架
+ * https://github.com/furic-zhao/fez
+ * ================================== */
 
-const isProduction = process.env.NODE_ENV === 'production'
+/* ------------------
+ * vue-loader 基本配置
+ * ------------------ */
 
-function cssLoaders(options) {
-  options = options || {}
+function cssLoaders(options = {}) {
+  const isProduction = process.env.NODE_ENV === 'production'
 
   const cssLoader = {
     loader: 'css-loader',
@@ -35,7 +40,7 @@ function cssLoaders(options) {
     // Extract CSS when that option is specified
     // (which is the case during production build)
     if (isProduction) {
-      return ExtractTextPlugin.extract({
+      return options.extract.extract({
         use: loaders,
         fallback: 'vue-style-loader'
       })
@@ -56,14 +61,16 @@ function cssLoaders(options) {
   }
 }
 
-export default {
-  loaders: cssLoaders(),
-  cssSourceMap: true,
-  cacheBusting: true,
-  transformToRequire: {
-    video: ['src', 'poster'],
-    source: 'src',
-    img: 'src',
-    image: 'xlink:href'
+export default (extract) => {
+  return {
+    loaders: cssLoaders({ extract: extract }),
+    cssSourceMap: true,
+    cacheBusting: true,
+    transformToRequire: {
+      video: ['src', 'poster'],
+      source: 'src',
+      img: 'src',
+      image: 'xlink:href'
+    }
   }
 }

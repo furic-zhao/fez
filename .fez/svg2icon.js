@@ -7,27 +7,27 @@
  * 命令行日志
  * https://www.npmjs.com/package/fancy-log
  */
-import fancyLog from 'fancy-log';
+import fancyLog from 'fancy-log'
 
-import iconfont from 'gulp-iconfont';
+import iconfont from 'gulp-iconfont'
 
-import iconfontCss from 'gulp-iconfont-css';
+import iconfontCss from 'gulp-iconfont-css'
 
 /**
  * 引入gulp
  * https://github.com/gulpjs/gulp
  */
-import gulp from 'gulp';
+import gulp from 'gulp'
 
 /**
- * 引入 .fezconfig 配置
+ * 引入 fez.config.js 配置
  */
-import config from './utils/fezconfig';
+import config from './utils/fezconfig'
 
 export default () => {
 
   function svg2icon() {
-    const runTimestamp = Math.round(Date.now() / 1000);
+    const runTimestamp = Math.round(Date.now() / 1000)
 
     return gulp.src(`${config.svgIcons.src}**/*.svg`)
       .pipe(iconfontCss({
@@ -51,9 +51,9 @@ export default () => {
       }))
       .on('glyphs', (glyphs, options) => {
         // CSS templating, e.g.
-        fancyLog(glyphs, options);
+        fancyLog(glyphs, options)
       })
-      .pipe(gulp.dest(config.svgIcons.dist));
+      .pipe(gulp.dest(config.svgIcons.dist))
   }
 
   /******************
@@ -61,5 +61,5 @@ export default () => {
    ******************/
   gulp.task('svg2icon', gulp.series(
     svg2icon
-  ));
-};
+  ))
+}

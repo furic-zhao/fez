@@ -3,9 +3,8 @@
  * https://github.com/furic-zhao/fez
  * ================================== */
 
-let babelrc = require('rc')('babel', {})
-delete babelrc._
-delete babelrc.config
-delete babelrc.configs
-
-export default babelrc
+module.exports = {
+  "plugins": {
+    "autoprefixer": Object.assign({}, require('../fezconfig').default.style.autoprefixerOptions)
+  }
+}

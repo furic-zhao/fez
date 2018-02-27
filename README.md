@@ -37,7 +37,6 @@
 ├── fez.config.js
 ├── gulpfile.babel.js
 ├── package.json
-├── shim.js
 └── src
     ├── lib
     ├── static
@@ -106,9 +105,9 @@
 **1. 安装 Node 和 NPM**
 
 - 详细过程参考官网 https://nodejs.org (中文网站 http://nodejs.cn/)
-- 支持所有Node的发行版本，建议使用最新稳定版 6.x 。
-- Ubuntu 用户使用 `apt-get` 安装 node 后，安装的程序名叫 `nodejs`，需要软链成 `node`
-- Windows 用户安装完成后需要在 CMD 下确认是否能执行 node 和 npm
+- Node >= 5.10，建议使用最新稳定版(LTS)。
+- Ubuntu 用户使用 `apt-get` 安装 node 后，安装的程序名叫 `nodejs`，需要软链成 `node`。
+- Windows 用户安装完成后需要在 CMD 下确认是否能执行 node 和 npm。
 
 > FEZ不能保证所有 window系统 下默认的 Nodejs 环境都能正常运行。可以尝试安装nodejs的[windows开发工具集](https://github.com/felixrieseberg/windows-build-tools)
 
@@ -156,7 +155,7 @@ npm install
 **2. 创建项目** （在 FEZ 工程目录执行）
 
 ```bash
-gulp fezinit --dir=demozhj
+gulp project --dir=demozhj
 ```
 在FEZ工程目录下会自动创建结构化的 `demozhj` 项目
 
@@ -278,6 +277,14 @@ gulp fontmin
 > FEZ 会调用项目目录中`fez.config.js`的`minfonts`设置的网页中要显示的文本信息，将`src/static/ttf/`目录中存放的普通大文件ttf字体生成网页字体(eot,svg,ttf,woff,woff2)，并将生成后的小文件网页字体格式存放在`src/static/fonts/`目录下，同时生成对应的`@font-face`样式文件(css,less,sass,scss)，可在页面样式中直接引用。FEZ让你在网页中大量的使用特殊字体成为可能，请尽情发挥设计师的想象力。
 
 > 示例：[fez-demo-fontmin](https://github.com/furic-zhao/fez-demo-fontmin)
+
+- **图片压缩**（在项目目录执行）
+
+```
+gulp imagemin
+```
+
+> FEZ 会对`src/static/images`目录中的图片进行压缩。
 
 - **深度图片压缩**（在项目目录执行）
 
