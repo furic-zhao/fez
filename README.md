@@ -162,9 +162,8 @@ gulp project --dir=demozhj
 ```bash
 demozhj
 ├── fez.config.js            /／ FEZ功能配置文件
-├── package.json             /／ npm配置文件
+├── package.json             /／ 项目npm配置文件
 ├── gulpfile.babel.js        /／ gulp入口文件
-├── shim.js                  /／ browserify-shim入口文件
 └── src                      /／ 源码目录
     ├── lib                  /／ JS公共库文件目录
     ├── static               /／ 静态资源目录
@@ -284,7 +283,7 @@ gulp fontmin
 gulp imagemin
 ```
 
-> FEZ 会对`src/static/images`目录中的图片进行压缩。
+> FEZ 会对`src/static/images`目录中的图片(png,jpg,jpeg,gif)进行压缩。
 
 - **深度图片压缩**（在项目目录执行）
 
@@ -292,7 +291,7 @@ gulp imagemin
 gulp tinypic
 ```
 
-> FEZ 会对`src/static/tinypic`目录中的图片深度无损压缩，压缩率达到50%以上，压缩前后的图片质量几乎看不出来差别，请尽情享用FEZ为你带来的图片极致性能优化。
+> FEZ 会调用[tinypng](https://tinypng.com/)API对`src/static/tinypic`目录中的图片(png,jpg,jpeg)深度无损压缩，将压缩后的图片输出到`src/static/images`，压缩率达到50%以上，压缩前后的图片质量几乎看不出来差别，请尽情享用FEZ为你带来的图片极致性能优化。
 
 
 ## FEZ升级
