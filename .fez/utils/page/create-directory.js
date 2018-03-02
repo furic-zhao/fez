@@ -9,23 +9,33 @@ import writeFile from './write'
 
 export default (opts) => {
 
-  writeFile({
-    directory: `src/views/${opts.directory}`,
-    success() {
-      fancyLog(`创建 ${this.directory} 成功`)
-    },
-    error() {
-      fancyLog(`创建 ${this.directory} 失败`)
-    }
+  let createPageFolder = new Promise((resolve, reject) => {
+    writeFile({
+      directory: `src/views/${opts.directory}`,
+      success() {
+        fancyLog(`创建 ${this.directory} 成功`)
+        resolve()
+      },
+      error() {
+        fancyLog(`创建 ${this.directory} 失败`)
+        reject()
+      }
+    })
   })
 
-  writeFile({
-    directory: `src/views/${opts.directory}/module`,
-    success() {
-      fancyLog(`创建 ${this.directory} 成功`)
-    },
-    error() {
-      fancyLog(`创建 ${this.directory} 失败`)
-    }
+  return new Promise((resolve, reject) => {
+    createPageFolder.then(() => {
+      writeFile({
+        directory: `src/views/${opts.directory}/module`,
+        success() {
+          fancyLog(`创建 ${this.directory} 成功`)
+          resolve()
+        },
+        error() {
+          fancyLog(`创建 ${this.directory} 失败`)
+          reject()
+        }
+      })
+    })
   })
 }

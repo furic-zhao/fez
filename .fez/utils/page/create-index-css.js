@@ -23,16 +23,20 @@ export default (opts) => {
 /* ${opts.name} 页面样式 */
 
     `
-  writeFile({
-    directory: `src/static/styles/`,
-    fileName: `${opts.directory}.${opts.fezconfig.style.compiler}`,
-    data: file,
-    codeType: 'css',
-    success() {
-      fancyLog(`创建 ${path.join(this.directory, this.fileName)} 成功`)
-    },
-    error() {
-      fancyLog(`创建 ${path.join(this.directory, this.fileName)} 失败`)
-    }
+  return new Promise((resolve, reject) => {
+    writeFile({
+      directory: `src/static/styles/`,
+      fileName: `${opts.directory}.${opts.fezconfig.style.compiler}`,
+      data: file,
+      codeType: 'css',
+      success() {
+        fancyLog(`创建 ${path.join(this.directory, this.fileName)} 成功`)
+        resolve()
+      },
+      error() {
+        fancyLog(`创建 ${path.join(this.directory, this.fileName)} 失败`)
+        reject()
+      }
+    })
   })
 }

@@ -32,28 +32,36 @@ const folder = [
   'src/views/public/utils/'
 ]
 
+
 export default (opts) => {
-
-  writeFile({
-    directory: `${opts.directory}`,
-    success() {
-      fancyLog(`创建 ${opts.directory} 成功`)
-    },
-    error() {
-      fancyLog(`创建 ${opts.directory} 失败`)
-    }
-  })
-
-  for (let item of folder) {
+  let createProjectFolder = new Promise((resolve, reject) => {
     writeFile({
-      directory: path.join(opts.directory, item),
+      directory: `${opts.directory}`,
       success() {
-        fancyLog(`创建 ${this.directory} 成功`)
+        fancyLog(`创建 ${opts.directory} 成功`)
+        resolve()
       },
       error() {
-        fancyLog(`创建 ${this.directory} 失败`)
+        fancyLog(`创建 ${opts.directory} 失败`)
+        reject()
       }
     })
-  }
-}
+  })
 
+  return new Promise((resolve, reject) => {
+    createProjectFolder.then(() => {
+      for (let item of folder) {
+        writeFile({
+          directory: path.join(opts.directory, item),
+          success() {
+            fancyLog(`创建 ${this.directory} 成功`)
+          },
+          error() {
+            fancyLog(`创建 ${this.directory} 失败`)
+          }
+        })
+      }
+      resolve()
+    })
+  })
+}

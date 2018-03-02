@@ -29,15 +29,19 @@ export default {
 }
 
     `
-  writeFile({
-    directory: `${opts.directory}`,
-    fileName: 'fez.config.js',
-    data: file,
-    success() {
-      fancyLog(`创建 ${path.join(this.directory, this.fileName)} 成功`)
-    },
-    error() {
-      fancyLog(`创建 ${path.join(this.directory, this.fileName)} 失败`)
-    }
+  return new Promise((resolve, reject) => {
+    writeFile({
+      directory: `${opts.directory}`,
+      fileName: 'fez.config.js',
+      data: file,
+      success() {
+        fancyLog(`创建 ${path.join(this.directory, this.fileName)} 成功`)
+        resolve()
+      },
+      error() {
+        fancyLog(`创建 ${path.join(this.directory, this.fileName)} 失败`)
+        reject()
+      }
+    })
   })
 }

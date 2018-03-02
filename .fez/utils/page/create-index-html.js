@@ -64,16 +64,20 @@ export default (opts) => {
 </html>
 
     `
-  writeFile({
-    directory: `src/views/${opts.directory}`,
-    fileName: 'index.html',
-    data: file,
-    codeType: 'html',
-    success() {
-      fancyLog(`创建 ${path.join(this.directory, this.fileName)} 成功`)
-    },
-    error() {
-      fancyLog(`创建 ${path.join(this.directory, this.fileName)} 失败`)
-    }
+  return new Promise((resolve, reject) => {
+    writeFile({
+      directory: `src/views/${opts.directory}`,
+      fileName: 'index.html',
+      data: file,
+      codeType: 'html',
+      success() {
+        fancyLog(`创建 ${path.join(this.directory, this.fileName)} 成功`)
+        resolve()
+      },
+      error() {
+        fancyLog(`创建 ${path.join(this.directory, this.fileName)} 失败`)
+        reject()
+      }
+    })
   })
 }
