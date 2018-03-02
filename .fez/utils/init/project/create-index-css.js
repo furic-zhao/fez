@@ -49,16 +49,21 @@ export default (opts) => {
    font-size: 16px;
  }
     `;
-  writeFile({
-    directory: `${opts.directory}/src/static/styles`,
-    fileName: `index.${opts.fezconfig.style.compiler}`,
-    data: file,
-    codeType: 'css',
-    success() {
-      fancyLog(`创建 ${opts.directory}/src/static/styles/index.${opts.fezconfig.style.compiler} 成功`);
-    },
-    error() {
-      fancyLog(`创建 ${opts.directory}/src/static/styles/index.${opts.fezconfig.style.compiler} 失败`);
-    }
-  });
+
+  return new Promise((resolve, reject) => {
+    writeFile({
+      directory: `${opts.directory}/src/static/styles`,
+      fileName: `index.${opts.fezconfig.style.compiler}`,
+      data: file,
+      codeType: 'css',
+      success() {
+        fancyLog(`创建 ${opts.directory}/src/static/styles/index.${opts.fezconfig.style.compiler} 成功`);
+        resolve()
+      },
+      error() {
+        fancyLog(`创建 ${opts.directory}/src/static/styles/index.${opts.fezconfig.style.compiler} 失败`);
+        reject()
+      }
+    });
+  })
 }

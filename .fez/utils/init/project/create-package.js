@@ -42,15 +42,20 @@ export default (opts) => {
   "browserify-shim": "./shim.js"
 }
     `;
-  writeFile({
-    directory: `${opts.directory}`,
-    fileName: 'package.json',
-    data: file,
-    success() {
-      fancyLog(`创建 ${opts.directory}/package.json 成功`);
-    },
-    error() {
-      fancyLog(`创建 ${opts.directory}/package.json 失败`);
-    }
-  });
+
+  return new Promise((resolve, reject) => {
+    writeFile({
+      directory: `${opts.directory}`,
+      fileName: 'package.json',
+      data: file,
+      success() {
+        fancyLog(`创建 ${opts.directory}/package.json 成功`);
+        resolve()
+      },
+      error() {
+        fancyLog(`创建 ${opts.directory}/package.json 失败`);
+        reject()
+      }
+    });
+  })
 }

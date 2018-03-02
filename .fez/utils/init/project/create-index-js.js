@@ -33,15 +33,20 @@ export default (opts) => {
 /* index 页面脚本 */
 
     `;
-  writeFile({
-    directory: `${opts.directory}/src/views/index`,
-    fileName: 'index.js',
-    data: file,
-    success() {
-      fancyLog(`创建 ${opts.directory}/src/views/index/index.js 成功`);
-    },
-    error() {
-      fancyLog(`创建 ${opts.directory}/src/views/index/index.js 失败`);
-    }
-  });
+
+  return new Promise((resolve, reject) => {
+    writeFile({
+      directory: `${opts.directory}/src/views/index`,
+      fileName: 'index.js',
+      data: file,
+      success() {
+        fancyLog(`创建 ${opts.directory}/src/views/index/index.js 成功`);
+        resolve()
+      },
+      error() {
+        fancyLog(`创建 ${opts.directory}/src/views/index/index.js 失败`);
+        reject()
+      }
+    });
+  })
 }

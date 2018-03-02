@@ -10,9 +10,13 @@ import createIndexJs from './create-index-js';
 import createIndexCss from './create-index-css';
 
 export default (opts) => {
-  createDirectory(opts);
-  createIndexHtml(opts);
-  createIndexJs(opts);
-  createIndexCss(opts);
-  opts.cb();
+  createDirectory(opts).then(() => {
+    Promise.all([
+      createIndexHtml(opts),
+      createIndexJs(opts),
+      createIndexCss(opts)
+    ]).then(() => {
+      opts.cb();
+    })
+  });
 }

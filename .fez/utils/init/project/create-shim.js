@@ -78,15 +78,20 @@ fez('.fez');
 
 module.exports = shim;
     `;
-  writeFile({
-    directory: `${opts.directory}`,
-    fileName: 'shim.js',
-    data: file,
-    success() {
-      fancyLog(`创建 ${opts.directory}/shim.js 成功`);
-    },
-    error() {
-      fancyLog(`创建 ${opts.directory}/shim.js 失败`);
-    }
-  });
+
+  return new Promise((resolve, reject) => {
+    writeFile({
+      directory: `${opts.directory}`,
+      fileName: 'shim.js',
+      data: file,
+      success() {
+        fancyLog(`创建 ${opts.directory}/shim.js 成功`);
+        resolve()
+      },
+      error() {
+        fancyLog(`创建 ${opts.directory}/shim.js 失败`);
+        reject()
+      }
+    });
+  })
 }

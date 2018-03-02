@@ -26,15 +26,20 @@ import createIndexJs from './create-index-js';
 import createIndexCss from './create-index-css';
 
 export default (opts) => {
-  createDirectory(opts);
+  createDirectory(opts).then(() => {
+    Promise.all([
+      createGulpfileBabel(opts),
+      createFezConfig(opts),
+      createPackage(opts),
+      createShim(opts),
 
-  createGulpfileBabel(opts);
-  createFezConfig(opts);
-  createPackage(opts);
-  createShim(opts);
+      createIndexHtml(opts),
+      createIndexJs(opts),
+      createIndexCss(opts)
+    ]).then(() => {
+      opts.cb();
+    })
+  });
 
-  createIndexHtml(opts);
-  createIndexJs(opts);
-  createIndexCss(opts);
-  opts.cb();
+
 }

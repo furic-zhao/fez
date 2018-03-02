@@ -93,16 +93,21 @@ ${opts.directory}
 </html>
 
     `;
-  writeFile({
-    directory: `${opts.directory}/src/views/index`,
-    fileName: 'index.html',
-    data: file,
-    codeType: 'html',
-    success() {
-      fancyLog(`创建 ${opts.directory}/src/views/index/index.html 成功`);
-    },
-    error() {
-      fancyLog(`创建 ${opts.directory}/src/views/index/index.html 失败`);
-    }
-  });
+
+  return new Promise((resolve, reject) => {
+    writeFile({
+      directory: `${opts.directory}/src/views/index`,
+      fileName: 'index.html',
+      data: file,
+      codeType: 'html',
+      success() {
+        fancyLog(`创建 ${opts.directory}/src/views/index/index.html 成功`);
+        resolve()
+      },
+      error() {
+        fancyLog(`创建 ${opts.directory}/src/views/index/index.html 失败`);
+        reject()
+      }
+    });
+  })
 }
