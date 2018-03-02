@@ -1,5 +1,7 @@
 <p align="center"><a href="http://fez.hestudy.com" target="_blank"><img width="240"src="https://github.com/furic-zhao/fez-demo-handlebars/blob/master/src/static/images/fez-logo.png?raw=true"></a></p>
 
+FEZB分支是FEZ的`Browserify`版本，FEZ自4.0起使用`webpack`作为FEZ底层模块打包工具，此分支不再做大的功能升级。
+
 # FEZ
 [FEZ](http://fez.hestudy.com) 是面向 前端模块化工程 的开发框架。主要目的是统一前端开发模式和项目开发结构，自动化前端工作流，提高开发效率和开发质量，使用持续集成等软件工程的架构模式，集成众多业界先进的解决方案，让研发人员更专注于业务逻辑的实现。核心包括功能模块化、结构规范化、及开发自动化。
 
@@ -10,12 +12,12 @@
 - 使用国际前沿的前端工程自动化技术解决项目的资源管理和大量重复的代码编译工作。
 
 ## FEZ使用场景
-- 【一份代码支持多终端响应式WEB应用】参考示例：[fez-demo-handlebars](https://github.com/furic-zhao/fez-demo-handlebars)
-- 【基于Vue的高性能大中型WEB应用】参考示例：[fez-demo-vue](https://github.com/furic-zhao/fez-demo-vue)
-- 【基于React的高性能大中型WEB应用】参考示例：[fez-demo-react](https://github.com/furic-zhao/fez-demo-react)
-- 【高性能移动端混合APP及H5应用】参考示例：[fez-demo-framework7](https://github.com/furic-zhao/fez-demo-framework7)
-- 【快速构建中小型官方网站、活动、专题、宣传页面】参考示例：[fez-demo-75team](https://github.com/furic-zhao/fez-demo-75team)  [fez-web](https://github.com/furic-zhao/fez-web)
-- 【网页中显示艺术/特殊字体的官网网站、活动专题】参考示例：[fez-demo-fontmin](https://github.com/furic-zhao/fez-demo-fontmin)
+- 【一份代码支持多终端响应式WEB应用】
+- 【基于Vue的高性能大中型WEB应用】
+- 【基于React的高性能大中型WEB应用】
+- 【高性能移动端混合APP及H5应用】
+- 【快速构建中小型官方网站、活动、专题、宣传页面】
+- 【网页中显示艺术/特殊字体的官网网站、活动专题】
 
 ## FEZ核心特性
 
