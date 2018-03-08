@@ -283,9 +283,9 @@ gulp fontmin
 gulp imagemin
 ```
 
-> FEZ 会对`src/static/images`目录中的图片(png,jpg,jpeg,gif)进行压缩。
+> FEZ 会对`src/static/images`目录中的图片(png,jpg,jpeg,gif)进行压缩。可以对JPG图片配置质量压缩比。
 
-- **深度图片压缩**（在项目目录执行）
+- **图片深度压缩**（在项目目录执行）
 
 ```
 gulp tinypic

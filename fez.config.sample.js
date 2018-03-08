@@ -5,63 +5,55 @@
 
 export default {
 
-  /**
-   * 项目目录名称
-   */
-  projectName: process.cwd().split(path.sep).pop(),
-
-  /**
-   * browsersync配置信息
-   * 配置参考【仅对optons】 http://www.browsersync.cn/docs/options/
-   */
-  browsersync: {
-    dev: {
-      available: true, //研发环境 开启浏览器自动化刷新
-      options: {
-        port: 8080, //研发环境 本地服务器的默认端口
-        startPath: "zindex.html" //研发环境 打开浏览器默认访问的页面
+  /****************************************
+   * webpack配置
+   ****************************************/
+  webpack: {
+    config: {
+      module: {
+        rules: []
       }
     },
-    test: {
-      options: {
-        port: 8080, //本地测试生产环境 默认端口
-        startPath: "zindex.html" //生产环境 打开浏览器默认访问的页面
-      }
+    extract: {
+      js: []
     }
   },
 
-  /**
+  /****************************************
    * 页面特殊字体文本内容
    * 用于gulp fontmin字体压缩
-   */
+   ****************************************/
   minFonts: ``,
 
-  /**
-   * 研发环境 使用二维码在移动端扫描测试页面
-   * 研发环境输入http://xxxx/zindex.html访问
-   */
-  useQrCodeHtml: true,
+  /****************************************
+   * 使用tinypic做图片无损压缩配置
+   ****************************************/
 
-  /**
+  tinypic: {
+    apikey: '',
+    keep: false
+  },
+
+  imagemin: {
+    jpg: {
+      quality: 85
+    }
+  },
+
+  /****************************************
    * mock配置
    * @if MOCK
    * -------
    * @endif
-   */
+   ****************************************/
   useMock: {
     dev: false, //dev打包使用Mock数据
     dist: false //dist打包使用Mock数据
   },
 
-  /**
-   * 研发环境 Javascript 语法自动化测试
-   * .jshintrc可做详细配置
-   */
-  useJsHint: {
-    available: false, //启用 jshint 自动化测试
-    files: "./src/views/**/*.js" //检测文件
-  },
-
+  /****************************************
+   * 样式配置
+   ****************************************/
   style: {
     /**
      * 选择css编译器【取值:less/sass/scss/styl/css】
@@ -98,11 +90,11 @@ export default {
     }
   },
 
-  /**
+  /****************************************
    * 启用 PX => REM 自动化转换
    * 如果启用 REM 转换需要在公共样式中对<html>设置基准值
    * 通过 media媒体查询 为 <html> 设置不同值 以实现在不同的屏幕中等比缩放
-   */
+   ****************************************/
   useREM: {
     css: {
       available: false, //启用 css 中的 px => rem 转换 【包含less,sass】
@@ -121,10 +113,10 @@ export default {
     }
   },
 
-  /**
+  /****************************************
    * 生产环境 启用 图片 => webp 自动化转换
    * 配置参考：https://github.com/imagemin/imagemin-webp
-   */
+   ****************************************/
   useWebp: {
     available: false,
     options: {
@@ -136,60 +128,9 @@ export default {
     }
   },
 
-  /**
-   * 生产环境 启用自动化添加文件版本号(md5)
-   * 配置参考：https://github.com/smysnk/gulp-rev-all
-   */
-  useMd5: {
-    available: true,
-    options: {}
-  },
-
-  /**
-   * 生产环境 启用增量编译
-   */
-  compileChanged: false,
-
-  /**
-   * 生产环境 启用js压缩
-   */
-  useJsMin: true,
-
-  /**
-   * 生产环境 css压缩配置
-   */
-  useCssMin: {
-    available: true,
-    options: {
-      safe: true,
-      reduceTransforms: false,
-      advanced: false, //类型：Boolean 默认：true [是否开启高级优化（合并选择器等）]
-      compatibility: "ie8", //保留ie7及以下兼容写法(hack写法) 类型：String 默认：''or'*' [启用兼容模式； 'ie7'：IE7兼容模式，'ie8'：IE8兼容模式，'*'：IE9+兼容模式]
-      keepSpecialComments: 0 //保留所有特殊前缀 当你用autoprefixer生成的浏览器前缀，如果不加这个参数，有可能将会删除你的部分前缀
-    }
-  },
-
-  /**
-   * 生产环境 html压缩配置
-   */
-  useHtmlMin: {
-    available: true,
-    //配置参考 https://github.com/kangax/html-minifier
-    options: {
-      removeComments: true, //清除HTML注释
-      collapseWhitespace: true, //压缩HTML
-      collapseBooleanAttributes: true, //省略布尔属性的值 <input checked="true"/> ==> <input checked />
-      removeEmptyAttributes: true, //删除所有空格作属性值 <input id="" /> ==> <input />
-      removeScriptTypeAttributes: true, //删除<script>的type="text/javascript"
-      removeStyleLinkTypeAttributes: true, //删除<style>和<link>的type="text/css"
-      minifyJS: true, //压缩页面JS
-      minifyCSS: true //压缩页面CSS
-    }
-  },
-
-  /**
+  /****************************************
    * 生产环境 上传sftp服务器配置信息
-   */
+   ****************************************/
   sftp: {
     host: "xxx.xxx.xxx.xxx",
     port: "22",
@@ -199,26 +140,27 @@ export default {
     includeHtml: true //是否包含 html 文件
   },
 
-  /**
+  /****************************************
    * 生产环境 启用CDN静态资源url替换
-   */
+   ****************************************/
   useCdn: {
     available: false,
     extFile: 'css,html', //可以替换CDN地址的文件扩展名
-    base: "//fezcdn.com/cdndemo/" //默认CDN地址
+    base: "//fezcdn.com/cdndemo/", //默认CDN地址
     // js: "http://js.fezcdn.com/", //脚本CDN地址
     // css: "http://css.fezcdn.com/", //样式CDN地址
     // images: "http://img.fezcdn.com/", //图片CDN地址
     // fonts: "http://fonts.fezcdn.com/" //字体CDN地址
   },
 
-  /**html自动化注入文件*
+  /****************************************
+   * HTML自动化注入
    * 【支持自定义打包多个文件到一个文件】
    * 【支持自定义打包单个文件】
    * 【未配置的文件自动打包成一个文件】
    * 【插入页面顺序以字母或数字降序排列-解决插入页面的脚本文件依赖关系】
    * 【打包顺序以文件配置先后降序排列-解决打包文件间的依赖关系】
-   */
+   ****************************************/
   useInject: {
     /**
      * ---------- bower打包格式 仅对 生产环境------------
@@ -228,13 +170,13 @@ export default {
      *     "contain": ["{文件1}", "{文件2}", "{文件3}"]
      * }
      */
-    bower: {
+    vendor: {
       available: true, //启用 bower 文件自动化注入
       js: [],
       css: []
     },
 
-    lib: {
+    common: {
       available: true, //启用 公共 文件自动化注入
       css: "*common*", //以common命名的样式文件会注入到所有的页面
       /*
@@ -256,32 +198,13 @@ export default {
      * style 目录中的样式命名规则必须为：
      * {页面名}.{css,less,scss} 或者 {other}-{页面名}.{css,less,scss}
      */
-    views: true //启用 业务目录 文件自动化注入
+    page: true //启用 业务目录 文件自动化注入
   },
 
-  /**
-   * bowserify配置
-   */
-  browserify: {
-    options: {
-      extensions: [], // import require 引入文件时可以省略的扩展名
-      paths: ["./src/views"] // import require 引入文件的根路径
-    },
-    /**
-     * 抽取来通过 import $ from 'jquery';或let $ = require('jquery');
-     * 引入的公共文件不和业务逻辑文件打包到一起
-     * 此处配置后需要通过script标签形式在页面引入
-     * 具体信息请参考：https://github.com/thlorenz/browserify-shim
-     * 配置格式：
-     * {"import": "Vue","from": "vue"}
-     */
-    shim: []
-  },
-
-  /**
+  /****************************************
    * svg转icon配置
    * 执行`gulp svg2icon`自动生成icon字体及对应的样式文件
-   */
+   ****************************************/
   svgIcons: {
     src: "./src/static/svgicons/", //存放svg图标的路径
     dist: "./src/static/fonts/", //输出字体路径
@@ -294,9 +217,9 @@ export default {
     fontPath: "../fonts/" //生成的样式引用字体的路径
   },
 
-  /**
+  /****************************************
    * Svg图标symblo形式使用配置
-   */
+   ****************************************/
   svgSymbol: {
     available: false, //启用svg图标自动化symbol合并
     autoInject: false, //启用将合并后的symbol.svg自动化注入到页面
@@ -310,9 +233,9 @@ export default {
     }
   },
 
-  /**
+  /****************************************
    * 雪碧图配置
-   */
+   ****************************************/
   sprites: {
     src: './src/static/slice/**/*.png',
     dest: {
@@ -341,12 +264,74 @@ export default {
     }
   },
 
-  /**
-   * 使用tinypic做图片无损压缩配置
-   */
+  /****************************************
+   * 生产环境 启用增量编译
+   ****************************************/
+  compileChanged: false,
 
-  tinypic: {
-    apikey: '',
-    keep: false
+  /****************************************
+   * 生产环境 启用js压缩
+   ****************************************/
+  useJsMin: true,
+
+  /****************************************
+   * 生产环境 启用自动化添加文件版本号(md5)
+   * 配置参考：https://github.com/smysnk/gulp-rev-all
+   ****************************************/
+  useMd5: {
+    available: true,
+    options: {}
+  },
+
+  /****************************************
+   * 生产环境 css压缩配置
+   ****************************************/
+  useCssMin: {
+    available: true,
+    options: {
+      safe: true,
+      reduceTransforms: false,
+      advanced: false, //类型：Boolean 默认：true [是否开启高级优化（合并选择器等）]
+      compatibility: "ie8", //保留ie7及以下兼容写法(hack写法) 类型：String 默认：''or'*' [启用兼容模式； 'ie7'：IE7兼容模式，'ie8'：IE8兼容模式，'*'：IE9+兼容模式]
+      keepSpecialComments: 0 //保留所有特殊前缀 当你用autoprefixer生成的浏览器前缀，如果不加这个参数，有可能将会删除你的部分前缀
+    }
+  },
+
+  /****************************************
+   * 生产环境 html压缩配置
+   ****************************************/
+  useHtmlMin: {
+    available: true,
+    //配置参考 https://github.com/kangax/html-minifier
+    options: {
+      removeComments: true, //清除HTML注释
+      collapseWhitespace: true, //压缩HTML
+      collapseBooleanAttributes: true, //省略布尔属性的值 <input checked="true"/> ==> <input checked />
+      removeEmptyAttributes: true, //删除所有空格作属性值 <input id="" /> ==> <input />
+      removeScriptTypeAttributes: true, //删除<script>的type="text/javascript"
+      removeStyleLinkTypeAttributes: true, //删除<style>和<link>的type="text/css"
+      minifyJS: true, //压缩页面JS
+      minifyCSS: true //压缩页面CSS
+    }
+  },
+
+  /****************************************
+   * browsersync配置信息
+   * 配置参考【仅对optons】 http://www.browsersync.cn/docs/options/
+   ****************************************/
+  browsersync: {
+    dev: {
+      available: true, //研发环境 开启浏览器自动化刷新
+      options: {
+        port: 8080, //研发环境 本地服务器的默认端口
+        startPath: "zindex.html" //研发环境 打开浏览器默认访问的页面
+      }
+    },
+    test: {
+      options: {
+        port: 8080, //本地测试生产环境 默认端口
+        startPath: "zindex.html" //生产环境 打开浏览器默认访问的页面
+      }
+    }
   }
 }

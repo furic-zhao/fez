@@ -45,6 +45,9 @@ const fezConfigDefault = {
         rules: []
       }
     },
+    /**
+     * 提取公共代码
+     */
     extract: {
       js: []
     }
