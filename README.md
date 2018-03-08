@@ -116,7 +116,7 @@
 任意目录执行
 
 ```bash
-npm install gulpjs/gulp#4.0 -g
+npm install gulp@next -g
 ```
 
 详情请参考 Github 社区 [Gulp](https://github.com/gulpjs/gulp)
