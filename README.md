@@ -170,7 +170,7 @@ demozhj
     │   ├── fonts            /／ 字体目录
     │   ├── images           /／ 图片目录
     │   └── styles           /／ 样式目录
-    │       └── index.less   /／ 首页样式文件
+    │       └── index.scss   /／ 首页样式文件
     └── views                /／ 业务逻辑存放目录
         ├── index            /／ 首页目录
         │   ├── index.html   /／ 首页Html文件
@@ -259,7 +259,7 @@ demopage 页面结构
 └── src
     ├── static
     │   └── styles
-    │       └── demopage.less  /／ demopage 页面样式文件
+    │       └── demopage.scss  /／ demopage 页面样式文件
     └── views
         └── demopage           /／ demopage 页面目录
             ├── index.html     /／ demopage HTML页面
