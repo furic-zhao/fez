@@ -838,6 +838,7 @@ export default () => {
   function reversionImages() {
     return gulp.src(path.join(process.cwd(), config.paths.tmp.img, '**/*'))
       .pipe(RevAll())
+      .pipe(revDel())
       .pipe(gulp.dest(config.paths.tmp.img))
       .pipe(RevAll.manifest({
         merge: true
@@ -853,6 +854,7 @@ export default () => {
 
     return gulp.src(path.join(process.cwd(), config.paths.tmp.fonts, '**/*.{otf,eot,svg,ttf,woff,woff2}'))
       .pipe(RevAll())
+      .pipe(revDel())
       .pipe(gulp.dest(config.paths.tmp.fonts))
       .pipe(RevAll.manifest({
         merge: true
