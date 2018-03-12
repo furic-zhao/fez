@@ -1,7 +1,16 @@
-/* ==================================
- * @ 2017 FEZ 前端模块化工程开发框架
+/**
+ * =================================
+ * @2017-2018 FEZ前端模块化工程开发框架
  * https://github.com/furic-zhao/fez
- * ================================== */
+ * =================================
+ */
+
+/**
+ * ---------------------------------
+ * 整合tinypng.com压缩src/static/tinypic目录中的图片
+ * 并将压缩后的图片输出到src/static/images目录
+ * ---------------------------------
+ */
 
 /**
  * nodejs中的路径处理模块
@@ -50,7 +59,7 @@ import config from './utils/fezconfig'
 
 export default () => {
 
-  function compressImgs(cb) {
+  function tinyImages(cb) {
     const APIKEY = config.tinypic.apikey
 
     if (!APIKEY) {
@@ -78,6 +87,6 @@ export default () => {
    * 整合 tinypng.com 深度无损压缩图片
    *********************************/
   gulp.task('tinypic', gulp.series(
-    compressImgs
+    tinyImages
   ))
 }

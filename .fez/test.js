@@ -1,7 +1,15 @@
-/* ==================================
- * @ 2017 FEZ 前端模块化工程开发框架
+/**
+ * =================================
+ * @2017-2018 FEZ前端模块化工程开发框架
  * https://github.com/furic-zhao/fez
- * ================================== */
+ * =================================
+ */
+
+/**
+ * ---------------------------------
+ * 创建运行环境测试dist上线目录中的代码
+ * ---------------------------------
+ */
 
 /**
  * 多终端测试
@@ -103,7 +111,7 @@ export default () => {
     }, config.browsersync.test.options))
   }
 
-  function gulpSeries() {
+  function taskTestDist() {
     const distDir = fs.existsSync(config.paths.dist.dir)
 
     if (distDir) {
@@ -128,6 +136,6 @@ export default () => {
    * 启动本地服务 测试 dist 目录
    ***************************/
   gulp.task('test', gulp.series(
-    gulpSeries()
+    taskTestDist()
   ))
 }

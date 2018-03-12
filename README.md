@@ -1,13 +1,17 @@
-<p align="center"><a href="http://fez.hestudy.com" target="_blank"><img width="240"src="https://github.com/furic-zhao/fez-demo-handlebars/blob/master/src/static/images/fez-logo.png?raw=true"></a></p>
+<p align="center">
+  <a href="http://fez.hestudy.com" target="_blank">
+    <img width="200" src="./.fez/utils/fez-logo.svg">
+  </a>
+</p>
 
 # FEZ
-[FEZ](http://fez.hestudy.com) 是面向 前端模块化工程 的开发框架。主要目的是统一前端开发模式和项目开发结构，自动化前端工作流，提高开发效率和开发质量，使用持续集成等软件工程的架构模式，集成众多业界先进的解决方案，让研发人员更专注于业务逻辑的实现。核心包括功能模块化、结构规范化、及开发自动化。
+[FEZ](http://fez.hestudy.com) 是面向前端模块化工程的开发框架。主要目的是统一前端开发模式和项目开发结构，自动化前端工作流，提高开发效率和开发质量。使用持续集成等软件工程的架构模式，集成众多业界先进的解决方案，让研发人员更专注于业务逻辑的实现。核心包括功能模块化、结构规范化、及开发自动化。
 
 ## FEZ倡导的前端开发理念
 - 采用响应式界面布局，一份代码各种终端设备兼容，自动适配PC端、手机端、PAD端、及各种大小的屏幕，并可以嵌入任何APP中使用。为产品的多元化几何倍的提高开发效率，极大降低多平台项目的开发成本。
-- 模块式开发，将复杂的系统细分为模块，分治管理，并有统一的文件结构，兼顾模块的通用和复用原则，极大提高项目的功能扩展和可维护性。
-- 积木式、组件化快速构建页面，使用API接口/Mock数据前后端分离、并在流程上让研发、设计、测试团队、并行工作，极大提高团队研发效率。
-- 使用国际前沿的前端工程自动化技术解决项目的资源管理和大量重复的代码编译工作。
+- 模块化/组件化开发，将复杂的系统细分为模块，分治管理，并有统一的文件结构，兼顾模块的通用和复用原则，极大提高项目的功能扩展和可维护性。
+- 积木式、组件化快速构建页面，使用API接口/Mock数据前后端分离、并在流程上让设计、前端、后端、测试团队并行工作，极大提高团队研发效率。
+- 使用国际前沿的工程自动化技术解决项目复杂的资源管理和大量重复的代码编译工作。
 
 ## FEZ使用场景
 - 【一份代码支持多终端响应式WEB应用】参考示例：[fez-demo-handlebars](https://github.com/furic-zhao/fez-demo-handlebars)
@@ -49,6 +53,7 @@
         ├── page1
         │   ├── index.html
         │   ├── index.js
+        │   ├── service.js
         │   └── module
         │         ├── mod1
         │         │    └── index.js
@@ -59,9 +64,11 @@
         │   ├── index.js
         │   └── module
         │         ├── mod1
-        │         │    └── index.js
+        │         │    ├── index.js
+        │         │    └── service.js
         │         └── mod2
         │              └── index.js
+        │              └── service.js
         └── public
             ├── module
             └── utils
@@ -181,6 +188,8 @@ demozhj
             └── utils        /／ 公共工具类库目录
 ```
 
+> 创建项目会默认创建`index`页面。
+
 **3. 运行项目**
 
 进入 `demozhj` 项目目录 执行
@@ -283,7 +292,7 @@ gulp fontmin
 gulp imagemin
 ```
 
-> FEZ 会对`src/static/images`目录中的图片(png,jpg,jpeg,gif)进行压缩。可以对JPG图片配置质量压缩比。
+> FEZ 会对`src/static/images`目录中的图片(png,jpg,jpeg,gif)进行压缩。可以配置JPG图片质量压缩比。
 
 - **图片深度压缩**（在项目目录执行）
 
@@ -311,6 +320,12 @@ gulp tinypic
 
 WIKI:[https://github.com/furic-zhao/fez/wiki](https://github.com/furic-zhao/fez/wiki)
 
+## FEZB分支
+
+[https://github.com/furic-zhao/fez/tree/fezb](https://github.com/furic-zhao/fez/tree/fezb)
+
+> FEZB分支是FEZ的Browserify版本，FEZ自4.0起使用webpack作为FEZ底层模块打包工具，此分支不再做大的功能升级。
+
 ## FEZ生态圈
 
 - **FEZUI**
@@ -323,13 +338,13 @@ WIKI:[https://github.com/furic-zhao/fez/wiki](https://github.com/furic-zhao/fez/
 
 [http://fezlayout.hestudy.com/](http://fezlayout.hestudy.com/)
 
-> 是基于vue、vuex、vue-router的现代响应式多终端UI布局开发框架，旨在帮助团队快于构建多终端兼容的中后台产品的界面布局。
+> FEZ Layout 是基于vue、vuex、vue-router的现代响应式多终端UI布局框架，旨在帮助团队快于构建多终端兼容的中后台产品的界面布局。
 
 - **FEZMOCK**
 
 [http://fezmock.hestudy.com/](http://fezmock.hestudy.com/)
 
-> FEZMOCK是一套前端数据模拟开发框架，让前端工程师不再依赖服务端环境和接口数据而独立进行开发。增加单元测试的真实性，通过随机数据，模拟各种数据场景。
+> FEZMOCK 是一套前端数据模拟开发框架，让前端工程师不再依赖服务端环境和接口数据而独立进行开发。增加单元测试的真实性，通过随机数据，模拟各种数据场景。
 
 - **FEZ ApiDoc平台**
 

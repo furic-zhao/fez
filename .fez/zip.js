@@ -1,7 +1,15 @@
-/* ==================================
- * @ 2017 FEZ 前端模块化工程开发框架
+/**
+ * =================================
+ * @2017-2018 FEZ前端模块化工程开发框架
  * https://github.com/furic-zhao/fez
- * ================================== */
+ * =================================
+ */
+
+/**
+ * ---------------------------------
+ * 压缩dist目录并生成zip文件
+ * ---------------------------------
+ */
 
 /**
  * Nodejs处理文件
@@ -28,31 +36,28 @@ import config from './utils/fezconfig'
 
 export default () => {
 
-  function distZip() {
+  function zipDist() {
     return gulp.src(`${config.paths.dist.dir}/**/*`)
       .pipe(zip('dist.zip'))
       .pipe(gulp.dest('./'))
   }
 
-  function gulpSeries() {
+  function taskZip() {
     const distDir = fs.existsSync(config.paths.dist.dir)
 
     if (distDir) {
       return gulp.series(
-        distZip
+        zipDist
       )
     } else {
       return gulp.series(
         'dist',
-        distZip
+        zipDist
       )
     }
   }
 
-  /* ************************
-   * 压缩 dist 目录为 .zip 包
-   * ************************ */
   gulp.task('zip', gulp.series(
-    gulpSeries()
+    taskZip()
   ))
 }

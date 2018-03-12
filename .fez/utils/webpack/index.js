@@ -1,7 +1,9 @@
-/* ==================================
- * @ 2017 FEZ 前端模块化工程开发框架
+/**
+ * =================================
+ * @2017-2018 FEZ前端模块化工程开发框架
  * https://github.com/furic-zhao/fez
- * ================================== */
+ * =================================
+ */
 
 /**
  * 处理多文件
@@ -150,7 +152,7 @@ export default {
 
       //提取合并公共脚本
       for (let item of config.webpack.extract.js) {
-        webpackConfig.entry[outputPath.js(`vendor-${item.target}`)] = item.contain
+        webpackConfig.entry[outputPath.js(`vendor-${item.target}`)] = item.chunk
         webpackConfig.plugins = webpackConfig.plugins.concat(
           new webpack.optimize.CommonsChunkPlugin({
             name: outputPath.js(`vendor-${item.target}`),

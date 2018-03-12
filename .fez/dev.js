@@ -1,7 +1,15 @@
-/* ==================================
- * @ 2017 FEZ 前端模块化工程开发框架
+/**
+ * =================================
+ * @2017-2018 FEZ前端模块化工程开发框架
  * https://github.com/furic-zhao/fez
- * ================================== */
+ * =================================
+ */
+
+/**
+ * ---------------------------------
+ * 研发任务
+ * ---------------------------------
+ */
 
 /**
  * Nodejs处理路径
@@ -222,7 +230,7 @@ export default () => {
   /**
    * 复制图片到研发目录
    */
-  function copyImg() {
+  function copyImages() {
     return copyHandler('img')
   }
 
@@ -751,11 +759,11 @@ export default () => {
     return qrCode(cb)
   }
 
-  /*************************
+  /**
    * 研发任务
    * series 中的任务同步执行
    * parallel 中的任务异步执行
-   *************************/
+   */
   gulp.task('dev', gulp.series(
     delDev,
     gulp.parallel(
@@ -763,7 +771,7 @@ export default () => {
       compileLess,
       compileSass,
       compileStylus,
-      copyImg,
+      copyImages,
       svgSymbol,
       copyFonts,
       copyLib,

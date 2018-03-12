@@ -1,7 +1,15 @@
-/* ==================================
- * @ 2017 FEZ 前端模块化工程开发框架
+/**
+ * =================================
+ * @2017-2018 FEZ前端模块化工程开发框架
  * https://github.com/furic-zhao/fez
- * ================================== */
+ * =================================
+ */
+
+/**
+ * ---------------------------------
+ * 通过ssh方式部署上线代码
+ * ---------------------------------
+ */
 
 /**
  * Nodejs处理文件
@@ -14,11 +22,6 @@ import fs from 'fs'
  * https://github.com/gtg092x/gulp-sftp
  */
 import sftp from 'gulp-fez-sftp'
-
-/**
- * 捕获错误，返回错误信息
- */
-// import notify from 'gulp-notify'
 
 /**
  * 引入gulp
@@ -45,7 +48,6 @@ export default () => {
     const distPath = config.sftp.includeHtml ? `${config.paths.dist.dir}/**/*` : [`${config.paths.dist.dir}/**/*`, `!${config.paths.dist.dir}/**/*.html`]
 
     return gulp.src(distPath, { base: config.paths.dist.dir })
-      // .pipe(notify("Found file: <%= file.relative %>!"))
       .pipe(sftp(sftpConfig))
   }
 

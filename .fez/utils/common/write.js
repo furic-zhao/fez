@@ -1,7 +1,9 @@
-/* ==================================
- * @ 2017 FEZ前端模块化工程开发框架
+/**
+ * =================================
+ * @2017-2018 FEZ前端模块化工程开发框架
  * https://github.com/furic-zhao/fez
- * ================================== */
+ * =================================
+ */
 
 /**
  * Nodejs文件处理
@@ -26,36 +28,34 @@ export default (opts) => {
    * 目录不存在则创建目录
    */
   if (!fs.existsSync(opts.directory)) {
-    mkdirp(opts.directory, (err) => {
-      if (err) {
-        if (opts.error) opts.error(err);
-        return false;
-      }
-      if (opts.success) opts.success();
-    });
+    mkdirp.sync(opts.directory);
+    opts.success();
   }
 
   if (!opts.fileName || !opts.data) return false;
 
-  let data = ''
+  /**
+   * 文件内容
+   */
+  let fileContent = ''
   if (opts.codeType === 'html') {
-    data = beautyHtml(opts.data, Object.assign({}, opts.codeFormat));
+    fileContent = beautyHtml(opts.data, Object.assign({}, opts.codeFormat));
   } else if (opts.codeType === 'js') {
-    data = beauty(opts.data, Object.assign({
+    fileContent = beauty(opts.data, Object.assign({
       indent_size: 4
     }, opts.codeFormat));
   } else if (opts.codeType === 'css') {
-    data = beautyCss(opts.data, Object.assign({
+    fileContent = beautyCss(opts.data, Object.assign({
       indent_size: 4
     }, opts.codeFormat));
   } else if (opts.codeType === 'none') {
-    data = opts.data;
+    fileContent = opts.data;
   }
 
   /**
    * 创建文件
    */
-  fs.writeFile(`${opts.directory}/${opts.fileName}`, data, (err) => {
+  fs.writeFile(`${opts.directory}/${opts.fileName}`, fileContent, (err) => {
     if (err) {
       if (opts.error) opts.error(err);
       return false;

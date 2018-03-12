@@ -1,4 +1,17 @@
 /**
+ * =================================
+ * @2017-2018 FEZ前端模块化工程开发框架
+ * https://github.com/furic-zhao/fez
+ * =================================
+ */
+
+/**
+ * ---------------------------------
+ * 压缩src/static/images目录中的图片
+ * ---------------------------------
+ */
+
+/**
  * Nodejs处理路径
  * http://nodejs.cn/api/path.html
  */
@@ -17,8 +30,8 @@ import gulpCache from 'gulp-cache'
  * https://github.com/sindresorhus/gulp-imagemin
  */
 import imagemin from 'gulp-imagemin'
-import pngquant from 'imagemin-pngquant'
-import imageminMozjpeg from 'imagemin-mozjpeg'
+import pngquant from 'imagemin-pngquant' // 压缩png
+import imageminMozjpeg from 'imagemin-mozjpeg' // 压缩jpg/jpeg
 
 /**
  * 引入 fez.config.js 配置

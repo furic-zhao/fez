@@ -1,7 +1,15 @@
-/* ==================================
- * @ 2017 FEZ 前端模块化工程开发框架
+/**
+ * =================================
+ * @2017-2018 FEZ前端模块化工程开发框架
  * https://github.com/furic-zhao/fez
- * ================================== */
+ * =================================
+ */
+
+/**
+ * ---------------------------------
+ * 处理TTF字体生成网页字体
+ * ---------------------------------
+ */
 
 /**
  * Nodejs处理路径
@@ -59,10 +67,10 @@ import config from './utils/fezconfig'
 export default () => {
 
   function minFonts(cb) {
-    const fontText = config.minFonts
+    const fontText = config.fontMin.text
 
     if (!fontText) {
-      fancyLog(chalk.red('未配置特殊字体文字\n请在项目的 fez.config.js 中配置minFonts:\`特殊字体文字内容\`'))
+      fancyLog(chalk.red('未配置文字'))
       return cb()
     }
 
@@ -92,16 +100,10 @@ export default () => {
       })
   }
 
-  function gulpSeries() {
-    return gulp.series(
-      minFonts
-    )
-  }
-
   /****************************
    * 压缩 tff 生成网页所用字体格式
    ****************************/
   gulp.task('fontmin', gulp.series(
-    gulpSeries()
+    minFonts
   ))
 }
