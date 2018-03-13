@@ -475,12 +475,6 @@ export default () => {
       .pipe(cssFilter.restore)
       .pipe(fontFilter)
       .pipe(flatten())
-      .pipe(RevAll())
-      .pipe(gulp.dest(config.paths.tmp.fonts))
-      .pipe(RevAll.manifest({
-        path: 'rev-manifest-vendor.json',
-        merge: true
-      }))
       .pipe(gulp.dest(config.paths.tmp.fonts))
   }
 
