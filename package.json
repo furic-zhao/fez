@@ -99,7 +99,7 @@
     "main-bower-files": "^2.13.1",
     "merge-stream": "^1.0.1",
     "minimist": "^1.2.0",
-    "node-sass": "^4.7.2",
+    "node-sass": "^4.8.1",
     "path": "^0.12.7",
     "postcss-pxtorem": "^4.0.1",
     "posthtml-px2rem": "^0.0.3",
