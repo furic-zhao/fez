@@ -216,7 +216,7 @@ export default () => {
    * 通用复制模块
    */
   function copyHandler(type, file = '**/*') {
-
+    console.log(path.join(process.cwd(), config.paths.src[type], file));
     return gulp.src(path.join(process.cwd(), config.paths.src[type], file), {
         base: config.paths.src.dir
       })
@@ -661,7 +661,7 @@ export default () => {
 
             del([tmp])
           } else {
-            copyHandler('img', file)
+            copyHandler('img', path.join('**/', path.basename(file)))
           }
           break
         case 'svg':
@@ -680,7 +680,7 @@ export default () => {
 
             del([tmp])
           } else {
-            copyHandler('fonts', file)
+            copyHandler('fonts', path.join('**/', path.basename(file)))
           }
           break
           /**
