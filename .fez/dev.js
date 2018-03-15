@@ -216,7 +216,6 @@ export default () => {
    * 通用复制模块
    */
   function copyHandler(type, file = '**/*') {
-    console.log(path.join(process.cwd(), config.paths.src[type], file));
     return gulp.src(path.join(process.cwd(), config.paths.src[type], file), {
         base: config.paths.src.dir
       })
