@@ -1,4 +1,8 @@
-<p align="center"><a href="http://fez.hestudy.com" target="_blank"><img width="240"src="https://github.com/furic-zhao/fez-demo-handlebars/blob/master/src/static/images/fez-logo.png?raw=true"></a></p>
+<p align="center">
+  <a href="http://fez.hestudy.com" target="_blank">
+    <img width="200" src="./.fez/utils/fezlogo.svg">
+  </a>
+</p>
 
 FEZB分支是FEZ的`Browserify`版本，FEZ自4.0起使用`webpack`作为FEZ底层模块打包工具，此分支不再做大的功能升级。
 
@@ -123,7 +127,7 @@ FEZB分支是FEZ的`Browserify`版本，FEZ自4.0起使用`webpack`作为FEZ底�
 任意目录执行
 
 ```bash
-npm install gulpjs/gulp#4.0 -g
+npm install gulp@next -g
 ```
 
 详情请参考 Github 社区 [Gulp](https://github.com/gulpjs/gulp)
