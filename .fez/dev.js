@@ -267,7 +267,7 @@ export default () => {
    * 编译css
    */
   function compileCss() {
-    return gulp.src(`${config.paths.src.styles}/*.css`)
+    return gulp.src([`${config.paths.src.styles}/*.css`, `${config.paths.src.appJs}/**/index.css`])
       .pipe(plumber({
         errorHandler: notify.onError("Error: <%= error.message %>")
       }))
@@ -295,7 +295,7 @@ export default () => {
    * 编译less
    */
   function compileLess() {
-    return gulp.src(`${config.paths.src.styles}/*.less`)
+    return gulp.src([`${config.paths.src.styles}/*.less`, `${config.paths.src.appJs}/**/index.less`])
       .pipe(plumber({
         errorHandler: notify.onError("Error: <%= error.message %>")
       }))
@@ -331,7 +331,7 @@ export default () => {
    * 编译sass
    */
   function compileSass() {
-    return gulp.src(`${config.paths.src.styles}/*.{scss,sass}`)
+    return gulp.src([`${config.paths.src.styles}/*.{scss,sass}`, `${config.paths.src.appJs}/**/index.{scss,sass}`])
       .pipe(plumber({
         errorHandler: notify.onError("Error: <%= error.message %>")
       }))
@@ -374,7 +374,7 @@ export default () => {
    * 编译stylus
    */
   function compileStylus() {
-    return gulp.src(`${config.paths.src.styles}/*.styl`)
+    return gulp.src([`${config.paths.src.styles}/*.styl`, `${config.paths.src.appJs}/**/index.styl`])
       .pipe(plumber({
         errorHandler: notify.onError("Error: <%= error.message %>")
       }))
@@ -641,6 +641,14 @@ export default () => {
         } else {
           injectHtmlFiles(file)
         }
+      } else if (pathParse.ext === '.css') {
+        compileCss()
+      } else if (pathParse.ext === '.less') {
+        compileLess()
+      } else if (pathParse.ext === '.scss' || pathParse.ext === '.sass') {
+        compileSass()
+      } else if (pathParse.ext === '.styl') {
+        compileStylus()
       }
 
     } else if (target === "lib") {

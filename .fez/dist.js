@@ -293,7 +293,7 @@ export default () => {
    **/
   function compileCss() {
 
-    return gulp.src(`${config.paths.src.styles}/*.css`)
+    return gulp.src([`${config.paths.src.styles}/*.css`, `${config.paths.src.appJs}/**/index.css`])
       //css中的rem转换
       .pipe(gulpif(
         config.useREM.css.available,
@@ -322,7 +322,7 @@ export default () => {
    **/
   function compileLess() {
 
-    return gulp.src(`${config.paths.src.styles}/*.less`)
+    return gulp.src([`${config.paths.src.styles}/*.less`, `${config.paths.src.appJs}/**/index.less`])
       .pipe(less(Object.assign({
         relativeUrls: true //将网址编译成相对网址
       }, config.style.lessOptions)))
@@ -354,7 +354,7 @@ export default () => {
    **/
   function compileSass() {
 
-    return gulp.src(`${config.paths.src.styles}/*.{scss,sass}`)
+    return gulp.src([`${config.paths.src.styles}/*.{scss,sass}`, `${config.paths.src.appJs}/**/index.{scss,sass}`])
       .pipe(sass(Object.assign({
         /**
          * ------- outputStyle 取值 ------
@@ -393,7 +393,7 @@ export default () => {
    **/
   function compileStylus() {
 
-    return gulp.src(`${config.paths.src.styles}/*.styl`)
+    return gulp.src([`${config.paths.src.styles}/*.styl`, `${config.paths.src.appJs}/**/index.styl`])
       .pipe(stylus(Object.assign({}, config.style.stylusOptions)))
       //css中的rem转换
       .pipe(gulpif(
