@@ -100,6 +100,7 @@
 - 自动化创建统一结构化项目、及统一结构化的项目页面。
 - 自动化转换TTF为网页字体(eot,svg,ttf,woff,woff2)并生成font-face样式文件。
 - 自动化深度无损压缩PNG/JPG/JPEG图片。
+- 自动化Eslint编码规范/代码测试。
 
 ## FEZ安装使用
 
@@ -286,7 +287,7 @@ gulp fontmin
 
 > 示例：[fez-demo-fontmin](https://github.com/furic-zhao/fez-demo-fontmin)
 
-- **图片压缩**（在项目目录执行）
+- **图片深度压缩**（在项目目录执行）
 
 ```
 gulp imagemin
@@ -294,7 +295,7 @@ gulp imagemin
 
 > FEZ 会对`src/static/images`目录中的图片(png,jpg,jpeg,gif)进行压缩。可以配置JPG图片质量压缩比。
 
-- **图片深度压缩**（在项目目录执行）
+- **使用`tinypng`图片压缩**（在项目目录执行）
 
 ```
 gulp tinypic
@@ -346,10 +347,10 @@ WIKI:[https://github.com/furic-zhao/fez/wiki](https://github.com/furic-zhao/fez/
 
 > FEZMOCK 是一套前端数据模拟开发框架，让前端工程师不再依赖服务端环境和接口数据而独立进行开发。增加单元测试的真实性，通过随机数据，模拟各种数据场景。
 
-- **FEZ ApiDoc平台**
+## License
 
-[http://apidoc.hestudy.com/](http://apidoc.hestudy.com/)
+[MIT](http://opensource.org/licenses/MIT)
 
-> API文档、技术文档协作开发平台。帮助团队前后端分离并行工作，提高团队研发效率。
+Copyright (c) 2017-present, HuiJian (Furic) Zhao
 
 
