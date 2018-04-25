@@ -22,6 +22,13 @@ import webpack from 'webpack'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
 
 /**
+ * webpack信息提示
+ */
+import FriendlyErrorsWebpackPlugin from 'friendly-errors-webpack-plugin'
+
+import notifier from 'node-notifier'
+
+/**
  * babel配置
  */
 import babelrc from './babelrc'
@@ -92,6 +99,16 @@ const extractVue = new ExtractTextPlugin({
   // allChunks: true,
 })
 
+const createLintingRule = () => ({
+  test: /\.(js|vue)$/,
+  loader: 'eslint-loader',
+  enforce: 'pre',
+  // include: [resolve('src'), resolve('test')],
+  options: {
+    formatter: require('eslint-friendly-formatter'),
+    emitWarning: true
+  }
+})
 
 export default {
   // context: './src',
@@ -108,149 +125,152 @@ export default {
   },
 
   module: {
-    rules: [{
-      test: /\.js$/,
-      exclude: /(node_modules|bower_components)/,
-      use: [{
-        loader: 'babel-loader',
-        options: babelrc
+    rules: [
+      ...(config.eslint.available ? [createLintingRule()] : []),
+      {
+        test: /\.js$/,
+        exclude: /(node_modules|bower_components)/,
+        use: [{
+          loader: 'babel-loader',
+          options: babelrc
+        }, {
+          loader: 'fez-preprocess-loader',
+          options: {
+            available: stripMock
+          }
+        }]
       }, {
-        loader: 'fez-preprocess-loader',
+        test: /\.vue$/,
+        loader: 'vue-loader',
+        options: vueLoaderConfig(extractVue)
+      }, {
+        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+        loader: 'url-loader',
         options: {
-          available: stripMock
+          limit: 10000,
+          name: '[name].[ext]',
+          outputPath: outputPath.images()
         }
-      }]
-    }, {
-      test: /\.vue$/,
-      loader: 'vue-loader',
-      options: vueLoaderConfig(extractVue)
-    }, {
-      test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-      loader: 'url-loader',
-      options: {
-        limit: 10000,
-        name: '[name].[ext]',
-        outputPath: outputPath.images()
+      }, {
+        test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
+        loader: 'url-loader',
+        options: {
+          limit: 10000,
+          name: '[name].[ext]',
+          outputPath: outputPath.media()
+        }
+      }, {
+        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+        loader: 'url-loader',
+        options: {
+          limit: 10000,
+          name: '[name].[ext]',
+          outputPath: outputPath.fonts()
+        }
+      }, {
+        test: /\.hbs$/,
+        loader: 'handlebars-loader'
+      }, {
+        test: /\.css$/,
+        use: extractCss.extract({
+          use: [{
+            loader: "css-loader",
+            options: {
+              url: !isProduction,
+              sourceMap: true
+            }
+          }, {
+            loader: 'postcss-loader',
+            options: {
+              sourceMap: true,
+              config: {
+                path: path.join(__dirname, './postcss.config.js')
+              }
+            }
+          }],
+          // 在开发环境使用 style-loader
+          fallback: "style-loader"
+        })
+      }, {
+        test: /\.(scss|sass)$/,
+        use: extractSass.extract({
+          use: [{
+            loader: "css-loader",
+            options: {
+              url: !isProduction,
+              sourceMap: true
+            }
+          }, {
+            loader: 'postcss-loader',
+            options: {
+              sourceMap: true,
+              config: {
+                path: path.join(__dirname, './postcss.config.js')
+              }
+            }
+          }, {
+            loader: "sass-loader",
+            options: {
+              sourceMap: true
+            }
+          }],
+          // 在开发环境使用 style-loader
+          fallback: "style-loader"
+        })
+      }, {
+        test: /\.less$/,
+        use: extractLess.extract({
+          use: [{
+            loader: "css-loader",
+            options: {
+              url: !isProduction,
+              sourceMap: true
+            }
+          }, {
+            loader: 'postcss-loader',
+            options: {
+              sourceMap: true,
+              config: {
+                path: path.join(__dirname, './postcss.config.js')
+              }
+            }
+          }, {
+            loader: "less-loader",
+            options: {
+              sourceMap: true
+            }
+          }],
+          // 在开发环境使用 style-loader
+          fallback: "style-loader"
+        })
+      }, {
+        test: /\.styl$/,
+        use: extractStylus.extract({
+          use: [{
+            loader: "css-loader",
+            options: {
+              url: !isProduction,
+              sourceMap: true
+            }
+          }, {
+            loader: 'postcss-loader',
+            options: {
+              sourceMap: true,
+              config: {
+                path: path.join(__dirname, './postcss.config.js')
+              }
+            }
+          }, {
+            loader: "stylus-loader",
+            options: {
+              sourceMap: true
+            }
+          }],
+          // 在开发环境使用 style-loader
+          fallback: "style-loader"
+        })
       }
-    }, {
-      test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
-      loader: 'url-loader',
-      options: {
-        limit: 10000,
-        name: '[name].[ext]',
-        outputPath: outputPath.media()
-      }
-    }, {
-      test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-      loader: 'url-loader',
-      options: {
-        limit: 10000,
-        name: '[name].[ext]',
-        outputPath: outputPath.fonts()
-      }
-    }, {
-      test: /\.hbs$/,
-      loader: 'handlebars-loader'
-    }, {
-      test: /\.css$/,
-      use: extractCss.extract({
-        use: [{
-          loader: "css-loader",
-          options: {
-            url: !isProduction,
-            sourceMap: true
-          }
-        }, {
-          loader: 'postcss-loader',
-          options: {
-            sourceMap: true,
-            config: {
-              path: path.join(__dirname, './postcss.config.js')
-            }
-          }
-        }],
-        // 在开发环境使用 style-loader
-        fallback: "style-loader"
-      })
-    }, {
-      test: /\.(scss|sass)$/,
-      use: extractSass.extract({
-        use: [{
-          loader: "css-loader",
-          options: {
-            url: !isProduction,
-            sourceMap: true
-          }
-        }, {
-          loader: 'postcss-loader',
-          options: {
-            sourceMap: true,
-            config: {
-              path: path.join(__dirname, './postcss.config.js')
-            }
-          }
-        }, {
-          loader: "sass-loader",
-          options: {
-            sourceMap: true
-          }
-        }],
-        // 在开发环境使用 style-loader
-        fallback: "style-loader"
-      })
-    }, {
-      test: /\.less$/,
-      use: extractLess.extract({
-        use: [{
-          loader: "css-loader",
-          options: {
-            url: !isProduction,
-            sourceMap: true
-          }
-        }, {
-          loader: 'postcss-loader',
-          options: {
-            sourceMap: true,
-            config: {
-              path: path.join(__dirname, './postcss.config.js')
-            }
-          }
-        }, {
-          loader: "less-loader",
-          options: {
-            sourceMap: true
-          }
-        }],
-        // 在开发环境使用 style-loader
-        fallback: "style-loader"
-      })
-    }, {
-      test: /\.styl$/,
-      use: extractStylus.extract({
-        use: [{
-          loader: "css-loader",
-          options: {
-            url: !isProduction,
-            sourceMap: true
-          }
-        }, {
-          loader: 'postcss-loader',
-          options: {
-            sourceMap: true,
-            config: {
-              path: path.join(__dirname, './postcss.config.js')
-            }
-          }
-        }, {
-          loader: "stylus-loader",
-          options: {
-            sourceMap: true
-          }
-        }],
-        // 在开发环境使用 style-loader
-        fallback: "style-loader"
-      })
-    }]
+    ]
   },
 
   plugins: [
@@ -262,6 +282,23 @@ export default {
     new webpack.DefinePlugin({
       "process.env": {
         "NODE_ENV": JSON.stringify(process.env.NODE_ENV)
+      }
+    }),
+    new FriendlyErrorsWebpackPlugin({
+      compilationSuccessInfo: {
+        messages: [],
+      },
+      onErrors: (severity, errors) => {
+        if (severity !== 'error') {
+          return;
+        }
+        const error = errors[0];
+        notifier.notify({
+          title: `${config.projectName} 编译出错`,
+          message: severity + ': ' + error.name,
+          subtitle: error.file || '',
+          icon: path.join(__dirname, '../', 'fezlogo.png')
+        });
       }
     })
   ]

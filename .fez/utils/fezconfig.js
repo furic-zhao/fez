@@ -85,6 +85,15 @@ const fezConfigDefault = {
   },
 
   /**
+   * 使用eslint检测代码，具体配置可参考FEZ工程目录.eslintrc.js
+   * FEZ默认使用standard编码规则:https://github.com/standard/standard/blob/master/docs/RULES-zhcn.md
+   * 每个项目中的.eslintrc.js将覆盖FEZ工程目录中的.eslintrc.js配置
+   */
+  eslint: {
+    available: false
+  },
+
+  /**
    * -------------------------------
    * 样式配置
    * -------------------------------

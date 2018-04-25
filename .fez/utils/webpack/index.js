@@ -18,6 +18,11 @@ import glob from 'glob'
 import fancyLog from 'fancy-log'
 
 /**
+ * 命令行颜色
+ */
+import chalk from 'chalk'
+
+/**
  * 提取样式
  */
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
@@ -65,7 +70,7 @@ export default {
       output: {
         path: outputPath.dev()
       },
-      devtool: 'cheap-module-eval-source-map'
+      // devtool: 'cheap-module-eval-source-map'
     })
 
     glob(path.join(process.cwd(), config.paths.src.appJs, '*/index.js'), (error, files) => {
@@ -79,23 +84,19 @@ export default {
       // console.log(JSON.stringify(webpackConfig))
       webpack(webpackConfig, function(err, stats) {
         //致命的 wepback 错误（配置出错等）
-        if (err) {
-          if (err.details) {
-            fancyLog.error(err.details)
-          }
-          return
-        }
+        if (err) throw err
 
         //编译错误（缺失的 module，语法错误等）
-        const info = stats.toJson()
+        // const info = stats.toJson()
+        // info.errors 错误详情
         if (stats.hasErrors()) {
-          fancyLog.error(info.errors)
+          fancyLog.error(chalk.red('语法错误、或缺失module'))
         }
 
-        //编译告警
-        if (stats.hasWarnings()) {
-          fancyLog.warn(info.warnings)
-        }
+        // //编译告警
+        // if (stats.hasWarnings()) {
+        //   fancyLog.warn(info.warnings)
+        // }
 
         reloadHandler()
 
@@ -180,23 +181,19 @@ export default {
       // console.log(JSON.stringify(webpackConfig))
       webpack(webpackConfig, function(err, stats) {
         //致命的 wepback 错误（配置出错等）
-        if (err) {
-          if (err.details) {
-            fancyLog.error(err.details)
-          }
-          return
-        }
+        if (err) throw err
 
         //编译错误（缺失的 module，语法错误等）
-        const info = stats.toJson()
+        // const info = stats.toJson()
+        // info.errors 错误详情
         if (stats.hasErrors()) {
-          fancyLog.error(info.errors)
+          fancyLog.error(chalk.red('语法错误、或缺失module'))
         }
 
-        //编译告警
-        if (stats.hasWarnings()) {
-          fancyLog.warn(info.warnings)
-        }
+        // //编译告警
+        // if (stats.hasWarnings()) {
+        //   fancyLog.warn(info.warnings)
+        // }
 
         cb()
       })
