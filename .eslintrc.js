@@ -18,11 +18,20 @@ module.exports = {
     root: true,
     parserOptions: {
         ecmaVersion: 6,
-        parser: 'babel-eslint',
-        sourceType: 'module'
+        sourceType: 'module',
+        parser: 'babel-eslint'
+
     },
+    /**
+     * 预定义全局变量
+     * http://eslint.cn/docs/user-guide/configuring#specifying-environments
+     */
     env: {
-        browser: true
+        browser: true,
+        node: true,
+        commonjs: true,
+        es6: true,
+        jquery: true
     },
     extends: [
         /**
@@ -30,5 +39,7 @@ module.exports = {
          * 规则内容请参考：https://github.com/standard/standard/blob/master/docs/RULES-zhcn.md
          */
         'standard'
-    ]
+    ],
+    plugins: [],
+    rules: {}
 }
