@@ -100,7 +100,7 @@
 - 自动化创建统一结构化项目、及统一结构化的项目页面。
 - 自动化转换TTF为网页字体(eot,svg,ttf,woff,woff2)并生成font-face样式文件。
 - 自动化深度无损压缩PNG/JPG/JPEG图片。
-- 自动化Eslint编码规范/代码测试。
+- 自动化ESlint编码规范和代码检查。
 
 ## FEZ安装使用
 
