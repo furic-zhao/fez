@@ -113,7 +113,7 @@
 **1. 安装 Node 和 NPM**
 
 - 详细过程参考官网 https://nodejs.org (中文网站 http://nodejs.cn/)
-- Node >= 5.10，建议使用最新稳定版(LTS)。
+- Node >= 6.11.5，建议使用最新稳定版(LTS)。
 - Ubuntu 用户使用 `apt-get` 安装 node 后，安装的程序名叫 `nodejs`，需要软链成 `node`。
 - Windows 用户安装完成后需要在 CMD 下确认是否能执行 node 和 npm。
 
