@@ -682,7 +682,7 @@ export default () => {
     //合并后的bower文件注入
     const injectVendorFiles = lazypipe()
       .pipe(() => {
-        return inject(gulp.src([`./tmp/static/js/**/*manifest*.js`, `./tmp/static/js/*vendor*.js`, `./tmp/static/css/*vendor*.css`], {
+        return inject(gulp.src([`./tmp/static/js/**/manifest*.js`, `./tmp/static/js/**/vendor*.js`, `./tmp/static/css/**/vendor*.css`, `./tmp/static/js/**/vendor*.css`], {
           read: false
         }), {
           starttag: '<!-- inject:vendor:{{ext}} -->',
@@ -694,7 +694,7 @@ export default () => {
     //公共文件注入
     const injectLibFiles = lazypipe()
       .pipe(() => {
-        return inject(gulp.src([`./tmp/static/css/**/${config.useInject.common.css}.css`, `./tmp/static/js/**/*common*.js`, `!./tmp/static/js/**/assign-*.js`], {
+        return inject(gulp.src([`./tmp/static/css/**/${config.useInject.common.css}*.css`, `./tmp/static/js/**/common*.js`, `./tmp/static/js/**/common*.css`, `!./tmp/static/js/**/assign-*.js`], {
           read: false
         }), {
           starttag: '<!-- inject:common:{{ext}} -->',
@@ -720,7 +720,7 @@ export default () => {
           ))
           .pipe(gulpif(
             config.useInject.page,
-            inject(gulp.src([`./tmp/static/js/**/assign*-${cateName}*.js`, `./tmp/static/css/**/${cateName}.css`, `./tmp/static/js/**/${cateName}.js`], {
+            inject(gulp.src([`./tmp/static/js/**/assign*-${cateName}*.js`, `./tmp/static/css/**/${cateName}.css`, `./tmp/static/js/**/${cateName}.js`, `./tmp/static/js/**/${cateName}.css`], {
               read: false
             }), {
               starttag: '<!-- inject:page:{{ext}} -->',
