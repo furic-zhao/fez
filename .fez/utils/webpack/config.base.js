@@ -19,14 +19,22 @@ import webpack from 'webpack'
 /**
  * 提取样式
  */
-import ExtractTextPlugin from 'extract-text-webpack-plugin'
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 
 /**
- * webpack信息提示
+ * webpack美化错误信息提示
  */
 import FriendlyErrorsWebpackPlugin from 'friendly-errors-webpack-plugin'
 
+/**
+ * 基于node的桌面通知中心
+ */
 import notifier from 'node-notifier'
+
+/**
+ * https://vue-loader.vuejs.org/guide/#manual-configuration
+ */
+import VueLoaderPlugin from 'vue-loader/lib/plugin'
 
 /**
  * babel配置
@@ -52,99 +60,42 @@ import outputPath from './output-path'
 //是否是生产环境
 const isProduction = process.env.NODE_ENV === 'production'
 
-let stripMock = true;
-if (!isProduction && config.useMock.dev) {
-  stripMock = false;
-} else if (isProduction && config.useMock.dist) {
-  stripMock = false;
-}
-
-const extractCss = new ExtractTextPlugin({
-  filename: (getPath) => {
-    return getPath('[name]-common-css.css').replace('static/js/', 'static/css/')
-  },
-  disable: !isProduction
-})
-
-const extractSass = new ExtractTextPlugin({
-  filename: (getPath) => {
-    return getPath('[name]-common-sass.css').replace('static/js/', 'static/css/')
-  },
-  disable: !isProduction
-})
-
-const extractLess = new ExtractTextPlugin({
-  filename: (getPath) => {
-    return getPath('[name]-common-less.css').replace('static/js/', 'static/css/')
-  },
-  disable: !isProduction
-})
-
-const extractStylus = new ExtractTextPlugin({
-  filename: (getPath) => {
-    return getPath('[name]-common-stylus.css').replace('static/js/', 'static/css/')
-  },
-  disable: !isProduction
-})
-
-const extractVue = new ExtractTextPlugin({
-  filename: (getPath) => {
-    return getPath('[name]-common-vue.css').replace('static/js/', 'static/css/')
-  },
-  disable: !isProduction
-  // Setting the following option to `false` will not extract CSS from codesplit chunks.
-  // Their CSS will instead be inserted dynamically with style-loader when the codesplit chunk has been loaded by webpack.
-  // It's currently set to `true` because we are seeing that sourcemaps are included in the codesplit bundle as well when it's `false`,
-  // increasing file size: https://github.com/vuejs-templates/webpack/issues/1110
-  // allChunks: true,
-})
-
-const createLintingRule = () => ({
+const eslintLoader = () => ({
   test: /\.(js|vue)$/,
   loader: 'eslint-loader',
   enforce: 'pre',
   exclude: /node_modules/,
-  // include: [resolve('src'), resolve('test')],
   options: {
     formatter: require('eslint-friendly-formatter'),
     emitWarning: true
   }
 })
 
-export default {
-  // context: './src',
-  watch: !isProduction,
-
+const webpackConfig = {
   output: {
     filename: '[name].js'
   },
-
   entry: {},
-
   resolve: {
     modules: [path.join(process.cwd(), "src"), "node_modules"]
   },
-
   module: {
     rules: [
-      ...(config.eslint.available ? [createLintingRule()] : []),
+      ...(config.eslint.available ? [eslintLoader()] : []),
       {
         test: /\.js$/,
         exclude: /(node_modules|bower_components)/,
         use: [{
           loader: 'babel-loader',
           options: babelrc
-        }, {
-          loader: 'fez-preprocess-loader',
-          options: {
-            available: stripMock
-          }
         }]
-      }, {
+      },
+      {
         test: /\.vue$/,
         loader: 'vue-loader',
-        options: vueLoaderConfig(extractVue)
-      }, {
+        // options: vueLoaderConfig(extractVue)
+      },
+      {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',
         options: {
@@ -152,7 +103,8 @@ export default {
           name: '[name].[ext]',
           outputPath: outputPath.images()
         }
-      }, {
+      },
+      {
         test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
         loader: 'url-loader',
         options: {
@@ -160,7 +112,8 @@ export default {
           name: '[name].[ext]',
           outputPath: outputPath.media()
         }
-      }, {
+      },
+      {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
         loader: 'url-loader',
         options: {
@@ -168,34 +121,16 @@ export default {
           name: '[name].[ext]',
           outputPath: outputPath.fonts()
         }
-      }, {
+      },
+      {
         test: /\.hbs$/,
         loader: 'handlebars-loader'
-      }, {
-        test: /\.css$/,
-        use: extractCss.extract({
-          use: [{
-            loader: "css-loader",
-            options: {
-              url: !isProduction,
-              sourceMap: true
-            }
-          }, {
-            loader: 'postcss-loader',
-            options: {
-              sourceMap: true,
-              config: {
-                path: path.join(__dirname, './postcss.config.js')
-              }
-            }
-          }],
-          // 在开发环境使用 style-loader
-          fallback: "style-loader"
-        })
-      }, {
+      },
+      {
         test: /\.(scss|sass)$/,
-        use: extractSass.extract({
-          use: [{
+        use: [
+          ...(isProduction ? [MiniCssExtractPlugin.loader] : [{ loader: 'style-loader' }]),
+          {
             loader: "css-loader",
             options: {
               url: !isProduction,
@@ -210,19 +145,19 @@ export default {
               }
             }
           }, {
-            loader: "sass-loader",
+            loader: `sass-loader`,
             options: {
               sourceMap: true
             }
-          }],
-          // 在开发环境使用 style-loader
-          fallback: "style-loader"
-        })
-      }, {
+          }
+        ]
+      },
+      {
         test: /\.less$/,
-        use: extractLess.extract({
-          use: [{
-            loader: "css-loader",
+        use: [
+          ...(isProduction ? [MiniCssExtractPlugin.loader] : [{ loader: 'style-loader' }]),
+          {
+            loader: 'css-loader',
             options: {
               url: !isProduction,
               sourceMap: true
@@ -236,18 +171,18 @@ export default {
               }
             }
           }, {
-            loader: "less-loader",
+            loader: 'less-loader',
             options: {
               sourceMap: true
             }
-          }],
-          // 在开发环境使用 style-loader
-          fallback: "style-loader"
-        })
-      }, {
+          }
+        ]
+      },
+      {
         test: /\.styl$/,
-        use: extractStylus.extract({
-          use: [{
+        use: [
+          ...(isProduction ? [MiniCssExtractPlugin.loader] : [{ loader: 'style-loader' }]),
+          {
             loader: "css-loader",
             options: {
               url: !isProduction,
@@ -262,28 +197,45 @@ export default {
               }
             }
           }, {
-            loader: "stylus-loader",
+            loader: `stylus-loader`,
             options: {
               sourceMap: true
             }
-          }],
-          // 在开发环境使用 style-loader
-          fallback: "style-loader"
-        })
+          }
+        ]
+      },
+      {
+        test: /\.css$/,
+        use: [
+          ...(isProduction ? [MiniCssExtractPlugin.loader] : [{ loader: 'style-loader' }]),
+          {
+            loader: "css-loader",
+            options: {
+              url: !isProduction,
+              sourceMap: true
+            }
+          }, {
+            loader: 'postcss-loader',
+            options: {
+              sourceMap: true,
+              config: {
+                path: path.join(__dirname, './postcss.config.js')
+              }
+            }
+          }
+        ]
       }
     ]
   },
-
   plugins: [
-    extractCss,
-    extractSass,
-    extractLess,
-    extractStylus,
-    extractVue,
-    new webpack.DefinePlugin({
-      "process.env": {
-        "NODE_ENV": JSON.stringify(process.env.NODE_ENV)
-      }
+    new VueLoaderPlugin(),
+    /**
+     * 提取JS中引入的样式
+     * 提取后的文件将会被保存在dist/static/js/目录
+     */
+    new MiniCssExtractPlugin({
+      filename: "[name].css",
+      chunkFilename: "[name].css"
     }),
     new FriendlyErrorsWebpackPlugin({
       compilationSuccessInfo: {
@@ -304,3 +256,5 @@ export default {
     })
   ]
 }
+
+export default webpackConfig
