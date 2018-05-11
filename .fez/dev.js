@@ -503,7 +503,7 @@ export default () => {
        */
       const injectLib = lazypipe()
         .pipe(() => {
-          return inject(gulp.src([`./dev/static/css/**/${config.useInject.common.css}.css`, `./dev/lib/**/*.js`, `!./dev/lib/**/assign-*.js`], {
+          return inject(gulp.src([`./dev/static/css/**/${config.useInject.common.css}*.css`, `./dev/lib/**/*.js`, `!./dev/lib/**/assign-*.js`], {
             read: false
           }), {
             starttag: '<!-- inject:common:{{ext}} -->',
