@@ -487,7 +487,7 @@ export default () => {
       gulp.src('./tmp/bower/**/*.js')
         .pipe(filter(elem.contain))
         .pipe(concatOrder(elem.contain))
-        .pipe(concatJs(elem.target))
+        .pipe(concatJs(`vendor-${elem.target}`))
         .pipe(gulpif(
           config.useJsMin,
           uglify()
@@ -533,7 +533,7 @@ export default () => {
       gulp.src(`./tmp/bower/**/*.css`)
         .pipe(filter(elem.contain))
         .pipe(concatOrder(elem.contain))
-        .pipe(concatCss(elem.target, { rebaseUrls: false }))
+        .pipe(concatCss(`vendor-${elem.target}`, { rebaseUrls: false }))
         .pipe(gulpif(
           config.useCssMin.available,
           minifyCSS()
