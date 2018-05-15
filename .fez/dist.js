@@ -594,7 +594,7 @@ export default () => {
       gulp.src('./tmp/lib/**/*.js')
         .pipe(filter(elem.contain))
         .pipe(concatOrder(elem.contain))
-        .pipe(concatJs(elem.target))
+        .pipe(concatJs(`common-${elem.target}`))
         .pipe(gulpif(
           config.useJsMin,
           uglify()
@@ -622,7 +622,7 @@ export default () => {
    * 处理插入到指定页面的脚本
    **/
   function libAssignJs() {
-    return gulp.src('./tmp/lib/**/*assign*.js')
+    return gulp.src('./tmp/lib/**/assign*.js')
       .pipe(flatten())
       .pipe(gulpif(
         config.useJsMin,
@@ -630,7 +630,7 @@ export default () => {
       ))
       .pipe(gulp.dest(config.paths.tmp.appjs))
       .on("end", () => {
-        del.sync(`./tmp/lib/**/*assign*.js`)
+        del.sync(`./tmp/lib/**/assign*.js`)
       })
   }
 
