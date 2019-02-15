@@ -9,7 +9,7 @@
 
 ## 说明
 
-由于时间和精力有限，现阶段全力建设[塞伯坦及周边工具生态圈](https://github.com/jd-cyb)，本项目暂时停止新功能的更新，推荐使用相当于FEZ后续版本的【[塞伯坦前端模块化工程构建工具](https://github.com/jd-cyb/cyb-cli)】。
+由于时间和精力有限，现阶段全力建设[塞伯坦及周边工具生态圈](https://github.com/jd-cyb)，本项目暂时停止新功能的更新，推荐使用相当于FEZ后续版本的[塞伯坦前端模块化工程构建工具](https://github.com/jd-cyb/cyb-cli)。
 
 
 ## FEZ倡导的前端开发理念
